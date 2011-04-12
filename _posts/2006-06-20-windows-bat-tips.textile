@@ -1,0 +1,32 @@
+---
+layout: post
+title: windows批处理n招
+category: note
+---
+
+
+1. for in 结构：
+
+下面这个语句可以把当前文件夹所有子文件夹下的txt文件合并成一个文件
+for /D %%d in (*) do type %%d\*.txt >>result.txt
+
+有时候程序输出的txt文件最后一行缺少回车符号，如果两个文件直接用type重定向合并，会导致错误，所以可以做一个空行文件oneline.txt,然后改成这种：
+for /D %%d in (*) do type %%d\*.txt oneline.txt >>result.txt
+这样多个文件合并时总是把oneline.txt
+
+2. 取日期和时间。
+批处理环境里可以使用%date%变量和%time%变量，不同的机器这个变量的格式也不同，
+可以试试echo %date% %time%看格式
+然后使用:~begin,len的方式取的变量的字串类似函数substr($str, $begin, $len)，例如
+echo %date%
+结果输出：2006-06-20 星期二
+那么取从0开始的索引0,字串长度为10,既：
+echo %date:~0,10%
+结果输出：2006-06-20
+
+
+例如我想合并今天的日志文件，可以这样：
+set myval=%date:~0,10%
+for /D %%d in (*) do type %%d\%myval%.log >>result.txt
+
+

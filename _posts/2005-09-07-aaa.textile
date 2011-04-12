@@ -1,0 +1,73 @@
+---
+layout: post
+title: 最近很忙，匆匆记下一些东西
+category: note
+---
+
+<pre>
+1. javascript的ECMA标准 （1999）
+http://www.ecma-international.org/publications/standards/Ecma-262.htm
+还是人家ECMA厚道，直接让下载。记得以前从iso和ansi找c++的标准，居然是收费的。
+
+2.JavaScriptTemplates
+http://trimpath.com/project/wiki/JavaScriptTemplates
+真是好东西，可以用它做没有xml的ajax
+这应该是xml+js或xslt的另一个选择：js array + JavaScriptTemplates
+
+3.
+比较sajax和xajax：
+------------------------------------------------------------------------------
+名称        |      sajax                 |       xajax
+------------------------------------------------------------------------------
+代码量      |      小，                  |       大
+            |                            |                            
+支持语言    |      支持各种服务端语言    |       仅PHP
+            |                            |                            
+兼容性      |      ie下发现一个bug       |       兼容
+            |                            |                            
+返回数据    |      数组和xml             |       xml
+            |                            |                            
+开发模式    |      客户端写代码解释      |       由服务端指定
+            |      服务端返回的数据      |       客户端的html属性更新
+            |                            |                                   
+自由度      |      强                    |       弱
+            |                            |                            
+扩展性      |      结合客户端框架可      |       只能按照
+            |      以得到很强的扩展      |       它的模式编程
+	    |                            |                                      
+	    |                            |                                      
+可行的方式  |      结合jstemplate        |       结合smarty                     
+    服务端  |      服务端只处理数据返回  |       服务端负责数据和模板                          
+	    |                            |                                    
+------------------------------------------------------------------------------
+
+xajax的机制
+
+1)html调用client函数
+2)client函数进行远程调用
+3)服务端得到数据
+4)服务端返回数据和html绑定信息
+5)客户端函数处理返回数据和html绑定信息，给html赋值
+
+
+sajax的运行过程：
+
+1）.服务器页面
+载入sajax.php
+定义公用函数
+将函数注册到ajax列表
+响应客户端xmlhttp访问
+显示html页面
+
+2）.客户端js
+
+定义服务端uri地址和访问模式(get|post)等
+sajax_init_object封装
+关键函数：sajax_do_call （函数名称，参数列表）
+	制造url和postdata数据
+	绑定匿名函数到XmlHttp对象的onreadystatechange事件
+		匿名函数检查返回数据成功与否（+还是-）
+		###注意没有检查httpHeader的状态数据
+	匿名函数在返回数据时被调用，
+	该函数执行时调用在客户端定义的对结果进行处理的函数args[args.length-1](data)
+</pre>

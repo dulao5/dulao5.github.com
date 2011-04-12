@@ -1,0 +1,20 @@
+---
+layout: post
+title: 注意win批处理的set命令
+category: note
+---
+
+昨天编了个简单的批处理脚本，为了简化问题用了&ldquo;变量&rdquo;，如下：
+
+
+<div style="margin-left: 40px;"><span style="color: #3333ff;">set OUTDIR = F:\my_p_hunter\goto_out\</span><br style="color: #3333ff;" /><span style="color: #3333ff;">set PTEST = F:\p_test\</span><br style="color: #3333ff;" /><br style="color: #3333ff;" /><span style="color: #3333ff;">type out\pr.*.txt > %OUTDIR%out.txt</span><br style="color: #3333ff;" /><span style="color: #3333ff;">rem del out\pr.*.txt</span><br style="color: #3333ff;" /><span style="color: #3333ff;">type out\url_list_36\* >> %OUTDIR%out.txt</span><br style="color: #3333ff;" /><span style="color: #3333ff;">rem del out\url_list_36\*</span><br style="color: #3333ff;" /><span style="color: #3333ff;">type site\888\out\* >> %OUTDIR%out.txt</span><br style="color: #3333ff;" /><span style="color: #3333ff;">php unique_line.php %OUTDIR%out.txt</span><br style="color: #3333ff;" /><span style="color: #3333ff;">type %OUTDIR%out.txt.out.txt >> %PTEST%dl.txt</span><br style="color: #3333ff;" /><span style="color: #3333ff;">%PTEST%MorePr.exe</span><br style="color: #3333ff;" /><br style="color: #3333ff;" /><span style="color: #3333ff;">type %PTEST%url.txt > %PTEST%dl.txt</span><br style="color: #3333ff;" /><span style="color: #3333ff;">%PTEST%wc_l.exe dl.txt > stat.txt</span></div>
+结果却不能正确的执行，看起来OUTDIR PTEST 两个变量没有生效，真奇怪。
+ 呵呵，其实明眼人可能已经看出来了，我的set命令格式不正确。dos的命令行参数以空格分割的，我受其他代码风格影响在等号两边加的空格影响了set的效果。
+ 正确的用法：
+
+
+<div style="margin-left: 40px;"><span style="color: #3333ff;">set OUTDIR=F:\my_p_hunter\goto_out\</span><br style="color: #3333ff;" /><span style="color: #3333ff;"> set PTEST=F:\p_test\</span></div>
+
+ 附：<a href="http://www.microsoft.com/technet/prodtechnol/windowsserver2003/zh-chs/library/ServerHelp/d0518719-7154-49b4-954c-0a6c015ab441.mspx?mfr=true">msdn set命令介绍</a><a href="http://www.microsoft.com/technet/prodtechnol/windowsserver2003/zh-chs/library/ServerHelp/89fdf70e-7d52-4f45-865d-6a61963a3a7e.mspx?mfr=true">msdn 批处理文件</a>
+
+

@@ -1,0 +1,14 @@
+---
+layout: post
+title: Recovering vi editor sessions
+category: note
+---
+
+Freebsd系统启动很慢，提示&ldquo;<span class="postbody"> Recovering vi editor sessions:Dec 28 16:41:07 localhost sendmail [339]:My unqual ified host name (localhost)unknown; sleeping for rety</span>&rdquo;。Google之，发现原因是vi的<span class="postbody">recover功能需要</span>使用seedmail给用户发邮件。
+解决的办法：
+
+
+<div style="margin-left: 40px;">rm -rf /var/tmp/vi.recover #清除用户的vi崩溃记录
+vim /etc/defaults/rc.conf #设置virecover_enable="NO"&</div>
+
+

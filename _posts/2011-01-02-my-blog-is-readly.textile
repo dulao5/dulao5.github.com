@@ -1,0 +1,34 @@
+---
+layout: post
+title: blog终于搭建好了
+category: life
+---
+
+<ul>
+<li>运行环境是google提供的GAE ;</li>
+<li>程序是<a href="http://xuming.net">徐明</a>免费提供的<a href="http://xuming.net/micolog">micolog</a> ;</li>
+<li><a href="http://www.gaoyaguo.com/">高压锅</a>帮我在<a href="http://godaddy.com">godaddy.com</a>购买的域名 ;</li>
+</ul>
+_不过, 拜GFW所赐, 光上面的三个条件是不行滴, google的IP地址是封锁滴._
+
+
+<ul>
+<li>需要使用<a href="http://twitter.com/gonbo">@gonbo</a>提供的<a href="http://www.you8g.com">www.you8g.com</a>服务 ;</li>
+</ul>
+感谢所涉及的所有人, 谢谢!
+
+
+*TODO:*
+
+
+<ul>
+<li>评论功能有点问题, 提交后不能自动跳回 &nbsp;;</li>
+<li>很多文章没分类问题, 昨天遗留了几十篇文章, 可以通过 "导出" -> "编辑xml" ->"导入" 的思路解决;</li>
+<li>CSS 不太爽, 而且IE6下有bug (我咋还没忘IE6呢) ;</li>
+<li>Feed烧制</li>
+</ul>
+*Update : 2011-01-07*
+
+
+换了一个主题: &nbsp;_<a title="WordPress主题5styles" href="http://marslau.com/archives/454.html">5styles</a>&nbsp;主题由&nbsp;<a title="Mars Lau's blog" href="http://marslau.com/" target="_blank">Mars Lau</a>&nbsp;提供, 由&nbsp;<a title="vvonder's blog" href="http://vvonderblog.appspot.com/" target="_blank">vvonder</a>&nbsp;修改&移植_
+

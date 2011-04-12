@@ -1,0 +1,58 @@
+---
+layout: post
+title: innerHTML赋值的秘密 & firefox闪烁的烦恼
+category: front-end
+---
+
+*innerHTML赋值的秘密*
+
+
+<pre>我在IE和Firefox下都发现这样一个事实:
+
+如果一个标签<div id="div1">;</div>;
+我对它的innerHTML赋值下面的字符串
+"....(省略).......<input type='text' id='input1'>;.........",
+然后马上操作input1 ,比如下面的代码:
+document.getElementById('div1').innerHTML = 
+         "....(省略).......<input type='text' id='input1'>;.........";
+var o = document.getElementById('input1');
+if (!o) throw Error("input还未载入");
+
+上面的代码一般不会有问题,但是如果赋值的字符串较长或者内部的标签结构很多,
+浏览器解析这些标签需要一定的时间,则第二行代码往往出问题.
+
+上面的第一行代码执行后,立即执行第二行,此时虽然div1.innerHTML已经是我们想要的值,
+但是有可能浏览器还没有将新加的input1标签解析出来,所以第二句得到的o可能是null
+
+避免这个问题我没有什么好办法,查w3c也没有在Element类中找到合适的事件, 
+只好使用timeout,预测一个时间推迟对input1的访问
+
+其实理想情况是让浏览器为每个标签实现一个onload事件,当innerHTML变化/内部的子标签解析
+完毕时激发它.现在看来,好像浏览器都不支持这种事件.
+</pre>
+*firefox闪烁的烦恼*
+
+
+
+
+
+<pre>我做的ajax网页,一般使用对div的innerHTML赋值的方法来将数据和html装载到div中.
+但是我发现这个过程在firefox中闪烁的厉害,其中有个数据表区域闪的实在厉害,
+我竟然能在它闪烁的时候抓下了图
+分析这个图我发现,原来这个div画图时,第一次出现的位置是屏幕左上角. 
+这让问题我头疼了好久,好多人都说这是firefox的毛病,没办法解决. 
+但是我却难以容忍,因为我以前做桌面程序的时候,自己的程序闪烁就意味着画图的代码水平太差了. 
+于是,我的攻克开始了: 
+    对innerHTML赋值前将div的display设none ,赋值后延迟一段时间再设成block,不行
+    将整个页面的主体区域display设none ,所有的div装载完毕后延迟一段时间再设成block,不行
+    .....
+    用了好多办法,都没什么进展,后来偶然想到:为什么这个标签起始位置从左上角显示,
+而别的标签就不这样呢?
+    难道是因为.......display不是inline?
+    马上测试,将display设成inline,哈哈,这下好了,当它显示时不再从屏幕左上角移动到正常位置了,
+而是在父标签的坐标位置开始显示.
+闪烁问题缓解了很多
+
+</pre>
+<a href="http://photo.hexun.com/p/2005/1103/5225/b_2B7D139DFBE3D22B.jpg"><img src="http://photo.hexun.com/p/2005/1103/5225/b_2B7D139DFBE3D22B.jpg" alt="" /></a>
+

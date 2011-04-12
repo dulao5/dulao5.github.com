@@ -1,0 +1,83 @@
+---
+layout: post
+title: web新时代到来，大家都变聪明了
+category: note
+---
+
+<p style="font-size: 12pt;">刚刚读了<a style="color: red;" href="http://v2.phpmore.com/mag.php">PhpMore Vol 6</a>里面的文章《什么是Web 2.0 &mdash;&mdash;下一代软件的设计模式和商业模式》(Tim O'Reilly /文 SeeSunshine/译)让人受益匪浅，现摘录一段和开发人员密切相关的一段：
+
+
+<table border="1" cellspacing="0" cellpadding="0">
+<tbody>
+
+<td style="font-size: 12pt;">
+<p style="font-size: 10pt;">Web 2.0 的设计模式
+
+
+<p style="font-size: 10pt;">在&ldquo;模式语言&rdquo;（A Pattern Language）一书中，克里斯多夫&middot;亚历山大（Christopher Alexander）为精炼描述对于体系结构问题的解决方案，开了一种格式上的处方。他写道：&ldquo;每个模式都描述着一种在我们的环境中一遍又一遍地出现的问题，并因此描述了对该问题的核心解决方案。以此方式你可以使用该方案上百万次，而从不需要重复作同样的事。&rdquo;
+
+
+<p style="font-size: 10pt;">1. 长尾
+
+
+<p style="font-size: 10pt;">小型网站构成了互联网内容的大部分内容；细分市场构成了互联网的大部分可能的应用程序。所以，利用客户的自服务和算法上的数据管理来延伸到整个互联网，到达边缘而不仅仅是中心，到达长尾而不仅仅是头部。
+
+
+<p style="font-size: 10pt;">2. 数据是下一个Intel Inside
+
+
+<p style="font-size: 10pt;">应用程序越来越多地由数据驱动。因此：为获得竞争优势，应设法拥有一个独特的，难于再造的数据资源。
+
+
+<p style="font-size: 10pt;">3. 用户增添价值
+
+
+<p style="font-size: 10pt;">对互联网程序来说，竞争优势的关键在于，用户多大程度上会在你提供的数据中，添加他们自己的数据。
+
+
+<p style="font-size: 10pt;">因而，不要将你的&ldquo;参与的体系&rdquo;局限于软件开发。要让你的用户们隐式和显式地为你的程序增添价值。
+
+
+<p style="font-size: 10pt;">4. 默认的网络效应
+
+
+<p style="font-size: 10pt;">只有很小一部分用户会不嫌麻烦地为你的程序增添价值。因此：要将默认设置得使聚合用户的数据，成为用户使用程序的副产品。
+
+
+<p style="font-size: 10pt;">5. 一些权力保留
+
+
+<p style="font-size: 10pt;">知识产权保护限制了重用也阻碍了实验。因而，在好处来自于集体智慧而不是私有约束的时候，应确认采用的门槛要低。遵循现存准则，并以尽可能少的限制来授权。设计程序使之具备可编程性和可混合性。
+
+
+<p style="font-size: 10pt;">6. 永远的测试版
+
+
+<p style="font-size: 10pt;">当设备和程序连接到互联网时，程序已经不是软件作品了，它们是正在展开的服务。因此，不要将各种新特性都打包到集大成的发布版本中，而应作为普通用户体验的一部分来经常添加这些特性。吸引你的用户来充当实时的测试者，并且记录这些服务以便了解人们是如何使用这些新特性的。
+
+
+<p style="font-size: 10pt;">7. 合作，而非控制
+
+
+<p style="font-size: 10pt;">Web 2.0 的程序是建立在合作性的数据服务网络之上的。因此：提供网络服务界面和内容聚合，并重用其他人的数据服务。支持允许松散结合系统的轻量型编程模型。
+
+
+<p style="font-size: 10pt;">8. 软件超越单一设备
+
+
+<p style="font-size: 10pt;">PC 不再是互联网应用程序的唯一访问设备，而且局限于单一设备的程序的价值小于那些相连接的程序。因此：从一开始就设计你的应用程序，使其集成跨越手持设备，PC 机，和互联网服务器的多种服务。
+
+
+
+|
+
+</tbody>
+
+<p style="font-size: 12pt;">&nbsp;我发现大家越来越聪明了，从文章的所述的历史来看，总是点点滴滴的透露出人类如何试图使用互联网更加方便沟通的智慧。
+
+
+<p style="font-size: 12pt;">php more杂志也越来越聪明了，以前我看过一两期，现在这期有招聘广告了。
+
+
+<p style="font-size: 12pt;">macromedia也越来越聪明了，我看到php more 杂志还有<a style="color: red;" href="http://v2.phpmore.com/vol6.swf">在线版</a>，这个在线版很有意思，虽然是flash文件，但是数据来源却是PDF文档，速度非常快，效果也很好。仔细一看，原来是<a style="color: red;" href="http://www.macromedia.com/software/flashpaper/">macromedia提供的一个工具--flashpaper</a>，很新鲜，很有意思。
+

@@ -1,0 +1,55 @@
+---
+layout: post
+title: 原来几组ob_start/ob_get_contents是可以嵌套的
+category: php
+---
+
+一直在使用ob_start和ob_get_contents时非常小心，避免嵌套使用，今天试了一下，原来几组ob_start/ob_get_contents是可以嵌套的。下面是例子：
+
+
+<?php
+&nbsp;ob_start();
+&nbsp;?>
+&nbsp;<html>
+&nbsp;<body>
+&nbsp;<p>It's like comparing apples to oranges.</p>
+&nbsp;<?
+&nbsp;ob_start();
+&nbsp;print("{{{{{{{{}}}}}}}}}}");
+&nbsp;$str2 = ob_get_contents();
+&nbsp;ob_end_clean();
+
+
+?>
+
+
+</body>
+&nbsp;</html>
+&nbsp;<?php
+&nbsp;$str1 = ob_get_contents();
+&nbsp;ob_end_clean();
+
+
+var_dump($str1);
+
+
+var_dump($str2);
+
+
+?>
+
+
+运行结果如下：
+
+
+[~/]^o^:php test.php
+string(77) "<html>
+<body>
+<p>It's like comparing apples to oranges.</p>
+
+
+</body>
+</html>
+"
+string(18) "{{{{{{{{}}}}}}}}}}"
+

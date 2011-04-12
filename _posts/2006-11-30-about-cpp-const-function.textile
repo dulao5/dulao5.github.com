@@ -1,0 +1,39 @@
+---
+layout: post
+title: 关于C++类内const函数
+category: cpp
+---
+
+据说有这种面试题：
+class A
+{
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; public :
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; char get_m() const
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbs&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; return m;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; }
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; private:
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; char m;
+}
+请在函数get_m中改变m的值。
+
+我想，对于这种流氓问题，只好使用流氓的做法：
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; char get_m() const
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbs&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; char * p = (char *) &m;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbs&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; *p = 'C';
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbs&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; return m;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; }
+呵呵，可以做到，因为类内const函数是通过&ldquo;把类内成员都作为const&rdquo;来实现的。
+不过这是我这种&ldquo;流氓程序员&rdquo;的做法。
+
+实际上，经过同事的教导，应该使用mutable修饰符：
+mutable char m;
+这样即使在类的const函数内，m的类型也是可以改变的了。
+
+另外，如果想不要这份工作，也可以这么写：
+#define const
+哈哈，这样面试官就不敢要你啦。:D
+
+
+

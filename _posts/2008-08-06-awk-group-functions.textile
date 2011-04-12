@@ -1,0 +1,28 @@
+---
+layout: post
+title: awk group-count and group-sum
+category: note
+---
+
+又学到一招，Awk是个天然的命令行hash表工具。
+
+
+对于数据文件如：
+ abc
+ def
+ abc
+ abc
+ 可以使用脚本：
+ awk ' { arr[$0]++ } END { for( key in arr) { print key , arr[key] } } ' filename
+ 来对不同的行计算group count.
+
+
+对于数据文件如：
+ abc 10
+ def 28
+ abc 2
+ abc 20
+ 可以使用脚本：
+ awk ' { arr[$1]=arr[$1]+$2 } END { for( key in arr) { print key , arr[key] } } ' filename
+ 来对不同的行计算group sum.
+

@@ -1,0 +1,109 @@
+---
+layout: post
+title: firefox的extensions载入过程
+category: front-end
+---
+
+忽然需要开发xul/firefox extension了，一开始什么都不会，真是抓瞎啊。快速浏览了XUL <a href="http://www.xulplanet.com/tutorials/"><span style="text-decoration: underline;"><span style="color: #0000ff;">Tutorials</span></span></a>&nbsp;，结果仅仅明白了xul是什么和如何使用它做界面，对于firefox如何载入extensions以及我的extensions中的文件载入、执行先后顺序等细节很少提及。
+
+
+弄了很久，碰壁n次，总结出如下结论：
+
+
+
+
+
+<p style="font-size: 10pt; margin: 0in; font-family: SimSun; mso-outline-level: 1;">*&nbsp; 最简单的插件目录结构：
+
+
+<p style="font-size: 10pt; margin: 0in; font-family: SimSun; mso-outline-level: 1;">&nbsp;
+
+
+<p style="font-size: 10pt; margin: 0in; font-family: SimSun; mso-outline-level: 1;">│<span style="mso-spacerun: yes;">&nbsp; </span>chrome.manifest
+
+
+<p style="font-size: 10pt; margin: 0in; font-family: SimSun; mso-outline-level: 1;">│<span style="mso-spacerun: yes;">&nbsp; </span>install.rdf
+
+
+<p style="font-size: 10pt; margin: 0in; font-family: SimSun; mso-outline-level: 1;">│
+
+
+<p style="font-size: 10pt; margin: 0in; font-family: SimSun; mso-outline-level: 1;">├─content
+
+
+<p style="font-size: 10pt; margin: 0in; font-family: SimSun; mso-outline-level: 1;">│&nbsp;&nbsp; overlay.js
+
+
+<p style="font-size: 10pt; margin: 0in; font-family: SimSun; mso-outline-level: 1;">│&nbsp;&nbsp; overlay.xul
+
+
+<p style="font-size: 10pt; margin: 0in; font-family: SimSun; mso-outline-level: 1;">│&nbsp;
+
+
+<p style="font-size: 10pt; margin: 0in; font-family: SimSun; mso-outline-level: 1;">│
+
+
+<p style="font-size: 10pt; margin: 0in; font-family: SimSun; mso-outline-level: 1;">└─locale
+
+
+<p style="font-size: 10pt; margin: 0in 0in 0in 0.5in; font-family: SimSun; mso-outline-level: 2;">└─en-US
+
+
+<p style="font-size: 10pt; margin: 0in 0in 0in 1in; font-family: SimSun; mso-outline-level: 3;">overlay.dtd
+
+
+<p style="font-size: 10pt; margin: 0in 0in 0in 1in; font-family: SimSun; mso-outline-level: 3;">&nbsp;
+
+
+
+
+
+<p style="font-size: 10pt; margin: 0in; mso-outline-level: 1;"><span style="font-family: Verdana;" lang="EN-US">*&nbsp; firefox</span><span style="font-family: SimSun;" lang="ZH-CN">的extensions工作方式：</span>&nbsp;
+
+
+<blockquote style="margin-right: 0px;" dir="ltr">
+<p style="font-size: 10pt; margin: 0in; mso-outline-level: 1;"><span style="font-family: Verdana;" lang="EN-US">firefox</span><span style="font-family: SimSun;" lang="ZH-CN">载入chrome.manifest</span>
+
+
+<p style="font-size: 10pt; margin: 0in; mso-outline-level: 1;"><span style="font-family: SimSun;" lang="ZH-CN">对于</span><span style="font-family: Verdana;" lang="EN-US">overlay</span><span style="font-family: SimSun;" lang="ZH-CN">指令，如：</span>
+
+
+<p style="font-size: 10pt; margin: 0in; font-family: SimSun; mso-outline-level: 1;">&nbsp;
+
+
+<p style="font-size: 10pt; margin: 0in; font-family: SimSun; mso-outline-level: 1;">overlay
+
+
+<p style="font-size: 10pt; margin: 0in 0in 0in 0.5in; font-family: SimSun; mso-outline-level: 2;">chrome://browser/content/browser.xul
+
+
+<p style="font-size: 10pt; margin: 0in 0in 0in 1in; mso-outline-level: 3;"><span style="font-family: SimSun;" lang="ZH-CN">chrome://</span><span style="font-family: Verdana;" lang="EN-US">my</span><span style="font-family: SimSun;" lang="EN-US">_extension</span><span style="font-family: SimSun;" lang="ZH-CN">/content/overlay.xul</span>
+
+
+<p style="font-size: 10pt; margin: 0in; font-family: SimSun; mso-outline-level: 1;">&nbsp;
+
+
+<p style="font-size: 10pt; margin: 0in; font-family: SimSun; mso-outline-level: 1;">这条指令指定我们自己的overlay.xul&ldquo;覆盖&rdquo;系统的browser.xul
+
+
+<p style="font-size: 10pt; margin: 0in; font-family: SimSun; mso-outline-level: 1;">&nbsp;
+
+
+<p style="font-size: 10pt; margin: 0in; mso-outline-level: 1;"><span style="font-family: SimSun;" lang="ZH-CN">这样，系统载入自己的</span><span style="font-family: Verdana;" lang="EN-US">browser.xul</span><span style="font-family: SimSun;" lang="ZH-CN">时，随即载入了我们的</span><span style="font-family: Verdana;" lang="EN-US">overlay.xul</span>
+
+
+<p style="font-size: 10pt; margin: 0in; font-family: SimSun; mso-outline-level: 1;">&nbsp;
+
+
+<p style="font-size: 10pt; margin: 0in; mso-outline-level: 1;"><span style="font-family: SimSun;" lang="ZH-CN">我们的</span><span style="font-family: Verdana;" lang="EN-US">overlay.xul</span><span style="font-family: SimSun;" lang="ZH-CN">里面会有</span><span style="font-family: Verdana;" lang="EN-US"><script></span><span style="font-family: SimSun;" lang="ZH-CN">标签，比如引入overlay.js，我们把库代码、启动代码、事件处理函数定义等放到overlay.js中。于是我们的脚本开始工作了。。。</span>
+
+
+<p style="font-size: 10pt; margin: 0in; font-family: SimSun; mso-outline-level: 1;">&nbsp;
+
+
+<p style="font-size: 10pt; margin: 0in; mso-outline-level: 1;"><span style="font-family: Verdana;" lang="EN-US">overlay.xul</span><span style="font-family: SimSun;" lang="ZH-CN">里面会定义很多我们自己的界面元素，比如弹出菜单、工具栏、状态栏等。这些元素里面加入我们的事件处理函数，下面的</span><span style="font-family: Verdana;" lang="EN-US">javascript</span><span style="font-family: SimSun;" lang="ZH-CN">工作方式就和传统</span><span style="font-family: Verdana;" lang="EN-US">javascript</span><span style="font-family: SimSun;" lang="ZH-CN">差不多了。</span>
+
+
+<p style="font-size: 10pt; margin: 0in; mso-outline-level: 1;"><span style="font-family: SimSun;" lang="ZH-CN">&nbsp;</span>&nbsp;
+
+

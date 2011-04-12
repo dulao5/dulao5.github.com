@@ -1,0 +1,36 @@
+---
+layout: post
+title: nVidia集成驱动已经安装了，但是Device not found，我的网卡怎么用呢？
+category: life
+---
+
+<pre>我的机器使用华擎K8NF4G-SATA2的板子，
+芯片组是
+# nVidia GeForce 6100 芯片组
+# nVidia nForce 410 MCP 芯片组
+板子集成了声卡显卡＆网卡，其中网卡是Realtek PHY RTL8201CL
+
+我现在安装fedora 4, 已经自动安装了linux_nforce_amd64的驱动
+
+而且Realtek 官方网站说了，Realtek PHY RTL8201CL 的网卡不需要驱动，只需要安装芯片组驱动即可
+
+但是我现在ifconfig HW出错：
+HW: error fetching interface information: Device not found
+
+我已经使用adsl-setup做了设置，试图使用eth0设备，但是使用adsl-start报错说 Device not found
+
+请问我应该怎么办？？
+
+---------------------
+ifconfig命令的信息：
+         Link encapocal Loopback  
+          inet addr:127.0.0.1  Mask:255.0.0.0
+          inet6 addr: ::1/128 Scope:Host
+          UP LOOPBACK RUNNING  MTU:16436  Metric:1
+          RX packets:3106 errors:0 dropped:0 overruns:0 frame:0
+          TX packets:3106 errors:0 dropped:0 overruns:0 carrier:0
+          collisions:0 txqueuelen:0
+          RX bytes:3749743 (3.5 MiB)  TX bytes:3749743 (3.5 MiB)
+ispci命令关于网络的信息：
+00:14.0 Bridge: nVidia Corporation MCP51 Ethernet Controller (rev a1)
+</pre>

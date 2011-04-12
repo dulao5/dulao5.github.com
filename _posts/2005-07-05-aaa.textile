@@ -1,0 +1,20 @@
+---
+layout: post
+title: 重归php阵营
+category: news
+---
+
+最近被delphi烦透了，重归php阵营，疯狂补课，接受了巨多新事物：
+
+<ul><li><font size="2"><a href="http://bbs.chinaunix.net/forum/viewtopic.php?t=347386">PFC ? PHP Foundation Class</a></font></li>
+<ul><li><font size="2">一位叫做<a href="http://www.dualface.com/blog/phppfc/index.html">廖宇雷</a>的同志做得php框架，据他说是轻量级oo框架</font></li></ul><li><font size="2"><a href="http://www.xisc.com/">PRADO</a>（*P*HP **R**apid **A**pplication **D**evelopment **O**bject-oriented）</font></li>
+<ul><li><font size="2">一位中国哥们（Qiang Xue）写的一套基于事件驱动的PHP框架PRADO，这个还是获得高票当选的最佳，强烈推荐！请参考 </font><a href="http://www.zend.com/php5/contest" target="_blank"><font size="2">http://www.zend.com/php5/contest</font></a><font size="2"> </font></li>
+<li><font size="2">项目正在进行，项目网站：<a href="http://www.xisc.com/">http://www.xisc.com/</a></font></li>
+<li><font size="2">中文说明：<a href="http://www.xisc.com/wiki/index.php/Cn:Main_Page">http://www.xisc.com/wiki/index.php/Cn:Main_Page</a></font></li></ul><li><font size="2">另外<a href="http://pear.php.net">Pear</a>和<a href="http://gtk.php.net">GTK</a>已经不算新事物了，可惜我现在才开始接触</font></li>
+<li><font size="2">看了几个php论坛，觉得<a href="http://www.phpbb.com">phpbb</a>最满意，以后就用它了</font></li>
+<li><font size="2">偶然接触到一个巨牛的cms（内容管理系统）&mdash;&mdash;<a href="http://www.mambochina.net/">mambo</a>。实在太强了，考虑以后做网站是不是直接用它？</font></li></ul>p. <font size="2">感慨万千，2003年做了一年的PHP，那时的我太闭塞了。上面这些东西都是2003年左右的，而我却不知道。只顾自己做_*已经存在的轮子*_，而且还做得不如人家好。今天看来，php各方面的发展飞速，社区水平也提高了很多，我已经落伍了。</font>
+
+<font size="2">赶路要紧！！</font>
+
+
+

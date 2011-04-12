@@ -1,0 +1,30 @@
+---
+layout: post
+title: 这是什么？data:text/html;charset=utf-8;base64,PGh0bWw+...
+category: note
+---
+
+firefox浏览器和Opera浏览器都可以在地址栏输入下面的字符串，回车，可以看到页面显示hi!!!
+data:text/html;charset=utf-8;base64,PGh0bWw+PGJvZHk+aGkhISEhPC9ib2R5PjwvaHRtbD4=
+
+发现这个的原由是<a href="http://lewis.coblog.org/wordpress">lzlhero</a>告诉我<a href="http://la.ma.la/misc/js/setclipboard_for_firefox.html">这个网页</a>可以做到把数据放到firefox的剪切板内。
+通过分析，发现原来firefox支持这样格式的url：data:text/html;charset=utf-8;base64,base64编码内容
+测试发现opera也是这样。
+
+这是什么？类似javascript:的伪协议？先不深究，记录下来。
+
+[更新]：
+具体一查才知道，原来这是一种叫做&ldquo;The "data" URL scheme&rdquo;的东西。
+格式如下：
+
+
+<pre>data:[<mediatype>][;base64],<data></pre>
+
+<span style="font-weight: bold;">References:</span>
+<a href="http://www.faqs.org/rfcs/rfc2397.html">RFC 2397 - The "data" URL scheme</a>
+<a href="http://www.packetgram.com/pktg/docs/std/urls/techrfc2397.html">Technical review of RFC 2397</a><a href="http://www.mozilla.org/quality/networking/docs/aboutdata.html"><small>
+</small>About data: URLs and the mozilla implementation</a>
+Based on -<a href="http://www.packetgram.com/pktg/docs/std/readRFC.html">Reading RFC's for testing</a>
+Mozilla对这种url的测试页面：<a href="http://www.mozilla.org/quality/networking/testing/datatests.html">http://www.mozilla.org/quality/networking/testing/datatests.html</a>
+
+

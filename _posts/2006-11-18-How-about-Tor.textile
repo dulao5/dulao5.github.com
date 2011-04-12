@@ -1,0 +1,58 @@
+---
+layout: post
+title: Tor很奇妙、Tor很好用
+category: note
+---
+
+最近Google频繁上不去，非常烦人。上不去也就罢了，用&ldquo;<a title="阉割版" href="http://www.google.cn/" target="_blank"><span style="color: #0023d3;">阉割版</span></a>&rdquo;还能凑合，我忍，但是gmail常常时断时续，实在是难以忍受。我有个习惯，用gmail草稿箱来保存一些资料，但是不幸的是，我常常在家使用gmail的收件箱没问题，一使用草稿箱马上就出错，gmail就没法访问了。也许是我的草稿箱内有些敏感字符吧。总之问题很难缠。
+
+
+于是我想到了<span style="color: #000000;"><a title="Tor" href="http://tor.eff.org/" target="_blank"><span style="color: #0020f1;">Tor</span></a></span>，那么什么是TOR呢？下面给大家介绍一下。
+
+
+普通的上网模式是 浏览器<--http线路-->目标网站服务器 , 浏览器直接访问目标服务器。
+利用代理服务器上网模式是&nbsp; 浏览器<--http线路-->代理服务器<--http线路-->目标网站服务器。所以利用代理服务器能够一定限度上隐藏访问者的IP地址和真实身份。
+
+
+TOR的原理和代理服务器类似，但是更高级。实际上TOR在架构上依然使用了Http代理服务器协议，Tor是这样工作的：
+
+
+<blockquote style="margin-right: 0px;" dir="ltr">
+有一个目录服务器提供服务，把全世界正在使用Tor软件的同志们IP信息记录下来；
+使用Tor的部分同志不仅&ldquo;索取&rdquo;，还要&ldquo;贡献&rdquo;，为其他人提供Http代理服务；
+当Tor普通用户上网时，目录服务器为其随机安排一个虚拟线路，这个虚拟线路可能是：
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Tor用户<--->Tor用户A<--->Tor用户B<--->Tor用户C....<--->Tor用户Z<--->目标服务器
+这样，就随机的隐藏了访问者用户的身份。
+
+
+
+<p dir="ltr">以上是TOR的主线路，在一台PC机上，TOR是这样工作的。同志们可以在<a title="这里" href="http://tor.eff.org/download.html.en"><span style="color: #c52700;">这里</span></a>下载安装Tor软件包，软件包有三部分：&nbsp;
+
+
+<blockquote style="margin-right: 0px;" dir="ltr">
+<p dir="ltr">Tor&nbsp;&nbsp;&nbsp; ：负责PC机和目录服务器、其他Tor用户的底层通讯。（据我分析大部分是Sock5协议）
+Vidalia：负责提供GUI界面，让用户操作和观察Tor网络。
+Privoxy：负责提供HTTP代理服务器，为浏览器提供Http代理服务(默认服务地址是127.0.0.1:8118)。
+
+
+
+<p dir="ltr">所以互联网上一些介绍让大家安装Tor组合软件包，这种做法有些多余，启动上面三个软件，剩下的工作仅仅剩下一个，那就是设置浏览器的代理服务器配置，把代理服务器地址设置成&ldquo;127.0.0.1:8118&rdquo;就行了。
+
+
+<p dir="ltr">说到这里，整个Tor网络访问的线路就可以这样描述了：
+
+
+<blockquote style="margin-right: 0px;" dir="ltr">
+<p dir="ltr">Tor用户浏览器访问Privoxy的127.0.0.1:8118；
+Privoxy通过Sock5访问Tor.exe；
+Tor.exe通过Sock5访问目录服务器；
+目录服务器为本次访问提供一条虚拟线路；
+Tor.exe访问Tor用户A<--->Tor用户B<--->Tor用户C....<--->Tor用户Z<--->目标服务器
+
+
+
+<p dir="ltr">怎么样，很好玩吧，赶紧去bbs注册马甲吧，哈哈。
+
+
+<p dir="ltr">&nbsp;[附录]<a title="Tor代理全套解决方案" href="http://tcno.net/doc/tor/"><span style="color: #284cff;">Tor代理全套解决方案</span></a>是篇好文章，写的比我好。
+

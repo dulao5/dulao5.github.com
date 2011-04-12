@@ -1,0 +1,76 @@
+---
+layout: post
+title: 关于get/post的编码类型讨论
+category: front-end
+---
+
+看到阿鬼哥<a href="http://www.neokeen.com/mornlee/2005/10/25/1130243843593.html">这篇文章</a>,发现我们不谋而合了!
+昨天查阅N条资料后明白一个道理:
+原来http协议的get/post数据提交时没有编码信息,
+虽然http的RFC文档规定了header有请求/回应/正文三部分各自的header.但是请求时的正文header加入charset是没用的.
+
+uri在提交时用encodeURI编码的目的只是为了传输,至于客户端提交的数据到底时什么编码类型,服务端不能获知,服务端就得到的编码就是客户端发送的编码,二者是完全相等的.
+
+而用xmlHttp提交数据时,由于js的一切字符都是unicode,所以把数据用encodeURI转换然后提交,服务端得到的就是安全的unicode了.
+
+但是,中文的客户端浏览器form提交时,提交的编码就是本地字符集.无论用js对input value="\uXXXX",提交的依然是本地字符集编码 .
+
+也就是说,浏览器表单提交的总是默认的字符集,下面是个例子,虽然对表单元素的value赋值为unicode编码,但是提交后的数据依然是gbk类型.
+
+这一点,在从传统php项目转换成ajax项目时,值得注意.
+
+
+<pre>
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<HTML>
+<HEAD>
+<TITLE> New Document </TITLE>
+<META NAME="Generator" CONTENT="EditPlus">
+<script src="js/template.js"></script>
+</HEAD>
+
+<BODY>
+<SCRIPT LANGUAGE="JavaScript">
+<!--
+			function fun()
+			{
+				var js= document.getElementById("js");
+				eval(js.value);
+				js.focus();
+			}
+//-->
+</SCRIPT>
+<input type="button" value="run..." onclick="fun();" tabindex="2"><br>
+<TEXTAREA id="js" NAME="js" ROWS="18" COLS="90">
+document.getElementById("text1").value = "\u4e01\u4f69\u73b2 [张] \u4e01\u4fe1\u5b8f";
+
+var o = document.createElement("input");
+o.type = "text";
+o.name = "text2";
+o.value = "\u4e01\u4f69\u73b2\u4e01\u4fe1\u5b8f";
+document.getElementById("div1").appendChild(o);
+
+var oData = {"name":"\u5bb6\u5ead"};
+var tpl = "<input name=\"text3\" type=\"text\" value=\"${name}\"&rt;";
+var html = TrimPath.parseTemplate(tpl).process(oData);
+document.getElementById("div2").innerHTML = html;
+
+//document.forms[0].method = "POST";
+document.forms[0].method = "GET";
+</TEXTAREA><br>
+<FORM METHOD="GET" target="ddddd" ACTION="http://yourhost/testpost.php" ACCEPTCHARSET="UTF-8" >
+<INPUT TYPE="submit"><br>
+<INPUT TYPE="text" NAME="text1" id="text1"><br>
+<div id="div1"><div>
+<div id="div2"><div>
+
+</FORM>
+<SCRIPT LANGUAGE="JavaScript">
+<!--
+
+//-->
+</SCRIPT>
+</BODY>
+</HTML>
+
+</pre>

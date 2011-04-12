@@ -1,0 +1,78 @@
+---
+layout: post
+title: C语言的"变量长度数组"
+category: note
+---
+
+<span style="font-size: 13px;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 最近细读《Programming in C》，里面讲数组时讲到了&ldquo;变量长度数组&rdquo;，说有的编译器支持这样的用法：
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; int i=10;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; char buf[ i ];
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 我测试发现VC6是不支持这个的，但是GCC支持！我写了这样的测试代码，发现程序居然也支持i是负数，而且在负数的情况下，GCC的内存分配虽然怪异，但也是保证正确的。
+
+
+<div class="smalltxt" style="font-weight: bold; margin-left: 2em; margin-right: 2em;">
+<div style="float: left;">CODE:</div>
+</div>
+<div id="code0" class="altbg2" style="border: 1px solid #698cc3; margin: 3px 2em 2em; padding: 5px 10px 10px; clear: both; font-family: fixedsys;">#include <stdlib.h>
+#include <stdio.h>
+
+void fun(int i)
+{
+&nbs char kk = 'B';
+&nbs char buf[ i ];
+&nbs char mm = 'E';
+
+&nbs printf("size :: %d %x -- %x\n", sizeof(buf), (size_t)buf, (size_t)&buf[i-1]);
+&nbs buf[i-1] = 'a';
+&nbs printf("\t\t\t buf[i-1]:%c\t %x:%c \t %x:%c \n", buf[i-1], (size_t)&kk, kk, (size_t)&mm, mm);
+}
+
+int main(int argc, char * argv[], char * envp[])
+{
+&nbs fun(2);
+&nbs fun(3);
+&nbs fun(4);
+&nbs fun(1);
+&nbs fun(0);
+&nbs fun(-1);
+&nbs fun(-10);
+}</div>
+GCC安全的为负数长度的数组分配了空间，保证了这种数组的安全使用, 不会影响栈上的其他变量空间。
+下面是输出：
+
+
+<div class="smalltxt" style="font-weight: bold; margin-left: 2em; margin-right: 2em;">
+<div style="float: left;">CODE:</div>
+</div>
+<div id="code1" class="altbg2" style="border: 1px solid #698cc3; margin: 3px 2em 2em; padding: 5px 10px 10px; clear: both; font-family: fixedsys;">size :: 2 bfbfec50 -- bfbfec51
+&nbs&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp; buf[i-1]:a&nbsp; &nbsp;&nbsp; &nbsp;bfbfec7f:B&nbsp; &nbsp;&nbsp; &nbsp;bfbfec7e:E
+size :: 3 bfbfec50 -- bfbfec52
+&nbs&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp; buf[i-1]:a&nbsp; &nbsp;&nbsp; &nbsp;bfbfec7f:B&nbsp; &nbsp;&nbsp; &nbsp;bfbfec7e:E
+size :: 4 bfbfec50 -- bfbfec53
+&nbs&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp; buf[i-1]:a&nbsp; &nbsp;&nbsp; &nbsp;bfbfec7f:B&nbsp; &nbsp;&nbsp; &nbsp;bfbfec7e:E
+size :: 1 bfbfec60 -- bfbfec60
+&nbs&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp; buf[i-1]:a&nbsp; &nbsp;&nbsp; &nbsp;bfbfec7f:B&nbsp; &nbsp;&nbsp; &nbsp;bfbfec7e:E
+size :: 0 bfbfec60 -- bfbfec5f
+&nbs&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp; buf[i-1]:a&nbsp; &nbsp;&nbsp; &nbsp;bfbfec7f:B&nbsp; &nbsp;&nbsp; &nbsp;bfbfec7e:E
+size :: -1 bfbfec60 -- bfbfec5e
+&nbs&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp; buf[i-1]:a&nbsp; &nbsp;&nbsp; &nbsp;bfbfec7f:B&nbsp; &nbsp;&nbsp; &nbsp;bfbfec7e:E
+size :: -10 bfbfec60 -- bfbfec55
+&nbs&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp; buf[i-1]:&nbsp; &nbsp;&nbsp; &nbsp; bfbfec7f:B&nbsp; &nbsp;&nbsp; &nbsp;bfbfec7e:E</div>
+*我的疑问：*
+
+<ol type="1">
+
+<li>0长度的数组有什么意义？ [I] 这个经过搜索资料，我已经知道了，参考：http://bbs.chinaunix.net/viewthread.php?tid=854949 [/I]</li>
+<li>在产品级的软件开发中，这种&ldquo;变量长度数组&rdquo;有人应用吗？ </li>
+</ol>
+<span style="font-size: 13px;">嗯，我估计这种不通用的东西产品里应该很少用。尽量避免使用，增强移植性。
+
+至于数组长度是负数的情况，我是这么想的：
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; GCC就像数学家发现自然数后又发现了负数那样，GCC为人们实现了负数数组长度，并告诉我们数组长度也可以是负数。
+&nbs&nbsp;&nbsp;&nbsp; 至于负数有什么物理意义，数学家先不管了；数组长度负数有什么实际意义，Gcc就不管了。</span>
+
+
+</span>
+

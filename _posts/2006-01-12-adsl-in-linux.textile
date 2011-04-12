@@ -1,0 +1,13 @@
+---
+layout: post
+title: linux下adsl拨号还没搞定:(
+category: life
+---
+
+adsl-setup设置基本信息
+输入adsl-connect命令给出下面的信息：
+phpoe： ioctl(SIOCGIFHWADDR) : session 0: no such device
+using interface pppo
+connection terminated
+我的网卡有问题吗？
+

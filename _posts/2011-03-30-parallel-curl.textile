@@ -1,0 +1,154 @@
+---
+layout: post
+title: 贡献一个开源项目:parallel-curl
+category: opensource
+---
+
+
+
+
+我看到一些开源的curl-multi封装不够好, 于是闲着没事写了一个.
+
+
+可以利用它搭建一个负责HTTP并发通讯的子程序.&nbsp;
+
+
+如果将其中的CurlTaskList作成动态载入的形式(比如向某个urls服务器请求获取任务), 如果将OnFinished扩展成HTML Parser, (比如提取内容并存储, 解析出urls, 提交回urls服务器) 那么一个简陋的蜘蛛就搭起来了.
+
+
+-------------
+
+
+项目主页:&nbsp;<a href="https://github.com/dulao5/parallel-curl">https://github.com/dulao5/parallel-curl</a>
+
+
+h2. *Parallel Curl*
+
+
+一个高性能的HTTP并发客户端库 . 使用了curl_multi* .
+
+
+h2. *特性*
+
+
+<ul>
+<li>并发执行(多路复用)</li>
+<li>事件模式:&nbsp; 
+<ul>
+<li>每个HTTP访问视为一个"Task"</li>
+<li>主程序是个run()函数. 当Task执行完时, 会通知调用方, 调用方在On Finished事件中处理自己的任务;</li>
+<li>我实现了一个Task迭代器, 你可以直接push task(类似数组), 也可以更灵活的扩充它</li>
+</ul>
+</li>
+<li>live connection 
+<ul>
+<li>内部有个Curl Pool , Curl Handle使用一次并不关闭连接, 下次请求会继续使用它.</li>
+</ul>
+</li>
+<li>其他Curl固有的特性</li>
+</ul>
+h2. *Classes*
+
+
+<ul>
+<li>CurlMFetcher : 并发获取类, run函数相当于主程序</li>
+<li>CurlPool : curl handle cache</li>
+<li>CurlTaskList : 任务列表</li>
+<li>CurlTaskAbstract : Task抽象类, 你继承它实现自己的OnFinished事件代码</li>
+</ul>
+h2. *实例*
+
+
+> php test/test.php test/urls.txt
+
+
+> cat test/test.php
+
+
+
+
+
+{% highlight php %}
+<?php
+
+//autoload
+
+function __autoload($classname) {
+
+	static $lib_path ;
+
+	if(!$lib_path) { 
+
+		$lib_path = dirname(__FILE__)."/../inc/";
+
+	}
+
+	include("$lib_path/$classname.php");
+
+}
+
+//define your task implement 
+
+class MyCurlTask extends CurlTaskAbstract {
+
+	protected function onFinished() {
+
+		$info = curl_getinfo($this->_curl);
+
+		$contents = curl_multi_getcontent($this->_curl);
+
+		//do something
+
+		fprintf(STDERR, "%s\ttask\t%s\tfinished\n", date("Y-m-d H:i:s.u"), $this->_url);
+
+		//todo
+
+		//you can implement a http content parser , or save to file , or other
+
+	}
+
+}
+
+//load task list
+
+$tasklist = new CurlTaskList();
+
+$opts = array(
+
+		CURLOPT_VERBOSE => 0 ,
+
+		CURLOPT_CONNECTTIMEOUT => 1,
+
+		CURLOPT_RETURNTRANSFER => true,
+
+		CURLOPT_ENCODING => 'gzip,deflate',
+
+		);
+
+foreach(array_filter(array_map('trim', file($argv[1]))) as $url) {
+
+		$tasklist->push(new MyCurlTask($url, $opts));
+
+}
+
+//using curl multi featcher and run
+
+$tunnels = 4;
+
+$curlm = new CurlMFetcher($tasklist, $tunnels);
+
+$curlm->setDebug(true);
+
+//run
+
+$curlm->run();
+?>
+{% endhighlight %}
+
+
+
+
+
+
+
+

@@ -1,0 +1,38 @@
+---
+layout: post
+title: 请教google页面里面的js代码
+category: front-end
+---
+
+偶然打开gmail的页面代码，惊讶的发现google的代码风格完全另类：
+
+
+
+
+<hr id="null">p. <html><head><meta content="text/html; charset=UTF-8" http-equiv="content-type"></head>
+<script>
+D=(top.js&&top.js.init)?function(d){top.js.P(window,d)}:function(){};
+if(window==top){top.location="/gmail?&ik=&search=inbox&view=tl&start=0&init=1&zx=6o4p1z-kydg14&fs=1";}
+</script>
+<script>
+D(["v","5fa3798e9be22681","6dbbdc8da804d7ee"]
+);
+D(["su","6dbbdc8da804d7ee",["l","/gmail/help/images/logo.gif","i","邀请朋友使用Gmail","j","邀请{{NUM}}位朋友使用Gmail"]
+]
+);
+。。。。。略，以下都是形如D([数组元素]);的代码。。。。。。。。。
+
+
+
+
+<hr id="null">
+其中第一句：D=(top.js&&top.js.init)?function(d){top.js.P(window,d)}:function(){};
+我看了好久，终于知道D是个类似c语言函数指针的东西，原来javascript也有这种功能
+初步判断，上面是一个形如A?B:C的表达式，
+当表达式(top.js&&top.js.init)为真时，D=function(d){top.js.P(window,d)}p. 但是我不明白表达式(top.js&&top.js.init)是个什么东西，
+top是个窗口对象吗？还是存在一个文件名叫做top.js的文件？
+
+谁能给我解答这个疑惑？
+
+
+

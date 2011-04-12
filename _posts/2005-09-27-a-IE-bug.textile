@@ -1,0 +1,44 @@
+---
+layout: post
+title: 发现一处IE的bug?
+category: front-end
+---
+
+昨天发现IE内对一个table对象的innerHTML赋值时报错,而firefox下是可以的,下面是测试代码
+
+
+<pre><!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<HTML>
+<HEAD>
+<TITLE> New Document </TITLE>
+<SCRIPT LANGUAGE="JavaScript">
+
+function aaaa()
+{
+	try
+	{
+		var o = document.getElementById("abcd");
+		o.innerHTML = "<TBODY><tr><td>55555555555555555555555</td></tr></TBODY>";	
+	}
+	catch (e)
+	{
+		alert(e.name);
+		alert(e.number);
+		alert(e.description);
+		alert(e.message);
+	}
+	
+}
+
+</SCRIPT>
+</HEAD>
+
+<BODY onclick="aaaa();">
+点击我测试table对象的innerHTML属性是否可以写入
+<TABLE id="abcd">
+
+</TABLE>
+
+</BODY>
+</HTML>
+</pre>

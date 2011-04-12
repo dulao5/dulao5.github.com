@@ -1,0 +1,258 @@
+---
+layout: post
+title: 惊喜----XUL Element Interface
+category: front-end
+---
+
+查<a style="color: #3366ff;" href="http://www.xulplanet.com/references/objref/" target="_blank">XUL&nbsp;Object Reference&nbsp;</a> ，只列出了下面几种：
+
+
+
+
+
+<table style="width: 621px; border-collapse: collapse; height: 228px; border: 1px initial initial;" border="1" cellspacing="0" cellpadding="3">
+<tbody>
+
+|
+<blockquote style="margin-right: 0px;" dir="ltr">
+<h3 class="ref-header" style="margin-right: 0px;" dir="ltr">XUL Objects
+
+
+
+<table class="ref-block">
+<tbody>
+
+<td valign="top">
+<blockquote style="margin-right: 0px;" dir="ltr">
+<a href="http://www.xulplanet.com/references/objref/BoxObject.html"><span style="color: #0000ff;"><span style="text-decoration: underline;">BoxObject</span></span></a>
+<a href="http://www.xulplanet.com/references/objref/BrowserBoxObject.html"><span style="color: #0000ff;"><span style="text-decoration: underline;">BrowserBoxObject</span></span></a>
+<a href="http://www.xulplanet.com/references/objref/EditorBoxObject.html"><span style="color: #0000ff;"><span style="text-decoration: underline;">EditorBoxObject</span></span></a>
+<a href="http://www.xulplanet.com/references/objref/IFrameBoxObject.html"><span style="color: #0000ff;"><span style="text-decoration: underline;">IFrameBoxObject</span></span></a>
+<a href="http://www.xulplanet.com/references/objref/ListBoxObject.html"><span style="color: #0000ff;"><span style="text-decoration: underline;">ListBoxObject</span></span></a>
+<a href="http://www.xulplanet.com/references/objref/MenuBoxObject.html"><span style="color: #0000ff;"><span style="text-decoration: underline;">MenuBoxObject</span></span></a>
+<a href="http://www.xulplanet.com/references/objref/PopupBoxObject.html"><span style="color: #0000ff;"><span style="text-decoration: underline;">PopupBoxObject</span></span></a>
+
+
+
+
+<td valign="top">
+<blockquote style="margin-right: 0px;" dir="ltr">
+<a href="http://www.xulplanet.com/references/objref/ScrollBoxObject.html"><span style="color: #0000ff;"><span style="text-decoration: underline;">ScrollBoxObject</span></span></a>
+<a href="http://www.xulplanet.com/references/objref/TreeBoxObject.html"><span style="color: #0000ff;"><span style="text-decoration: underline;">TreeBoxObject</span></span></a>
+<a href="http://www.xulplanet.com/references/objref/TreeColumn.html"><span style="color: #0000ff;"><span style="text-decoration: underline;">TreeColumn</span></span></a>
+<a href="http://www.xulplanet.com/references/objref/TreeColumns.html"><span style="color: #0000ff;"><span style="text-decoration: underline;">TreeColumns</span></span></a>
+<a href="http://www.xulplanet.com/references/objref/TreeContentView.html"><span style="color: #0000ff;"><span style="text-decoration: underline;">TreeContentView</span></span></a>
+<a href="http://www.xulplanet.com/references/objref/TreeSelection.html"><span style="color: #0000ff;"><span style="text-decoration: underline;">TreeSelection</span></span></a>
+
+
+
+
+<td valign="top">
+<blockquote style="margin-right: 0px;" dir="ltr">
+<a href="http://www.xulplanet.com/references/objref/XULCommandDispatcher.html"><span style="color: #0000ff;"><span style="text-decoration: underline;">XULCommandDispatcher</span></span></a>
+<a href="http://www.xulplanet.com/references/objref/XULControllers.html"><span style="color: #0000ff;"><span style="text-decoration: underline;">XULControllers</span></span></a>
+<a href="http://www.xulplanet.com/references/objref/XULDocument.html"><span style="color: #0000ff;"><span style="text-decoration: underline;">XULDocument</span></span></a>
+<a href="http://www.xulplanet.com/references/objref/XULElement.html"><span style="color: #800080;"><span style="text-decoration: underline;">XULElement</span></span></a>
+<a href="http://www.xulplanet.com/references/objref/XULTemplateBuilder.html"><span style="color: #0000ff;"><span style="text-decoration: underline;">XULTemplateBuilder</span></span></a>
+<a href="http://www.xulplanet.com/references/objref/XULTreeBuilder.html"><span style="text-decoration: underline;"><span style="color: #0000ff;">XULTreeBuilder</span></span></a>
+
+
+
+
+|
+
+</tbody>
+
+
+|
+
+</tbody>
+
+而XUL元素那么多，这些Object是远远不够用的了。比如下面的XUL：
+
+
+
+
+
+<table border="1" cellspacing="0" cellpadding="3">
+<tbody>
+
+<td style="font-size: 8pt;">
+<blockquote dir="ltr">
+<p style="font-size: 10pt;">&nbsp;<menulist&nbsp; id="field-sel" >
+
+
+<p style="font-size: 10pt;"><menupopup>
+
+
+<p style="font-size: 10pt;"><menuitem label="[null]"/>
+
+
+<p style="font-size: 10pt;"></menupopup>
+
+
+<p style="font-size: 10pt;"></menulist>
+
+
+
+
+|
+
+</tbody>
+
+如果我想动态增加几个menuitem元素，那么用XUL DOM提供的API，使用createElement("menuitem") 、appendChild、setAttribute等原始API可以做到：
+
+
+
+
+
+<table style="width: 593px; border-collapse: collapse; height: 27px;" border="1" cellspacing="0" cellpadding="3">
+<tbody>
+
+|
+<blockquote style="margin-right: 0px;" dir="ltr">
+//先找到item的父元素&mdash;&mdash;menupopup：
+
+
+&nbsp;var mups = mlist.getElementsByTagName("menupopup");
+&nbsp;&nbsp;var mup;
+&nbsp;&nbsp;if(!mups.length){
+&nbsp;&nbsp;&nbsp;mup = document.createElement("menupopup");
+&nbsp;&nbsp;&nbsp;mlist.appendChild(mup);
+&nbsp;&nbsp;}
+&nbsp;&nbsp;else{
+&nbsp;&nbsp;&nbsp;mup = mups[0];
+
+
+//删除所有item:
+
+
+while(mup.hasChildNodes())mup.removeChild(mup.firstChild);
+
+
+//添加一个元素:
+&nbsp;&nbsp;var item = document.createElement("menuitem");
+&nbsp;&nbsp;item.setAttribute("label", "[text]");
+&nbsp;&nbsp;item.setAttribute("value", "text");
+&nbsp;&nbsp;mup.appendChild(item);
+
+
+
+
+|
+
+</tbody>
+
+这样写很麻烦。
+
+
+于是我抱着一线希望搜索&ldquo;<a style="color: #3366ff;" href="http://www.google.cn/search?q=XULMenulistElement&sourceid=navclient-ff&ie=UTF-8&rlz=1B3GGGL_zh-CNCN216CN216&aq=t" target="_blank">XULMenulistElement</a>&rdquo;，WOW，找到了这篇《<a class="l" href="http://www.mozilla.org/projects/xul/widgets.html" target="_blank"><span style="text-decoration: underline;"><span style="color: #0000ff;">XUL 1.0</span></span></a>》的文档。哈哈，原来真的有XULMenulistElement接口。看：
+
+
+
+
+
+<table style="width: 622px; border-collapse: collapse; height: 184px;" border="1" cellspacing="0" cellpadding="3">
+<tbody>
+
+|<dl><dl><dt>
+<pre class="idl">interface XULMenuListElement : XULSelectControlElement {
+  attribute boolean editable;
+  attribute boolean open;
+  
+  attribute DOMString label;
+  attribute DOMString crop;
+  attribute DOMString image;
+  
+  // For editable menu lists only.
+  readonly attribute XULTextBoxElement inputField;
+};
+</pre>
+</dt></dl></dl>
+|
+
+</tbody>
+
+不过并没有提供象HTMLSelectElement那样便捷的操作，别着急，我们再看它继承的接口XULSelectControlElement ：
+
+
+
+
+
+<table style="width: 320px; border-collapse: collapse;" border="1" cellspacing="0" cellpadding="3">
+<tbody>
+
+|
+<blockquote style="margin-right: 0px;" dir="ltr">
+<pre class="idl">interface XULSelectControlElement : XULControlElement {
+  attribute XULSelectControlItemElement selectedItem;
+  attribute long selectedIndex;
+
+  attribute DOMString value;
+  
+  XULSelectControlItemElement appendItem(DOMString label, DOMString value);
+  XULSelectControlItemElement insertItemAt(long index, DOMString label, DOMString value);
+  XULSelectControlItemElement removeItemAt(long index);
+};</pre>
+
+
+|
+
+</tbody>
+
+看看，这下好了，selectedIndex、appendItem、insertItemAt、removeItemAt，很方便的方法o(&cap;_&cap;)o...哈哈。
+
+
+经过写代码验证，发现这些属性和方法都是有效的。当通过DOM得到一个menulist元素时，都可以使用上面interface中的属性和方法。但是很奇怪，Mozilla提供了这些接口，也将menulist元素实现了这些接口，却没有将公开这个实现类。上面的代码&ldquo;<menulist&nbsp; id="field-sel" >&rdquo;中，我alert(&nbsp; document.getElementById("field-sel"))打印出来的还是&ldquo; [object XULElement]&rdquo;，很奇怪。
+
+
+当然，这篇《<a class="l" href="http://www.mozilla.org/projects/xul/widgets.html" target="_blank"><span style="text-decoration: underline;"><span style="color: #0000ff;">XUL 1.0</span></span></a>》文档还在建设中，有些接口还没添加进去。比如没有XULTreeElement 接口，发现<a style="color: #3366ff;" href="http://www.mozilla.org/xpfe/xptoolkit/trees.html" target="_blank">这里</a>有XULTreeElement接口的文档：
+
+
+
+
+
+<table style="width: 659px; border-collapse: collapse; height: 27px;" border="1" cellspacing="0" cellpadding="3">
+<tbody>
+
+|
+<blockquote style="margin-right: 0px;" dir="ltr">
+<pre class="code">interface XULTreeElement : XULElement {
+  readonly attribute NodeList selectedItems;
+  readonly attribute NodeList selectedCells;
+                  
+  void selectItem(in XULElement treeItem);
+  void selectCell(in XULElement treeCell);
+                  
+  void clearItemSelection();
+  void clearCellSelection();
+                  
+  void addItemToSelection(in XULElement treeItem);
+  void removeItemFromSelection(in XULElement treeItem);
+                  
+  void addCellToSelection(in XULElement treeCell);
+  void removeCellFromSelection(in XULElement treeCell);
+                  
+  void toggleItemSelection(in XULElement treeItem);
+  void toggleCellSelection(in XULElement treeCell);
+                  
+  void selectItemRange(in XULElement startItem, in XULElement endItem);
+  void selectCellRange(in XULElement startItem, in XULElement endItem);
+                  
+  void selectAll();
+  void invertSelection();
+};</pre>
+
+
+|
+
+</tbody>
+
+也许文档《<a style="color: #3366ff;" href="http://www.mozilla.org/xpfe/xptoolkit/" target="_blank">The XPToolkit Architecture</a>》也值得参考。
+
+
+一些期待更齐全的文档吧。
+
+
+
+

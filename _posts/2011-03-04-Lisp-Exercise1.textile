@@ -1,0 +1,75 @@
+---
+layout: post
+title: 第一个Lisp练习程序
+category: SICP
+---
+
+今天尝试抄了SICP上的sqrt实现, 作为第一个练习程序.
+
+
+{% highlight scheme %}
+(define (sqrt x)  
+
+    (define (goodguess? y ) 
+            (< (abs(- (* y y) x)) 0.001) 
+        )   
+    (define (sqrt-itor guess ) 
+            (if (goodguess? guess ) 
+                guess
+                (sqrt-itor (improve guess ) ))) 
+    (define (improve guess ) 
+        (average guess (/ x guess)))
+    (define (average a b)  
+        (/ (+ a b) 2)) 
+        
+    (sqrt-itor 1.0 ))
+{% endhighlight %}
+
+
+
+在scheme48里面尝试:
+
+
+{% highlight scheme %}
+> ,load-script sqrt.lisp
+> (sqrt 2)
+1.4142156862745097
+{% endhighlight  %}
+
+
+
+有趣的是, 上面的<span style="font-family: 'Courier New', monospace; font-size: 12px; line-height: 18px; white-space: pre;">(sqrt-itor 1.0 )改成</span><span style="font-family: 'Courier New', monospace; font-size: 12px; line-height: 18px; white-space: pre;">(sqrt-itor 1 ), 数值计算的整个过程就全是用*整数*和*分数*来实现了. 没错, scheme48支持*分数*的数据类型:</span>
+
+
+{% highlight scheme %}
+> ,load-script sqrt.lisp
+> (sqrt 2)
+577/408
+
+> (/ 1 100)      
+1/100
+> (/ 3 7)
+3/7
+{% endhighlight  %}
+
+
+
+我现在把<span style="font-family: 'Courier New', monospace; font-size: 12px; line-height: 18px; white-space: pre;">(< (abs(- (* y y) x)) 0.001) 改成</span><span style="font-family: 'Courier New', monospace; font-size: 12px; line-height: 18px; white-space: pre;">(< (abs(- (* y y) x)) 0.0000000000001) </span><span style="font-family: 'Courier New', monospace; font-size: 12px; line-height: 18px; white-space: pre;">&nbsp;</span>
+
+{% highlight scheme %}
+> ,load-script sqrt.lisp
+> (sqrt 2)
+886731088897/627013566048
+> (sqrt 3)
+708158977/408855776
+> (sqrt 5)
+23725150497407/10610209857723
+{% endhighlight  %}
+
+
+
+有趣吧?
+
+
+PS: 这次真的开始学习Lisp了 . 我是受<<a href="http://www.cnblogs.com/Leap-abead/articles/762180.html">Lisp的本质</a>>这篇文章影响.
+

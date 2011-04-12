@@ -1,0 +1,12 @@
+---
+layout: post
+title: Firefox3隆重推出
+category: news
+---
+
+期待已久的Firefox3终于<a href="http://tech.sina.com.cn/i/2008-06-18/01192264703.shtml">隆重</a>推出了，北京时间今天凌晨1点开始是&ldquo;Firefox下载日&rdquo;，而且Firefox.com也重定向到了<a href="http://www.mozillaonline.com/">谋志中国</a>。Firefox不只是浏览器，还是一个很有潜力的开发平台，很值得我们研究啊。
+
+另：安装后我同时安装了<a href="http://toolbar.google.com/firefox/">google toolbar</a>,似乎在证书方面有些问题。Firefox3对Https的证书认证更加严格了，在扩展开发方面也要求做一些<a href="http://developer.mozilla.org/en/docs/Updating_extensions_for_Firefox_3">修改</a>，其他扩展相应的修改可能还要待一段时间才能跟进。
+
+另：今天是个好日子，重新开始写这个blog。快一年没写了，现在和讯blog的留言功能终于有了一些防垃圾机制，欣慰。
+

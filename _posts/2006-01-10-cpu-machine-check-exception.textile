@@ -1,0 +1,54 @@
+---
+layout: post
+title: CPU Machine Check Exception，我可以买彩票去了
+category: life
+---
+
+装fedora core4,图形安装模式下总是在格式硬盘的过程中死机，
+后来使用工具在windows下用PM分好了区然后格式好了，再安装，则图形模式下安装，复制安装文件到硬盘的过程中死机（复制了20％）
+没办法，无法看install.log,只好使用文本模式安装，结果再复制文件到硬盘85％的时候，死机了，报错如下：
+Cpu 0 :Machine Check Exception :00000000000000004
+Bank 4 : f200000000070f0f
+Kernel panic not syncing CPU context corrupt
+
+taMde,简直是医治无效的判决书啊，我怎么这么背呢，应该怎么装呢？
+
+我的系统：
+华擎K8nf4g主板
+AMD 2500
+512M内存
+160G硬盘
+windows分了100G,
+给linux分了50多G，如下
+swap:1G,
+/50多G,
+/boot 100M
+
+<span style="font-weight: bold;">[修改：]</span>
+============================
+<span style="font-size: 13px;">我看到有的文章说编译内核时：
+ --------------------------------
+ [*] Machine Check Exception
+ 如果你的系统出现一些问题比如CPU过热，内核将会在屏幕上打印相关信息来提醒你。这个功能是需要硬件支持的。你可以查看/proc/cpuinfo 看看是否有mce标志，有的话就选吧。如果你十分十分的不幸，选了它之后出现问题，可以在启动时加nomce参数来关闭它。
+ --------------------------------
+ 是不是我也用boot:linux text nomce 的命令启动？？？？？
+
+＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝
+
+看到了这个：</span><span style="font-size: 13px;"><a href="http://windtear.net/archives/2004/06/16/000399.html" target="_blank">http://windtear.net/archives/2004/06/16/000399.html</a>
+ 莫非。。。我判断正确？？
+
+ 试试ing</span>
+
+<span style="font-weight: bold;">[修改：]</span>
+<span id="txtObj_0">
+果然，启动时boot:linux text nomce,进入安装界面，配置好，复制文件很顺利，安装到65%,又出问题了！！！
+
+安装到65%后，系统提示换第二张盘，换盘后就死机了，光驱停了，硬盘灯也不闪了，（键盘NumLock还管用，奇怪）。。。
+
+安装再一次失败
+
+。。。。郁闷啊
+
+想想办法，只装第一章光盘的模块？有难度。。。。。关键是。。。担心我机器还会有其他问题</span>
+

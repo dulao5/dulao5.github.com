@@ -1,0 +1,71 @@
+---
+layout: post
+title: utf8的编码算法 [已完成]
+category: note
+---
+
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; unicode字符集是我们世界上最完善最全面的字符集，几乎包含了世界上所有的字符。其实可以这么理解，unicode字符集是一张巨大的表格，把世界上各种语言的字符和标点符号都编排到里面，然后按照一定的顺序给每个字符排号（很遗憾的是对于中文来说，这个顺序不是按照汉语拼音的顺序）。有了这张巨大的表格，世界上大部分字符就都有一个unicode内码（整数）来对应。计算机就通过记录字符的unicode码来表示这个字符，然后交给操作系统，操作系统通过unicode码到字符字体点阵的映射把这个内码转换成字体点阵显示到我们的屏幕上。
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; utf8是我们常用的编码方式，在web开发中使用utf8编码能完全解决字符集问题。其实utf8是unicode字符集的一种物理实现，它描述了如何高效的存储unicode的内码（就是上面说的字符在字符集的顺序码），RFC2044文档(<a href="/dulao5/%20//www.ietf.org/rfc/rfc2044.txt?number=2044">http: //www.ietf.org/rfc/rfc2044.txt?number=2044</a>)描述了如何从一个内码转换成utf8格式的算法。英文不好没关系，看这个转换表就会马上明白了：
+
+
+&nbsp; UCS-4 range (hex.)&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; UTF-8 octet sequence (binary)
+&nbsp;&nbsp; 0000 0000-0000 007F&nbsp;&nbsp; 0xxxxxxx
+&nbsp;&nbsp; 0000 0080-0000 07FF&nbsp;&nbsp; 110xxxxx 10xxxxxx
+&nbsp;&nbsp; 0000 0800-0000 FFFF&nbsp;&nbsp; 1110xxxx 10xxxxxx 10xxxxxx
+&nbsp;&nbsp; 0001 0000-001F FFFF&nbsp;&nbsp; 11110xxx 10xxxxxx 10xxxxxx 10xxxxxx
+&nbsp;&nbsp; 0020 0000-03FF FFFF&nbsp;&nbsp; 111110xx 10xxxxxx 10xxxxxx 10xxxxxx 10xxxxxx
+&nbsp;&nbsp; 0400 0000-7FFF FFFF&nbsp;&nbsp; 1111110x 10xxxxxx ... 10xxxxxx
+
+
+<p style="margin-right: 0px;" dir="ltr">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 上面的表格左边是16进制表示的unicode内码，最后一行的16进制数&ldquo;7FFF FFFF&rdquo;是utf8所能表示的内码的最大值，换成10进制是这样的一个数：2147483647（够大吧:)）[_对不起，此文最初这儿写错了，已改正_]。上面表格中右边一列就是utf8的二进制格式,转换规则可谓一目了然。我直接给出算法吧(js代码)：
+
+
+<blockquote style="margin-right: 0px;" dir="ltr">
+<p style="margin-right: 0px;" dir="ltr">
+&nbsp;&nbsp;&nbsp;&nbsp;function toUtf8(code)
+&nbsp;&nbsp;&nbsp;&nbsp;{
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;var iByte=0;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;var i=0;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;result="";
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;while(code>0x7f)
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;iByte=code%0x40;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;code=(code-iByte)/0x40;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;result="%"+(iByte|0x80).toString(16).toUpperCase()+result;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;i++;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;prefix=[0x0,0xc0,0xe0,0xf0,0xf8,0xfc];
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if(i>prefix.length)
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;i=5;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;result=""+(code|prefix[i]).toString(16).toUpperCase()+result;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;return result;
+&nbsp;&nbsp;&nbsp;&nbsp;}
+
+
+
+<p style="margin-right: 0px;" dir="ltr">
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 例如字符"汉"的unicode是6C49，把这个unicode字符表示为一个大整数，然后转变成多字节编码110110001001001：
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 观察这个整数的二进制码序列（110，110001，001001）
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 从后往前取
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 如果这个二进制序列只有后7位（小于128,也就是ascii字符）则直接取后7位二进制数形成一个utf8字符。
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 上面的字符&ldquo;汉&rdquo;二进制序列大于7位，所以取后6位(1001001)，加10形成一个utf8字节（10 001001 ,16进制89）。
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 剩下的二进制序列（110，110001）从后向前取6位，加10形成一个utf8字节（10 110001，16进制B1）。
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 剩下的二进制序列（110）从后向前取6位，由于不足6位，将这个数和1110000相或，得到字符11100110，16进制E6
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 最后，就得到了utf8编码，16进制表示为E6B189
+
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;*【应用领域】
+*&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 虽然这种标准算法大部分已经由开发工具提供商或者库实现，但是我们依然会在某些时候需要自己实现这种算法：
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; *<span style="text-decoration: underline;">某些浏览器(ie5)不支持encodeURI函数</span>*，那么使用ajax提交汉字有两种方案：
+&nbsp;&nbsp;&nbsp;&nbs&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 汉字字符经escape转变成形如"%uXXXX"的字符，服务端使用上述算法将u后面的unicode序号转变成utf8字符
+&nbsp;&nbsp;&nbsp;&nbs&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 使用上面的算法结合escape直接在客户端实现encodeURI功能（推荐使用这种方案）
+
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;*<span style="text-decoration: underline;">实现json-rpc服务
+</span>*&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <a href="http://json.org/">json</a>是javascript的对象直接量形式，其中字符串必须是unicode字符，汉字需要转换成"\uXXXX"的形式。所以我们需要把服务端字符进行<a href="http://json.org/">json</a>转变。对于php来说，现在有两个开源项目<a href="http://mike.teczno.com/json.html">JSON-PHP</a>&nbsp;和 <a href="http://www.aurore.net/projects/php-json/">PHP-JSON</a>。
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <a href="http://json-rpc.org/">json-rpc</a>是一种以json为数据格式的rpc协议，可以方便应用与ajax项目中，json-rpc.org是一个开源的实现。
+

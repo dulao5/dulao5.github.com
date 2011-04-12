@@ -1,0 +1,39 @@
+---
+layout: post
+title: ie/firefox/opera使用table的insertRow区别
+category: front-end
+---
+
+ie 、firefox以及其它浏览器对于 table 标签的操作都各不相同，在ie中不允许对table和tr的innerHTML赋值，使用js增加一个tr时，使用appendChile方法也不管用。下面是我就三种浏览器测试的结果：
+
+
+
+
+
+<pre>
+                ie6               firefox           opera   
+--------------------------------------------------------------------------------
+insertRow       支持，而且       支持，             支持，
+                  默认参数-1       但不支持默认参数   支持默认参数0
+                默认添加到最后                      默认添加到最前
+--------------------------------------------------------------------------------
+appendChild     不支持           支持，但是增加     支持，效果同insertRow(-1)
+                               tr后不影响rows     影响rows
+
+</pre>
+dom level 1: http://www.w3.org/TR/2000/WD-DOM-Level-1-20000929/level-one-html.html#ID-64060425
+
+
+最大限度的遵循规范，就能写出安全的、适用性强的代码了:
+
+
+//向table追加一个空行：
+ var otr = otable.insertRow(-1);
+ var otd = document.createElement("td");
+ otd.innerHTML = "&nbsp;"; 
+ otd.className = "XXXX"; 
+ otr.appendChild(otd); 
+
+ 这样就可以运行在这三种浏览器上了
+
+

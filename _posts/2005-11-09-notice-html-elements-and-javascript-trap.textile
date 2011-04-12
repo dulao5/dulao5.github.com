@@ -1,0 +1,938 @@
+---
+layout: post
+title: 小心HTML元素为javascript制造的陷阱
+category: front-end
+---
+
+<p class="MsoNormal" style="margin: 0cm 0cm 0pt;"><span style="font-size: small;">*<span style="font-family: &#23435;&#20307;; mso-ascii-font-family: 'Times New Roman'; mso-hansi-font-family: 'Times New Roman';">小心</span><span lang="EN-US"><span style="font-family: 'Times New Roman';">HTML</span></span>**<span style="font-family: &#23435;&#20307;; mso-ascii-font-family: 'Times New Roman'; mso-hansi-font-family: 'Times New Roman';">元素为</span><span lang="EN-US"><span style="font-family: 'Times New Roman';">javascript</span></span>**<span style="font-family: &#23435;&#20307;; mso-ascii-font-family: 'Times New Roman'; mso-hansi-font-family: 'Times New Roman';">制造的陷阱</span><span lang="EN-US"><!--?xml:namespace prefix = o ns = "urn:schemas-microsoft-com:office:office" /--></span>*</span>
+
+
+<span style="font-size: small;">*
+*</span>
+
+
+
+
+
+<p class="MsoNormal" style="margin: 0cm 0cm 0pt;"><span style="font-size: 10pt;" lang="EN-US">&nbsp;</span>
+
+
+<span style="font-family: 'Times New Roman';">&nbsp;</span>
+
+
+
+
+
+<p class="MsoNormal" style="margin: 0cm 0cm 0pt;">*<span style="font-size: 10pt;" lang="EN-US"><span style="font-family: 'Times New Roman';">1. id=""</span></span>**<span style="font-size: 10pt; font-family: &#23435;&#20307;; mso-ascii-font-family: 'Times New Roman'; mso-hansi-font-family: 'Times New Roman';">造成的恶果</span>**<span style="font-size: 10pt;" lang="EN-US">&nbsp;</span>*
+
+
+*
+*
+
+
+
+
+
+<p class="MsoNormal" style="margin: 0cm 0cm 0pt;"><span style="font-size: 10pt;" lang="EN-US">&nbsp;</span>
+
+
+<span style="font-family: 'Times New Roman';">&nbsp;</span>
+
+
+
+
+
+<p class="MsoNormal" style="margin: 0cm 0cm 0pt;"><span style="font-size: 10pt; font-family: &#23435;&#20307;; mso-ascii-font-family: 'Times New Roman'; mso-hansi-font-family: 'Times New Roman';">假如</span><span style="font-size: 10pt;" lang="EN-US"><span style="font-family: 'Times New Roman';">fun</span></span><span style="font-size: 10pt; font-family: &#23435;&#20307;; mso-ascii-font-family: 'Times New Roman'; mso-hansi-font-family: 'Times New Roman';">是一个对象的成员函数</span><span style="font-size: 10pt;" lang="EN-US">&nbsp;</span>
+
+
+
+
+
+
+
+
+<p class="MsoNormal" style="margin: 0cm 0cm 0pt;"><span style="font-size: 10pt;" lang="EN-US"><span style="font-family: 'Times New Roman';">function AClass(){this.id = "";}</span></span>
+
+
+<span style="font-family: 'Times New Roman';">
+</span>
+
+
+
+
+
+<p class="MsoNormal" style="margin: 0cm 0cm 0pt;"><span style="font-size: 10pt;" lang="EN-US"><span style="font-family: 'Times New Roman';">AClass.prototype.fun = function()</span></span>
+
+
+<span style="font-family: 'Times New Roman';">
+</span>
+
+
+
+
+
+<p class="MsoNormal" style="margin: 0cm 0cm 0pt;"><span style="font-size: 10pt;" lang="EN-US"><span style="font-family: 'Times New Roman';">{</span></span>
+
+
+<span style="font-family: 'Times New Roman';">
+</span>
+
+
+
+
+
+<p class="MsoNormal" style="margin: 0cm 0cm 0pt;"><span style="font-size: 10pt;" lang="EN-US"><span style="font-family: 'Times New Roman';"><span style="mso-spacerun: yes;">&nbsp;&nbsp;&nbsp; </span>var o = document.getElementById(this.id);</span></span>
+
+
+<span style="font-family: 'Times New Roman';">
+</span>
+
+
+
+
+
+<p class="MsoNormal" style="margin: 0cm 0cm 0pt;"><span style="font-size: 10pt;" lang="EN-US"><span style="font-family: 'Times New Roman';"><span style="mso-spacerun: yes;">&nbsp;&nbsp;&nbsp; </span>if(o) {//</span></span><span style="font-size: 10pt; font-family: &#23435;&#20307;; mso-ascii-font-family: 'Times New Roman'; mso-hansi-font-family: 'Times New Roman';">对元素操作</span><span style="font-size: 10pt;" lang="EN-US"><span style="font-family: 'Times New Roman';">......</span></span>
+
+
+<span style="font-family: 'Times New Roman';">
+</span>
+
+
+
+
+
+<p class="MsoNormal" style="margin: 0cm 0cm 0pt;"><span style="font-size: 10pt;" lang="EN-US"><span style="font-family: 'Times New Roman';"><span style="mso-spacerun: yes;">&nbsp;&nbsp;&nbsp; </span>}</span></span>
+
+
+<span style="font-family: 'Times New Roman';">
+</span>
+
+
+
+
+
+<p class="MsoNormal" style="margin: 0cm 0cm 0pt;"><span style="font-size: 10pt;" lang="EN-US"><span style="font-family: 'Times New Roman';">}</span></span>
+
+
+<span style="font-family: 'Times New Roman';">
+</span>
+
+
+
+
+
+<p class="MsoNormal" style="margin: 0cm 0cm 0pt;"><span style="font-size: 10pt; font-family: &#23435;&#20307;; mso-ascii-font-family: 'Times New Roman'; mso-hansi-font-family: 'Times New Roman';">那么，这段代码安全吗？</span><span style="font-size: 10pt;" lang="EN-US">&nbsp;</span>
+
+
+
+
+
+
+
+
+<p class="MsoNormal" style="margin: 0cm 0cm 0pt;"><span style="font-size: 10pt; font-family: &#23435;&#20307;; mso-ascii-font-family: 'Times New Roman'; mso-hansi-font-family: 'Times New Roman';">答案是如果页面</span><span style="font-size: 10pt;" lang="EN-US"><span style="font-family: 'Times New Roman';">html</span></span><span style="font-size: 10pt; font-family: &#23435;&#20307;; mso-ascii-font-family: 'Times New Roman'; mso-hansi-font-family: 'Times New Roman';">代码是规范的，那么代码是安全的。如果</span><span style="font-size: 10pt;" lang="EN-US"><span style="font-family: 'Times New Roman';">html</span></span><span style="font-size: 10pt; font-family: &#23435;&#20307;; mso-ascii-font-family: 'Times New Roman'; mso-hansi-font-family: 'Times New Roman';">代码不规范，就会出问题。看下面的</span><span style="font-size: 10pt;" lang="EN-US"><span style="font-family: 'Times New Roman';">html</span></span><span style="font-size: 10pt; font-family: &#23435;&#20307;; mso-ascii-font-family: 'Times New Roman'; mso-hansi-font-family: 'Times New Roman';">代码</span><span style="font-size: 10pt;" lang="EN-US"><span style="font-family: 'Times New Roman';">,</span></span><span style="font-size: 10pt; font-family: &#23435;&#20307;; mso-ascii-font-family: 'Times New Roman'; mso-hansi-font-family: 'Times New Roman';">在</span><span style="font-size: 10pt;" lang="EN-US"><span style="font-family: 'Times New Roman';">ie</span></span><span style="font-size: 10pt; font-family: &#23435;&#20307;; mso-ascii-font-family: 'Times New Roman'; mso-hansi-font-family: 'Times New Roman';">下的结果一定让你惊讶：</span><span style="font-size: 10pt;" lang="EN-US">&nbsp;</span>
+
+
+
+
+
+
+
+
+<p class="MsoNormal" style="margin: 0cm 0cm 0pt;"><span style="font-size: 10pt;" lang="EN-US"><span style="font-family: 'Times New Roman';"><input name="" id="test333" type="text" ></span></span>
+
+
+<span style="font-family: 'Times New Roman';">
+</span>
+
+
+
+
+
+<p class="MsoNormal" style="margin: 0cm 0cm 0pt;"><span style="font-size: 10pt;" lang="EN-US"><span style="font-family: 'Times New Roman';"><input name="" id="" type="text"></span></span>
+
+
+<span style="font-family: 'Times New Roman';">
+</span>
+
+
+
+
+
+<p class="MsoNormal" style="margin: 0cm 0cm 0pt;"><span style="font-size: 10pt;" lang="EN-US"><span style="font-family: 'Times New Roman';"><script language="JavaScript"></span></span>
+
+
+<span style="font-family: 'Times New Roman';">
+</span>
+
+
+
+
+
+<p class="MsoNormal" style="margin: 0cm 0cm 0pt;"><span style="font-size: 10pt;" lang="EN-US"><span style="font-family: 'Times New Roman';">var o = document.getElementById("");</span></span>
+
+
+<span style="font-family: 'Times New Roman';">
+</span>
+
+
+
+
+
+<p class="MsoNormal" style="margin: 0cm 0cm 0pt;"><span style="font-size: 10pt;" lang="EN-US"><span style="font-family: 'Times New Roman';">alert(o)</span></span>
+
+
+<span style="font-family: 'Times New Roman';">
+</span>
+
+
+
+
+
+<p class="MsoNormal" style="margin: 0cm 0cm 0pt;"><span style="font-size: 10pt;" lang="EN-US"><span style="font-family: 'Times New Roman';"></script></span></span>
+
+
+<span style="font-family: 'Times New Roman';">
+</span>
+
+
+
+
+
+<p class="MsoNormal" style="margin: 0cm 0cm 0pt;"><span style="font-size: 10pt; font-family: &#23435;&#20307;; mso-ascii-font-family: 'Times New Roman'; mso-hansi-font-family: 'Times New Roman';">仔细想想，</span><span style="font-size: 10pt;" lang="EN-US"><span style="font-family: 'Times New Roman';">ie</span></span><span style="font-size: 10pt; font-family: &#23435;&#20307;; mso-ascii-font-family: 'Times New Roman'; mso-hansi-font-family: 'Times New Roman';">这么做也是有它的&ldquo;道理&rdquo;的。但是导致</span><span style="font-size: 10pt;" lang="EN-US"><span style="font-family: 'Times New Roman';">document.getElementById("")</span></span><span style="font-size: 10pt; font-family: &#23435;&#20307;; mso-ascii-font-family: 'Times New Roman'; mso-hansi-font-family: 'Times New Roman';">能返回对象，还是会吓人一跳。</span><span style="font-size: 10pt;" lang="EN-US"><span style="font-family: 'Times New Roman';">firefox</span></span><span style="font-size: 10pt; font-family: &#23435;&#20307;; mso-ascii-font-family: 'Times New Roman'; mso-hansi-font-family: 'Times New Roman';">下没有这种情况。</span><span style="font-size: 10pt;" lang="EN-US">&nbsp;</span>
+
+
+
+
+
+
+
+
+<p class="MsoNormal" style="margin: 0cm 0cm 0pt;"><span style="font-size: 10pt;" lang="EN-US">&nbsp;</span>
+
+
+<span style="font-family: 'Times New Roman';">&nbsp;</span>
+
+
+
+
+
+<p class="MsoNormal" style="margin: 0cm 0cm 0pt;">*<span style="font-size: 10pt;" lang="EN-US"><span style="font-family: 'Times New Roman';">2. element.id </span></span>**<span style="font-size: 10pt; font-family: &#23435;&#20307;; mso-ascii-font-family: 'Times New Roman'; mso-hansi-font-family: 'Times New Roman';">读取</span>**<span style="font-size: 10pt;" lang="EN-US"><span style="font-family: 'Times New Roman';">element</span></span>**<span style="font-size: 10pt; font-family: &#23435;&#20307;; mso-ascii-font-family: 'Times New Roman'; mso-hansi-font-family: 'Times New Roman';">的</span>**<span style="font-size: 10pt;" lang="EN-US"><span style="font-family: 'Times New Roman';">id</span></span>**<span style="font-size: 10pt; font-family: &#23435;&#20307;; mso-ascii-font-family: 'Times New Roman'; mso-hansi-font-family: 'Times New Roman';">属性（</span>**<span style="font-size: 10pt;" lang="EN-US"><span style="font-family: 'Times New Roman';">Attribute</span></span>**<span style="font-size: 10pt; font-family: &#23435;&#20307;; mso-ascii-font-family: 'Times New Roman'; mso-hansi-font-family: 'Times New Roman';">），安全吗？</span>**<span style="font-size: 10pt;" lang="EN-US">&nbsp;</span>*
+
+
+*
+*
+
+
+
+
+
+<p class="MsoNormal" style="margin: 0cm 0cm 0pt;"><span style="font-size: 10pt;" lang="EN-US">&nbsp;</span>
+
+
+<span style="font-family: 'Times New Roman';">&nbsp;</span>
+
+
+
+
+
+<p class="MsoNormal" style="margin: 0cm 0cm 0pt;"><span style="font-size: 10pt; font-family: &#23435;&#20307;; mso-ascii-font-family: 'Times New Roman'; mso-hansi-font-family: 'Times New Roman';">我写了这么一段代码，在</span><span style="font-size: 10pt;" lang="EN-US"><span style="font-family: 'Times New Roman';">HTML Dom</span></span><span style="font-size: 10pt; font-family: &#23435;&#20307;; mso-ascii-font-family: 'Times New Roman'; mso-hansi-font-family: 'Times New Roman';">中一个子树依据节点</span><span style="font-size: 10pt;" lang="EN-US"><span style="font-family: 'Times New Roman';">ID</span></span><span style="font-size: 10pt; font-family: &#23435;&#20307;; mso-ascii-font-family: 'Times New Roman'; mso-hansi-font-family: 'Times New Roman';">返回节点对象：</span><span style="font-size: 10pt;" lang="EN-US">&nbsp;</span>
+
+
+
+
+
+
+
+
+<p class="MsoNormal" style="margin: 0cm 0cm 0pt;"><span style="font-size: 10pt;" lang="EN-US"><span style="font-family: 'Times New Roman';"><span style="mso-spacerun: yes;">&nbsp;&nbsp;&nbsp; </span>function __getElement(oRoot,id)</span></span>
+
+
+<span style="font-family: 'Times New Roman';">
+</span>
+
+
+
+
+
+<p class="MsoNormal" style="margin: 0cm 0cm 0pt;"><span style="font-size: 10pt;" lang="EN-US"><span style="font-family: 'Times New Roman';"><span style="mso-spacerun: yes;">&nbsp;&nbsp;&nbsp; </span>{</span></span>
+
+
+<span style="font-family: 'Times New Roman';">
+</span>
+
+
+
+
+
+<p class="MsoNormal" style="margin: 0cm 0cm 0pt;"><span style="font-size: 10pt;" lang="EN-US"><span style="font-family: 'Times New Roman';"><span style="mso-spacerun: yes;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span>if (oRoot.id == id)</span></span>
+
+
+<span style="font-family: 'Times New Roman';">
+</span>
+
+
+
+
+
+<p class="MsoNormal" style="margin: 0cm 0cm 0pt;"><span style="font-size: 10pt;" lang="EN-US"><span style="font-family: 'Times New Roman';"><span style="mso-spacerun: yes;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span>{</span></span>
+
+
+<span style="font-family: 'Times New Roman';">
+</span>
+
+
+
+
+
+<p class="MsoNormal" style="margin: 0cm 0cm 0pt;"><span style="font-size: 10pt;" lang="EN-US"><span style="font-family: 'Times New Roman';"><span style="mso-spacerun: yes;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span>return oRoot;</span></span>
+
+
+<span style="font-family: 'Times New Roman';">
+</span>
+
+
+
+
+
+<p class="MsoNormal" style="margin: 0cm 0cm 0pt;"><span style="font-size: 10pt;" lang="EN-US"><span style="font-family: 'Times New Roman';"><span style="mso-spacerun: yes;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span>}</span></span>
+
+
+<span style="font-family: 'Times New Roman';">
+</span>
+
+
+
+
+
+<p class="MsoNormal" style="margin: 0cm 0cm 0pt;"><span style="font-size: 10pt;" lang="EN-US"><span style="font-family: 'Times New Roman';"><span style="mso-spacerun: yes;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span>if (oRoot.hasChildNodes())</span></span>
+
+
+<span style="font-family: 'Times New Roman';">
+</span>
+
+
+
+
+
+<p class="MsoNormal" style="margin: 0cm 0cm 0pt;"><span style="font-size: 10pt;" lang="EN-US"><span style="font-family: 'Times New Roman';"><span style="mso-spacerun: yes;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span>{</span></span>
+
+
+<span style="font-family: 'Times New Roman';">
+</span>
+
+
+
+
+
+<p class="MsoNormal" style="margin: 0cm 0cm 0pt;"><span style="font-size: 10pt;" lang="EN-US"><span style="font-family: 'Times New Roman';"><span style="mso-spacerun: yes;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span>//.........</span></span><span style="font-size: 10pt; font-family: &#23435;&#20307;; mso-ascii-font-family: 'Times New Roman'; mso-hansi-font-family: 'Times New Roman';">递归遍历子元素</span><span style="font-size: 10pt;" lang="EN-US">&nbsp;</span>
+
+
+
+
+
+
+
+
+<p class="MsoNormal" style="margin: 0cm 0cm 0pt;"><span style="font-size: 10pt;" lang="EN-US"><span style="font-family: 'Times New Roman';"><span style="mso-spacerun: yes;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span>}</span></span>
+
+
+<span style="font-family: 'Times New Roman';">
+</span>
+
+
+
+
+
+<p class="MsoNormal" style="margin: 0cm 0cm 0pt;"><span style="font-size: 10pt;" lang="EN-US"><span style="font-family: 'Times New Roman';"><span style="mso-spacerun: yes;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span>else</span></span>
+
+
+<span style="font-family: 'Times New Roman';">
+</span>
+
+
+
+
+
+<p class="MsoNormal" style="margin: 0cm 0cm 0pt;"><span style="font-size: 10pt;" lang="EN-US"><span style="font-family: 'Times New Roman';"><span style="mso-spacerun: yes;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span>return null;</span></span>
+
+
+<span style="font-family: 'Times New Roman';">
+</span>
+
+
+
+
+
+<p class="MsoNormal" style="margin: 0cm 0cm 0pt;"><span style="font-size: 10pt;" lang="EN-US"><span style="font-family: 'Times New Roman';"><span style="mso-spacerun: yes;">&nbsp;&nbsp;&nbsp; </span>}</span></span>
+
+
+<span style="font-family: 'Times New Roman';">
+</span>
+
+
+
+
+
+<p class="MsoNormal" style="margin: 0cm 0cm 0pt;"><span style="font-size: 10pt; font-family: &#23435;&#20307;; mso-ascii-font-family: 'Times New Roman'; mso-hansi-font-family: 'Times New Roman';">在运行时对元素的</span><span style="font-size: 10pt;" lang="EN-US"><span style="font-family: 'Times New Roman';">id</span></span><span style="font-size: 10pt; font-family: &#23435;&#20307;; mso-ascii-font-family: 'Times New Roman'; mso-hansi-font-family: 'Times New Roman';">进行判断，以查找元素，发现在某种情况下，会发生问题。看：</span><span style="font-size: 10pt;" lang="EN-US">&nbsp;</span>
+
+
+
+
+
+
+
+
+<p class="MsoNormal" style="margin: 0cm 0cm 0pt;"><span style="font-size: 10pt;" lang="EN-US"><span style="font-family: 'Times New Roman';"><form method="post"<span style="mso-spacerun: yes;">&nbsp; </span>action="" id="form1" name="form1" style="display:block" onsubmit="return false;"></span></span>
+
+
+<span style="font-family: 'Times New Roman';">
+</span>
+
+
+
+
+
+<p class="MsoNormal" style="margin: 0cm 0cm 0pt;"><span style="font-size: 10pt;" lang="EN-US"><span style="font-family: 'Times New Roman';"><input type="text" name="id" ></span></span>
+
+
+<span style="font-family: 'Times New Roman';">
+</span>
+
+
+
+
+
+<p class="MsoNormal" style="margin: 0cm 0cm 0pt;"><span style="font-size: 10pt;" lang="EN-US"><span style="font-family: 'Times New Roman';"><input type="text" name="kkkk" ></span></span>
+
+
+<span style="font-family: 'Times New Roman';">
+</span>
+
+
+
+
+
+<p class="MsoNormal" style="margin: 0cm 0cm 0pt;"><span style="font-size: 10pt;" lang="EN-US"><span style="font-family: 'Times New Roman';"></form></span></span>
+
+
+<span style="font-family: 'Times New Roman';">
+</span>
+
+
+
+
+
+<p class="MsoNormal" style="margin: 0cm 0cm 0pt;"><span style="font-size: 10pt;" lang="EN-US"><span style="font-family: 'Times New Roman';"><script language="JavaScript"></span></span>
+
+
+<span style="font-family: 'Times New Roman';">
+</span>
+
+
+
+
+
+<p class="MsoNormal" style="margin: 0cm 0cm 0pt;"><span style="font-size: 10pt;" lang="EN-US"><span style="font-family: 'Times New Roman';">alert(document.getElementById("form1").id)</span></span>
+
+
+<span style="font-family: 'Times New Roman';">
+</span>
+
+
+
+
+
+<p class="MsoNormal" style="margin: 0cm 0cm 0pt;"><span style="font-size: 10pt;" lang="EN-US"><span style="font-family: 'Times New Roman';"></script></span></span>
+
+
+<span style="font-family: 'Times New Roman';">
+</span>
+
+
+
+
+
+<p class="MsoNormal" style="margin: 0cm 0cm 0pt;"><span style="font-size: 10pt; font-family: &#23435;&#20307;; mso-ascii-font-family: 'Times New Roman'; mso-hansi-font-family: 'Times New Roman';">运行结果是什么？输出：</span><span style="font-size: 10pt;" lang="EN-US"><span style="font-family: 'Times New Roman';">[object HtmlInputElement]</span></span><span style="font-size: 10pt; font-family: &#23435;&#20307;; mso-ascii-font-family: 'Times New Roman'; mso-hansi-font-family: 'Times New Roman';">！</span><span style="font-size: 10pt;" lang="EN-US">&nbsp;</span>
+
+
+
+
+
+
+
+
+<p class="MsoNormal" style="margin: 0cm 0cm 0pt;"><span style="font-size: 10pt; font-family: &#23435;&#20307;; mso-ascii-font-family: 'Times New Roman'; mso-hansi-font-family: 'Times New Roman';">哈哈，还记得吗？浏览器为了方便我们访问</span><span style="font-size: 10pt;" lang="EN-US"><span style="font-family: 'Times New Roman';">form</span></span><span style="font-size: 10pt; font-family: &#23435;&#20307;; mso-ascii-font-family: 'Times New Roman'; mso-hansi-font-family: 'Times New Roman';">中的子元素，约定可以使用</span><span style="font-size: 10pt;" lang="EN-US"><span style="font-family: 'Times New Roman';">document.form1.kkkk</span></span><span style="font-size: 10pt; font-family: &#23435;&#20307;; mso-ascii-font-family: 'Times New Roman'; mso-hansi-font-family: 'Times New Roman';">的方式逐级访问表单元素。那么很自然的，如果表单元素中有</span><span style="font-size: 10pt;" lang="EN-US"><span style="font-family: 'Times New Roman';">name="id"</span></span><span style="font-size: 10pt; font-family: &#23435;&#20307;; mso-ascii-font-family: 'Times New Roman'; mso-hansi-font-family: 'Times New Roman';">的元素，那么当然就&ldquo;覆盖&rdquo;了</span><span style="font-size: 10pt;" lang="EN-US"><span style="font-family: 'Times New Roman';">form1</span></span><span style="font-size: 10pt; font-family: &#23435;&#20307;; mso-ascii-font-family: 'Times New Roman'; mso-hansi-font-family: 'Times New Roman';">的</span><span style="font-size: 10pt;" lang="EN-US"><span style="font-family: 'Times New Roman';">id</span></span><span style="font-size: 10pt; font-family: &#23435;&#20307;; mso-ascii-font-family: 'Times New Roman'; mso-hansi-font-family: 'Times New Roman';">属性。</span><span style="font-size: 10pt;" lang="EN-US">&nbsp;</span>
+
+
+
+
+
+
+
+
+<p class="MsoNormal" style="margin: 0cm 0cm 0pt;"><span style="font-size: 10pt; font-family: &#23435;&#20307;; mso-ascii-font-family: 'Times New Roman'; mso-hansi-font-family: 'Times New Roman';">如果你熟悉</span><span style="font-size: 10pt;" lang="EN-US"><span style="font-family: 'Times New Roman';">DOM API</span></span><span style="font-size: 10pt; font-family: &#23435;&#20307;; mso-ascii-font-family: 'Times New Roman'; mso-hansi-font-family: 'Times New Roman';">，你可能会告诉我，&ldquo;使用</span><span style="font-size: 10pt;" lang="EN-US"><span style="font-family: 'Times New Roman';">getAttribute</span></span><span style="font-size: 10pt; font-family: &#23435;&#20307;; mso-ascii-font-family: 'Times New Roman'; mso-hansi-font-family: 'Times New Roman';">更安全一些&rdquo;。</span><span style="font-size: 10pt;" lang="EN-US">&nbsp;</span>
+
+
+
+
+
+
+
+
+<p class="MsoNormal" style="margin: 0cm 0cm 0pt;"><span style="font-size: 10pt; font-family: &#23435;&#20307;; mso-ascii-font-family: 'Times New Roman'; mso-hansi-font-family: 'Times New Roman';">没错，改成这样，</span><span style="font-size: 10pt;" lang="EN-US"><span style="font-family: 'Times New Roman';">firefox</span></span><span style="font-size: 10pt; font-family: &#23435;&#20307;; mso-ascii-font-family: 'Times New Roman'; mso-hansi-font-family: 'Times New Roman';">下就正常了：</span><span style="font-size: 10pt;" lang="EN-US">&nbsp;</span>
+
+
+
+
+
+
+
+
+<p class="MsoNormal" style="margin: 0cm 0cm 0pt;"><span style="font-size: 10pt;" lang="EN-US"><span style="font-family: 'Times New Roman';"><script language="JavaScript"></span></span>
+
+
+<span style="font-family: 'Times New Roman';">
+</span>
+
+
+
+
+
+<p class="MsoNormal" style="margin: 0cm 0cm 0pt;"><span style="font-size: 10pt;" lang="EN-US"><span style="font-family: 'Times New Roman';">alert(document.getElementById("form1").getAttribute("id"))</span></span>
+
+
+<span style="font-family: 'Times New Roman';">
+</span>
+
+
+
+
+
+<p class="MsoNormal" style="margin: 0cm 0cm 0pt;"><span style="font-size: 10pt;" lang="EN-US"><span style="font-family: 'Times New Roman';"></script></span></span>
+
+
+<span style="font-family: 'Times New Roman';">
+</span>
+
+
+
+
+
+<p class="MsoNormal" style="margin: 0cm 0cm 0pt;"><span style="font-size: 10pt; font-family: &#23435;&#20307;; mso-ascii-font-family: 'Times New Roman'; mso-hansi-font-family: 'Times New Roman';">终于，这样使用更加严禁了，</span><span style="font-size: 10pt;" lang="EN-US"><span style="font-family: 'Times New Roman';">form1</span></span><span style="font-size: 10pt; font-family: &#23435;&#20307;; mso-ascii-font-family: 'Times New Roman'; mso-hansi-font-family: 'Times New Roman';">的</span><span style="font-size: 10pt;" lang="EN-US"><span style="font-family: 'Times New Roman';">id</span></span><span style="font-size: 10pt; font-family: &#23435;&#20307;; mso-ascii-font-family: 'Times New Roman'; mso-hansi-font-family: 'Times New Roman';">属性</span><span style="font-size: 10pt;" lang="EN-US"><span style="font-family: 'Times New Roman';">(property)</span></span><span style="font-size: 10pt; font-family: &#23435;&#20307;; mso-ascii-font-family: 'Times New Roman'; mso-hansi-font-family: 'Times New Roman';">被</span><span style="font-size: 10pt;" lang="EN-US"><span style="font-family: 'Times New Roman';">name="id"</span></span><span style="font-size: 10pt; font-family: &#23435;&#20307;; mso-ascii-font-family: 'Times New Roman'; mso-hansi-font-family: 'Times New Roman';">的</span><span style="font-size: 10pt;" lang="EN-US"><span style="font-family: 'Times New Roman';">input</span></span><span style="font-size: 10pt; font-family: &#23435;&#20307;; mso-ascii-font-family: 'Times New Roman'; mso-hansi-font-family: 'Times New Roman';">控件覆盖，那么我们使用</span><span style="font-size: 10pt;" lang="EN-US"><span style="font-family: 'Times New Roman';">getAttribute</span></span><span style="font-size: 10pt; font-family: &#23435;&#20307;; mso-ascii-font-family: 'Times New Roman'; mso-hansi-font-family: 'Times New Roman';">访问</span><span style="font-size: 10pt;" lang="EN-US"><span style="font-family: 'Times New Roman';"><form ></span></span><span style="font-size: 10pt; font-family: &#23435;&#20307;; mso-ascii-font-family: 'Times New Roman'; mso-hansi-font-family: 'Times New Roman';">标签下的</span><span style="font-size: 10pt;" lang="EN-US"><span style="font-family: 'Times New Roman';">arrtibute</span></span><span style="font-size: 10pt; font-family: &#23435;&#20307;; mso-ascii-font-family: 'Times New Roman'; mso-hansi-font-family: 'Times New Roman';">当然应该可以得到正确的结果。</span><span style="font-size: 10pt;" lang="EN-US">&nbsp;</span>
+
+
+
+
+
+
+
+
+<p class="MsoNormal" style="margin: 0cm 0cm 0pt;"><span style="font-size: 10pt;" lang="EN-US">&nbsp;</span>
+
+
+<span style="font-family: 'Times New Roman';">&nbsp;</span>
+
+
+
+
+
+<p class="MsoNormal" style="margin: 0cm 0cm 0pt;"><span style="font-size: 10pt; font-family: &#23435;&#20307;; mso-ascii-font-family: 'Times New Roman'; mso-hansi-font-family: 'Times New Roman';">但是很不幸，</span><span style="font-size: 10pt;" lang="EN-US"><span style="font-family: 'Times New Roman';">ie</span></span><span style="font-size: 10pt; font-family: &#23435;&#20307;; mso-ascii-font-family: 'Times New Roman'; mso-hansi-font-family: 'Times New Roman';">下还是问题依旧，</span><span style="font-size: 10pt;" lang="EN-US"><span style="font-family: 'Times New Roman';">document.getElementById("form1").getAttribute("id")</span></span><span style="font-size: 10pt; font-family: &#23435;&#20307;; mso-ascii-font-family: 'Times New Roman'; mso-hansi-font-family: 'Times New Roman';">得到的还是</span><span style="font-size: 10pt;" lang="EN-US"><span style="font-family: 'Times New Roman';"> HtmlInputElement</span></span>
+
+
+<span style="font-family: 'Times New Roman';">
+</span>
+
+
+
+
+
+<p class="MsoNormal" style="margin: 0cm 0cm 0pt;"><span style="font-size: 10pt;" lang="EN-US">&nbsp;</span>
+
+
+<span style="font-family: 'Times New Roman';">&nbsp;</span>
+
+
+
+
+
+<p class="MsoNormal" style="margin: 0cm 0cm 0pt;"><span style="font-size: 10pt; font-family: &#23435;&#20307;; mso-ascii-font-family: 'Times New Roman'; mso-hansi-font-family: 'Times New Roman';">这是为什么呢？请往下看：</span><span style="font-size: 10pt;" lang="EN-US">&nbsp;</span>
+
+
+
+
+
+
+
+
+<p class="MsoNormal" style="margin: 0cm 0cm 0pt;"><span style="font-size: 10pt;" lang="EN-US">&nbsp;</span>
+
+
+<span style="font-family: 'Times New Roman';">&nbsp;</span>
+
+
+
+
+
+<p class="MsoNormal" style="margin: 0cm 0cm 0pt;">*<span style="font-size: 10pt;" lang="EN-US"><span style="font-family: 'Times New Roman';">3. IE</span></span>**<span style="font-size: 10pt; font-family: &#23435;&#20307;; mso-ascii-font-family: 'Times New Roman'; mso-hansi-font-family: 'Times New Roman';">下</span>**<span style="font-size: 10pt;" lang="EN-US"><span style="font-family: 'Times New Roman';">Form</span></span>**<span style="font-size: 10pt; font-family: &#23435;&#20307;; mso-ascii-font-family: 'Times New Roman'; mso-hansi-font-family: 'Times New Roman';">的</span>**<span style="font-size: 10pt;" lang="EN-US"><span style="font-family: 'Times New Roman';">Attribute</span></span>**<span style="font-size: 10pt; font-family: &#23435;&#20307;; mso-ascii-font-family: 'Times New Roman'; mso-hansi-font-family: 'Times New Roman';">自作聪明之处</span>**<span style="font-size: 10pt;" lang="EN-US">&nbsp;</span>*
+
+
+*
+*
+
+
+
+
+
+<p class="MsoNormal" style="margin: 0cm 0cm 0pt;"><span style="font-size: 10pt; font-family: &#23435;&#20307;; mso-ascii-font-family: 'Times New Roman'; mso-hansi-font-family: 'Times New Roman';">请在</span><span style="font-size: 10pt;" lang="EN-US"><span style="font-family: 'Times New Roman';">ie</span></span><span style="font-size: 10pt; font-family: &#23435;&#20307;; mso-ascii-font-family: 'Times New Roman'; mso-hansi-font-family: 'Times New Roman';">和</span><span style="font-size: 10pt;" lang="EN-US"><span style="font-family: 'Times New Roman';">firefox</span></span><span style="font-size: 10pt; font-family: &#23435;&#20307;; mso-ascii-font-family: 'Times New Roman'; mso-hansi-font-family: 'Times New Roman';">下验证下面的代码：</span><span style="font-size: 10pt;" lang="EN-US">&nbsp;</span>
+
+
+
+
+
+
+
+
+<p class="MsoNormal" style="margin: 0cm 0cm 0pt;"><span style="font-size: 10pt;" lang="EN-US"><span style="font-family: 'Times New Roman';"><form method="post"<span style="mso-spacerun: yes;">&nbsp; </span>action="" name="form1" style="display:block" onsubmit="return false;"></span></span>
+
+
+<span style="font-family: 'Times New Roman';">
+</span>
+
+
+
+
+
+<p class="MsoNormal" style="margin: 0cm 0cm 0pt;"><span style="font-size: 10pt;" lang="EN-US"><span style="font-family: 'Times New Roman';"><input type="text" name="aaa" id="1111"></span></span>
+
+
+<span style="font-family: 'Times New Roman';">
+</span>
+
+
+
+
+
+<p class="MsoNormal" style="margin: 0cm 0cm 0pt;"><span style="font-size: 10pt;" lang="EN-US"><span style="font-family: 'Times New Roman';"><input type="text" name="bbb" id="2222"></span></span>
+
+
+<span style="font-family: 'Times New Roman';">
+</span>
+
+
+
+
+
+<p class="MsoNormal" style="margin: 0cm 0cm 0pt;"><span style="font-size: 10pt;" lang="EN-US"><span style="font-family: 'Times New Roman';"><input type="text" name="style" value="vvvvvv" ></span></span>
+
+
+<span style="font-family: 'Times New Roman';">
+</span>
+
+
+
+
+
+<p class="MsoNormal" style="margin: 0cm 0cm 0pt;"><span style="font-size: 10pt;" lang="EN-US"><span style="font-family: 'Times New Roman';"><input type="text" name="onsubmit" value="SSSSSS"></span></span>
+
+
+<span style="font-family: 'Times New Roman';">
+</span>
+
+
+
+
+
+<p class="MsoNormal" style="margin: 0cm 0cm 0pt;"><span style="font-size: 10pt;" lang="EN-US"><span style="font-family: 'Times New Roman';"></form></span></span>
+
+
+<span style="font-family: 'Times New Roman';">
+</span>
+
+
+
+
+
+<p class="MsoNormal" style="margin: 0cm 0cm 0pt;"><span style="font-size: 10pt;" lang="EN-US"><span style="font-family: 'Times New Roman';"><script language="JavaScript"></span></span>
+
+
+<span style="font-family: 'Times New Roman';">
+</span>
+
+
+
+
+
+<p class="MsoNormal" style="margin: 0cm 0cm 0pt;"><span style="font-size: 10pt;" lang="EN-US"><span style="font-family: 'Times New Roman';"><!--</span></span>
+
+
+<span style="font-family: 'Times New Roman';">
+</span>
+
+
+
+
+
+<p class="MsoNormal" style="margin: 0cm 0cm 0pt;"><span style="font-size: 10pt;" lang="EN-US"><span style="font-family: 'Times New Roman';">try{</span></span>
+
+
+<span style="font-family: 'Times New Roman';">
+</span>
+
+
+
+
+
+<p class="MsoNormal" style="margin: 0cm 0cm 0pt;"><span style="font-size: 10pt;" lang="EN-US"><span style="font-family: 'Times New Roman';"><span style="mso-spacerun: yes;">&nbsp;&nbsp;&nbsp; </span>alert("getAttribute(aaa).id:\n"+document.form1.getAttribute("aaa").id);<span style="mso-spacerun: yes;">&nbsp;&nbsp;&nbsp; </span></span></span>
+
+
+<span style="font-family: 'Times New Roman';">
+</span>
+
+
+
+
+
+<p class="MsoNormal" style="margin: 0cm 0cm 0pt;"><span style="font-size: 10pt;" lang="EN-US"><span style="font-family: 'Times New Roman';"><span style="mso-spacerun: yes;">&nbsp;&nbsp;&nbsp; </span>}catch(e){}</span></span>
+
+
+<span style="font-family: 'Times New Roman';">
+</span>
+
+
+
+
+
+<p class="MsoNormal" style="margin: 0cm 0cm 0pt;"><span style="font-size: 10pt;" lang="EN-US"><span style="font-family: 'Times New Roman';">try{</span></span>
+
+
+<span style="font-family: 'Times New Roman';">
+</span>
+
+
+
+
+
+<p class="MsoNormal" style="margin: 0cm 0cm 0pt;"><span style="font-size: 10pt;" lang="EN-US"><span style="font-family: 'Times New Roman';"><span style="mso-spacerun: yes;">&nbsp;&nbsp;&nbsp; </span>alert("getAttribute(bbb).id:\n"+document.form1.getAttribute("bbb").id);<span style="mso-spacerun: yes;">&nbsp;&nbsp;&nbsp; </span></span></span>
+
+
+<span style="font-family: 'Times New Roman';">
+</span>
+
+
+
+
+
+<p class="MsoNormal" style="margin: 0cm 0cm 0pt;"><span style="font-size: 10pt;" lang="EN-US"><span style="font-family: 'Times New Roman';"><span style="mso-spacerun: yes;">&nbsp;&nbsp;&nbsp; </span>}catch(e){}</span></span>
+
+
+<span style="font-family: 'Times New Roman';">
+</span>
+
+
+
+
+
+<p class="MsoNormal" style="margin: 0cm 0cm 0pt;"><span style="font-size: 10pt;" lang="EN-US"><span style="font-family: 'Times New Roman';">try{</span></span>
+
+
+<span style="font-family: 'Times New Roman';">
+</span>
+
+
+
+
+
+<p class="MsoNormal" style="margin: 0cm 0cm 0pt;"><span style="font-size: 10pt;" lang="EN-US"><span style="font-family: 'Times New Roman';"><span style="mso-spacerun: yes;">&nbsp;&nbsp;&nbsp; </span>alert("getAttribute(style).value:\n"+document.form1.getAttribute("style").value);<span style="mso-spacerun: yes;">&nbsp;&nbsp;&nbsp; </span></span></span>
+
+
+<span style="font-family: 'Times New Roman';">
+</span>
+
+
+
+
+
+<p class="MsoNormal" style="margin: 0cm 0cm 0pt;"><span style="font-size: 10pt;" lang="EN-US"><span style="font-family: 'Times New Roman';"><span style="mso-spacerun: yes;">&nbsp;&nbsp;&nbsp; </span>}catch(e){}</span></span>
+
+
+<span style="font-family: 'Times New Roman';">
+</span>
+
+
+
+
+
+<p class="MsoNormal" style="margin: 0cm 0cm 0pt;"><span style="font-size: 10pt;" lang="EN-US"><span style="font-family: 'Times New Roman';">try{</span></span>
+
+
+<span style="font-family: 'Times New Roman';">
+</span>
+
+
+
+
+
+<p class="MsoNormal" style="margin: 0cm 0cm 0pt;"><span style="font-size: 10pt;" lang="EN-US"><span style="font-family: 'Times New Roman';"><span style="mso-spacerun: yes;">&nbsp;&nbsp;&nbsp; </span>alert("getAttribute(onsubmit).value:\n"+document.form1.getAttribute("onsubmit").value);</span></span>
+
+
+<span style="font-family: 'Times New Roman';">
+</span>
+
+
+
+
+
+<p class="MsoNormal" style="margin: 0cm 0cm 0pt;"><span style="font-size: 10pt;" lang="EN-US"><span style="font-family: 'Times New Roman';"><span style="mso-spacerun: yes;">&nbsp;&nbsp;&nbsp; </span>}catch(e){}</span></span>
+
+
+<span style="font-family: 'Times New Roman';">
+</span>
+
+
+
+
+
+<p class="MsoNormal" style="margin: 0cm 0cm 0pt;"><span style="font-size: 10pt;" lang="EN-US">&nbsp;</span>
+
+
+<span style="font-family: 'Times New Roman';">&nbsp;</span>
+
+
+
+
+
+<p class="MsoNormal" style="margin: 0cm 0cm 0pt;"><span style="font-size: 10pt;" lang="EN-US"><span style="font-family: 'Times New Roman';">alert("Attribute:" + document.form1.getAttribute("style").constructor);</span></span>
+
+
+<span style="font-family: 'Times New Roman';">
+</span>
+
+
+
+
+
+<p class="MsoNormal" style="margin: 0cm 0cm 0pt;"><span style="font-size: 10pt;" lang="EN-US"><span style="font-family: 'Times New Roman';">alert("Attribute:" + document.form1.getAttribute("onsubmit").constructor);</span></span>
+
+
+<span style="font-family: 'Times New Roman';">
+</span>
+
+
+
+
+
+<p class="MsoNormal" style="margin: 0cm 0cm 0pt;"><span style="font-size: 10pt;" lang="EN-US"><span style="font-family: 'Times New Roman';">alert(document.form1.getAttribute("style"));</span></span>
+
+
+<span style="font-family: 'Times New Roman';">
+</span>
+
+
+
+
+
+<p class="MsoNormal" style="margin: 0cm 0cm 0pt;"><span style="font-size: 10pt;" lang="EN-US"><span style="font-family: 'Times New Roman';">alert(document.form1.getAttribute("onsubmit"));</span></span>
+
+
+<span style="font-family: 'Times New Roman';">
+</span>
+
+
+
+
+
+<p class="MsoNormal" style="margin: 0cm 0cm 0pt;"><span style="font-size: 10pt;" lang="EN-US"><span style="font-family: 'Times New Roman';">alert(document.form1.style);</span></span>
+
+
+<span style="font-family: 'Times New Roman';">
+</span>
+
+
+
+
+
+<p class="MsoNormal" style="margin: 0cm 0cm 0pt;"><span style="font-size: 10pt;" lang="EN-US"><span style="font-family: 'Times New Roman';">alert(document.form1.onsubmit);</span></span>
+
+
+<span style="font-family: 'Times New Roman';">
+</span>
+
+
+
+
+
+<p class="MsoNormal" style="margin: 0cm 0cm 0pt;"><span style="font-size: 10pt;" lang="EN-US">&nbsp;</span>
+
+
+<span style="font-family: 'Times New Roman';">&nbsp;</span>
+
+
+
+
+
+<p class="MsoNormal" style="margin: 0cm 0cm 0pt;"><span style="font-size: 10pt;" lang="EN-US"><span style="font-family: 'Times New Roman';">//--></span></span>
+
+
+<span style="font-family: 'Times New Roman';">
+</span>
+
+
+
+
+
+<p class="MsoNormal" style="margin: 0cm 0cm 0pt;"><span style="font-size: 10pt;" lang="EN-US"><span style="font-family: 'Times New Roman';"></script></span></span>
+
+
+<span style="font-family: 'Times New Roman';">
+</span>
+
+
+
+
+
+<p class="MsoNormal" style="margin: 0cm 0cm 0pt;"><span style="font-size: 10pt; font-family: &#23435;&#20307;; mso-ascii-font-family: 'Times New Roman'; mso-hansi-font-family: 'Times New Roman';">运行上面的代码，你可以看到，凡是</span><span style="font-size: 10pt;" lang="EN-US"><span style="font-family: 'Times New Roman';">form</span></span><span style="font-size: 10pt; font-family: &#23435;&#20307;; mso-ascii-font-family: 'Times New Roman'; mso-hansi-font-family: 'Times New Roman';">下的表单元素，都被</span><span style="font-size: 10pt;" lang="EN-US"><span style="font-family: 'Times New Roman';">IE</span></span><span style="font-size: 10pt; font-family: &#23435;&#20307;; mso-ascii-font-family: 'Times New Roman'; mso-hansi-font-family: 'Times New Roman';">实现到</span><span style="font-size: 10pt;" lang="EN-US"><span style="font-family: 'Times New Roman';">form</span></span><span style="font-size: 10pt; font-family: &#23435;&#20307;; mso-ascii-font-family: 'Times New Roman'; mso-hansi-font-family: 'Times New Roman';">标签的</span><span style="font-size: 10pt;" lang="EN-US"><span style="font-family: 'Times New Roman';">Attribute</span></span><span style="font-size: 10pt; font-family: &#23435;&#20307;; mso-ascii-font-family: 'Times New Roman'; mso-hansi-font-family: 'Times New Roman';">中了。当我发现这一点时，简直不敢相信。</span><span style="font-size: 10pt;" lang="EN-US"><span style="font-family: 'Times New Roman';">IE</span></span><span style="font-size: 10pt; font-family: &#23435;&#20307;; mso-ascii-font-family: 'Times New Roman'; mso-hansi-font-family: 'Times New Roman';">也太自作聪明了，以至于混淆了标签的</span><span style="font-size: 10pt;" lang="EN-US"><span style="font-family: 'Times New Roman';">Attribute</span></span><span style="font-size: 10pt; font-family: &#23435;&#20307;; mso-ascii-font-family: 'Times New Roman'; mso-hansi-font-family: 'Times New Roman';">和对象的</span><span style="font-size: 10pt;" lang="EN-US"><span style="font-family: 'Times New Roman';">property</span></span>
+
+
+<span style="font-family: 'Times New Roman';">
+</span>
+
+
+
+
+
+<p class="MsoNormal" style="margin: 0cm 0cm 0pt;"><span style="font-size: 10pt;" lang="EN-US">&nbsp;</span>
+
+
+<span style="font-family: 'Times New Roman';">&nbsp;</span>
+
+
+
+
+
+<p class="MsoNormal" style="margin: 0cm 0cm 0pt;"><span style="font-size: 10pt;" lang="EN-US">&nbsp;</span>
+
+
+<span style="font-family: 'Times New Roman';">&nbsp;</span>
+
+
+
+
+
+<p class="MsoNormal" style="margin: 0cm 0cm 0pt;"><span style="font-size: 10pt;" lang="EN-US">&nbsp;</span>
+
+
+<span style="font-family: 'Times New Roman';">&nbsp;</span>
+
+
+
+
+
+<p class="MsoNormal" style="margin: 0cm 0cm 0pt;">*<span style="font-size: 10pt; font-family: &#23435;&#20307;; mso-ascii-font-family: 'Times New Roman'; mso-hansi-font-family: 'Times New Roman';">结论：</span>*<span style="text-decoration: underline;"><span style="font-size: 10pt;" lang="EN-US"><span style="font-family: 'Times New Roman';">Web</span></span></span><span style="text-decoration: underline;"><span style="font-size: 10pt; font-family: &#23435;&#20307;; mso-ascii-font-family: 'Times New Roman'; mso-hansi-font-family: 'Times New Roman';">里的</span></span><span style="text-decoration: underline;"><span style="font-size: 10pt;" lang="EN-US"><span style="font-family: 'Times New Roman';">js</span></span></span><span style="text-decoration: underline;"><span style="font-size: 10pt; font-family: &#23435;&#20307;; mso-ascii-font-family: 'Times New Roman'; mso-hansi-font-family: 'Times New Roman';">的代码有个显著的特点，那就是依赖页面的</span></span><span style="text-decoration: underline;"><span style="font-size: 10pt;" lang="EN-US"><span style="font-family: 'Times New Roman';">html</span></span></span><span style="text-decoration: underline;"><span style="font-size: 10pt; font-family: &#23435;&#20307;; mso-ascii-font-family: 'Times New Roman'; mso-hansi-font-family: 'Times New Roman';">，所以稍有不慎的</span></span><span style="text-decoration: underline;"><span style="font-size: 10pt;" lang="EN-US"><span style="font-family: 'Times New Roman';">html</span></span></span><span style="text-decoration: underline;"><span style="font-size: 10pt; font-family: &#23435;&#20307;; mso-ascii-font-family: 'Times New Roman'; mso-hansi-font-family: 'Times New Roman';">错误，就可能导致</span></span><span style="text-decoration: underline;"><span style="font-size: 10pt;" lang="EN-US"><span style="font-family: 'Times New Roman';">js</span></span></span><span style="text-decoration: underline;"><span style="font-size: 10pt; font-family: &#23435;&#20307;; mso-ascii-font-family: 'Times New Roman'; mso-hansi-font-family: 'Times New Roman';">脚本不正常。为了避免上面的情况，大家需要对</span></span><span style="text-decoration: underline;"><span style="font-size: 10pt;" lang="EN-US"><span style="font-family: 'Times New Roman';">html</span></span></span><span style="text-decoration: underline;"><span style="font-size: 10pt; font-family: &#23435;&#20307;; mso-ascii-font-family: 'Times New Roman'; mso-hansi-font-family: 'Times New Roman';">严格要求，写出精致的</span></span><span style="text-decoration: underline;"><span style="font-size: 10pt;" lang="EN-US"><span style="font-family: 'Times New Roman';">html</span></span></span><span style="text-decoration: underline;"><span style="font-size: 10pt; font-family: &#23435;&#20307;; mso-ascii-font-family: 'Times New Roman'; mso-hansi-font-family: 'Times New Roman';">代码，就不会给</span></span><span style="text-decoration: underline;"><span style="font-size: 10pt;" lang="EN-US"><span style="font-family: 'Times New Roman';">js</span></span></span><span style="text-decoration: underline;"><span style="font-size: 10pt; font-family: &#23435;&#20307;; mso-ascii-font-family: 'Times New Roman'; mso-hansi-font-family: 'Times New Roman';">带来这样那样的问题了。</span></span><span style="font-size: 10pt;" lang="EN-US">&nbsp;</span>
+
+
+
+
+
+
+

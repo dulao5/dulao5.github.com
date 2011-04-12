@@ -1,0 +1,48 @@
+---
+layout: post
+title: ie和firefox中img对象区别的困惑
+category: front-end
+---
+
+<span id="txtObj_921749">在调试js时遇到一些恶心的问题，于是做了一个测试程序，放到网上让大家帮我测试。帖子见<a href="http://vchelp.net/cndevforum/subject_view.asp?page=-1&subject_id=165791">http://vchelp.net/cndevforum/subject_view.asp?page=-1&subject_id=165791</a></span>
+
+
+<span>下面我给出关于测试的解释：
+
+起因源于我想做这么一个网页：用户上传一个图片后，如果图片大于500象素，则在客户端把图片缩小成500象素大小。但是不想让用户看到这个大小调整过程。于是想首先隐藏这个图片，在整个网页下载完成后，调整大小，然后再显示调整好的图像。
+
+于是我首先设置img标签的style="display:none",然后在window.onload中获取原图大小，进行调整。
+<img src="http:......" style="display:none" id="c010_jpg">
+
+结果发现firefox下，一个disolay=none的图像width和height是原图的实际大小，但是ie下却都是0
+
+于是想到稳妥的办法是建立一个image对象，然后对src赋值，进而读取原图大小的信息:
+var oImg = new Image();
+oImg.src = docunent.getElementById("c010_jpg").src;
+//马上读取oImg的width和height
+alert([oImg.width, oImg.height]);
+
+结果在ie测试发现，上面的代码会输出&ldquo;0,0&rdquo;
+我怀疑这说明当ie解析一个display:none的img标签时，并没有下载这个图片，所以上面的代码对oImg.src赋值后ie需要从目标地址下载这个图片，当然，这个过程是异步的过程
+而在firefox下，上面的代码会输出正确的信息，这说明firefox解析display:none的图片时，已经下载了这个图片。以后再对oImg.src赋值时，直接从缓存中获取，所以速度快
+
+想到这一点我只好用更复杂更稳妥的办法了：
+var oImg = new Image();
+oImg.onload = function (){alert([oImg.width, oImg.height]);}
+oImg.src = docunent.getElementById("c010_jpg").src;
+//当src被载入后，输出oImg的宽和高
+
+使用事件和回调函数是没办法的事情。处理这种异步过程使程序结构变得很难看。
+
+另外，在w3c中( <a href="http://www.w3.org/TR/REC-DOM-Level-1/idl-definitions.html%29%E6%B2%A1%E6%9C%89%E6%89%BE%E5%88%B0HTMLImageElement%E7%9A%84readyState%E5%92%8Ccomplete%E5%B1%9E%E6%80%A7%EF%BC%8C" target="_blank">http://www.w3.org/TR/REC-DOM-Level-1/idl-definitions.html)没有找到HTMLImageElement的readyState和complete属性，</a> 
+发现firefox实现了complete属性，而ie实现了complete属性和readyState属性
+
+但是两者对属性的定义好像不同：
+firefox： 一个图像被下载完毕，complete属性就是true，没有下载完毕则为false
+ie：一个图像没有被下载完毕，则readyState属性为uninitialized,complete属性是false.当下载完毕时， readyState为complete，而如果此时图片还没有显示，complete为false,显示以后(display:block)此属性才变成true
+
+没想到一个简单的功能竟然这么费劲，浏览器的兼容问题很难顺利解决，特别是很多细节非常浪费时间，希望别人遇到这些问题时还是多考虑从服务端脚本中解决这些问题。从而绕过对浏览器兼容的复杂测试。
+
+
+另外我还非常疑惑，为什么现实中的ie对于onload事件，大部分不是异步的，只有少数同志的ie对于此事件是异步的。</span>
+

@@ -1,0 +1,14 @@
+---
+layout: post
+title: 我家的老宅子
+category: life
+---
+
+<a href="http://photo.hexun.com/dulao5/photodetail.aspx?photoID=484016" target="_blank"><img onload="var image=new Image();image.src=this.src;if(image.width>0 && image.height>0){if(image.width>=700){this.width=700;this.height=image.height*700/image.width;}}" alt="查看更多精彩图片" src="http://photo.hexun.com/p/2005/0724/2420/b_2ADA3EE63FF1CC49.jpg" border="0"></a>
+
+这就是我的家，从我出生到1992年，我的童年，我的乐园&hellip;&hellip;&hellip;&hellip;
+
+<未完成，先传上平面图>
+
+
+

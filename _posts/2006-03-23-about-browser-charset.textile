@@ -1,0 +1,97 @@
+---
+layout: post
+title: 进一步确认一点，浏览器提交的字符编码由客户端的characher encoding决定
+category: front-end
+---
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 可以用下面的代码测试，在文本框中输入&ldquo;汉字&rdquo;，在浏览器选择不同的当前字符集，然后提交，可以看到：
+
+
+<blockquote style="margin-right: 0px;" dir="ltr">
+当选择字符集是&ldquo;UTF-8&rdquo;时，提交后输出：
+
+
+
+
+
+<table style="width: 320px; border-collapse: collapse;" border="1" cellspacing="0" cellpadding="3">
+<tbody>
+
+|<!--startfragment -->
+<pre>text
+230,177,137,229,173,151,</pre>
+
+|
+
+</tbody>
+
+
+当字符集选择gb2312时，提交后输出：
+
+
+
+
+
+<table style="width: 320px; border-collapse: collapse;" border="1" cellspacing="0" cellpadding="3">
+<tbody>
+
+|<!--startfragment -->&nbsp;text
+186,186,215,214,
+|
+
+</tbody>
+
+
+
+
+<p dir="ltr">下面是测试代码：
+
+
+
+
+
+<table style="width: 320px; border-collapse: collapse;" border="1" cellspacing="0" cellpadding="3">
+<tbody>
+
+|
+<p style="margin-right: 0px;" dir="ltr"><!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<html>
+<head>
+<title>&nbsp; </title>
+</head>
+
+
+<p style="margin-right: 0px;" dir="ltr"><body>
+<pre>
+<?php
+if(count($_POST))
+{
+&nbsp;&nbsp;&nbsp; foreach($_POST as $key=>$item)
+&nbsp;&nbsp;&nbsp; {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; echo($key."\n");
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; for($i = 0 ; $i<strlen($item); $i++)
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; echo(ord($item{$i}).",");
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; echo("\n");
+&nbsp;&nbsp;&nbsp; }
+}
+
+
+<p style="margin-right: 0px;" dir="ltr">
+?>
+</pre>
+<form method="post" action="">
+<input type="text" name="text">
+<input type="submit" value="提交">
+</form>
+</body>
+</html>
+
+
+
+|
+
+</tbody>
+
+
+
+

@@ -1,0 +1,32 @@
+---
+layout: post
+title: 闲谈个人知识管理和思维导图（Mind Map）
+category: thinking
+---
+
+最近对个人知识管理很感兴趣，有很多关于知识管理的想法。
+
+
+首先想到的当然是blog，但是我感觉blog操作不够简便，而且写blog时有种&ldquo;写文章&rdquo;的感觉，也许我不是真正的blogger.&nbsp;
+
+
+网摘，嗯，也算是知识管理的工具。现在的<a style="color: #ff0000;" href="http://link.eyou.com" target="_blank">eyou网摘</a>和<a href="http://365key.com">365Key</a>、<a href="http://del.icio.us">delicious</a>等都提供了插件，可以很方便的增加网摘。tag让我和别人共享网摘，这种社会化的交流功能也非常好。但是对于&ldquo;个人知识管理&rdquo;来讲，tag这种平行的组织形式还是不太合适。因为个人知识管理需要的是一种树或者图的形式，所以tag方式不是很利于个人对自己的知识进行组织。当然，<a href="http://del.icio.us/">delicious</a>提供了tag分类功能，这种状况在一定程度上得到了改善。
+
+
+还有个喜讯是，这个网站（<a href="http://maps.pietrosperoni.it" target="_blank">http://maps.pietrosperoni.it</a>）为<a href="http://del.icio.us/">delicious</a>用户提供了从tag到思维导图(MindMap)的转换，功能还不错，好像是使用了<a href="http://freemind.sourceforge.net/wiki/index.php/Main_Page">FreeMind</a>的文件格式和技术。使用思维导图组织用户的tag和书签，效果非常不错。
+
+
+网摘功能局限于收藏，而收藏的链接容易失效，而且网页内容可能冗余信息太多。<a href="http://360doc.com">360doc</a>是一种新的形式，它的插件可以让用户在浏览网页时，把感兴趣的文字选中然后加入到自己的&ldquo;个人图书馆&rdquo;中。<a href="http://360doc.com/">360doc</a>的名字就是&ldquo;个人图书馆&rdquo;，宣称它是&ldquo;link+blog&rdquo;，嗯，在知识管理的角度是一种进步。
+
+
+当然，<a href="http://360doc.com/">360doc</a>的信息也是以tag组织，个人感觉它的社会化功能还是占的比重大一些。不过它在信息检索上有技术特色，比如&ldquo;<a href="http://www.google.com/search?hl=zh-CN&q=%E4%B8%AA%E4%BA%BA%E7%9F%A5%E8%AF%86%E7%AE%A1%E7%90%86+%E6%80%9D%E7%BB%B4%E5%AF%BC%E5%9B%BE&lr=lang_zh-CN">以文找文</a>&rdquo;功能，再比如自动获取文章内容的摘要信息。当然这种语义技术难度很大，效果看起来比起百度和google的自动摘要功能来要弱一些。
+
+
+总结一下上面的blog、link、个人图书馆等产品，作为知识管理他们的强项都在于记录、收藏、共享，但是使用tag组织个人知识，缺少表现力，知识在头脑中应该是一张巨大的地图，而不是一系列平行的关键字。
+
+
+所以我想到了思维导图。
+
+
+
+

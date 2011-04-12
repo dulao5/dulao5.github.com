@@ -1,0 +1,49 @@
+---
+layout: post
+title: javascript中子类函数重写问题
+category: front-end
+---
+
+<pre>
+那天和lzlhero讨论javascript中子类如果重写了父类的函数,然后在某种情况下方便的调用父类,那么用什么方式好.
+我们当时觉得用两种方式:
+BaseObj.prototype.fun();
+BaseObj.prototype.fun.call(this);
+但是我在调试中发现的一种方法没有预期的效果,是错误的调用,仅仅相当于c++语言调用"类的静态成员",
+还是第二种方法最为稳妥和安全,下面是测试代码
+
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<HTML>
+<HEAD>
+<TITLE> New Document </TITLE>
+<META NAME="Generator" CONTENT="EditPlus">
+<META NAME="Author" CONTENT="">
+<META NAME="Keywords" CONTENT="">
+<META NAME="Description" CONTENT="">
+</HEAD>
+
+<BODY>
+<SCRIPT LANGUAGE="JavaScript">
+<!--
+function BaseObj(v1){this.value=v1};
+function Obj2(v2){this.value="2222222" ,this.oth = v2};
+
+BaseObj.prototype.fun = function (){alert(this.value);}
+
+Obj2.prototype = new BaseObj();
+Obj2.prototype.fun = function (){BaseObj.prototype.fun();}  
+//没有预期的效果,调用父类函数时只相当于C语言中调用"类的静态函数"
+
+o2 = new Obj2("22222.value");
+o2.fun();
+
+/*
+应该这么调用父类函数:
+Obj2.prototype.fun = function (){BaseObj.prototype.fun.call(this);} 
+*/
+
+//-->
+</SCRIPT>
+</BODY>
+</HTML>
+</pre>

@@ -1,0 +1,110 @@
+---
+layout: post
+title: SICP练习题 1.3~1.6
+category: SICP
+---
+
+重新捧起<a href="http://book.douban.com/subject/1148282/">SICP</a>&nbsp;, 这次准备花半年到一年时间, 认真的读, 认真的做练习题. 并且希望能学会用Scheme 和 Common Lisp&nbsp;.
+
+
+<a href="http://zh.wikipedia.org/wiki/Scheme">Scheme</a> 和 <a href="http://zh.wikipedia.org/wiki/Common_Lisp">Common Lisp</a>&nbsp;是Lisp的两大方言, 说实话我今天才弄清楚这个概念. (参考Wikipedia, 上面说的比较清楚&nbsp;) 在我这个初学者看来, 能感受到的就是Scheme里面数据和函数是在同一个空间, 等同对待; 而Common Lisp的确是分属两个空间, 使用函数变量必须通过#'来标记.
+
+
+废话少说, 开始解题.
+
+
+h2. 1.3 求三个数中两个大数之和
+
+
+{% highlight scheme %}
+(define (top2add a b c)
+	(if 	(> a b) (if (> b c) (+ a b) (+ a c))
+		(if (> a c ) (+ b a) (+ b c))
+	)
+)
+{% endhighlight %}
+
+
+h2. 1.5 检测应用序和正则序
+
+
+{% highlight scheme %}(define (p) (p))    ; 定义了一个没有形参的函数p, 函数p调用自身
+(define (test x y)
+	(if (= x 0)
+		0
+		y))
+
+(test 0 (p))
+{% endhighlight %}
+
+
+
+先说答案: 应用序会无限循环, 正则序会马上返回; 在我的scheme48上面测试的现象是无限循环, 说明scheme48是应用序的实现;
+
+
+这个题目我想了很久, 一开始根本不明白(define (p) (p))是什么意思, 还以为印错了呢; 当一个刹那我明白这是一个函数定义的时候, 我就豁然开朗了.
+
+
+没错, 这就是一个函数定义啊, 定义了函数p, 无形参, 函数体是无限递归调用自己.
+
+
+那么很容易观察, 在应用序的实现中, test函数在被求值前, 实参(p)先求值, 无限递归, 无法进入test函数;
+
+
+而如果是正则序的实现, 则解释序为:
+
+
+{% highlight scheme %}; (test 0 (p))
+; (if (= 0 0) 0 (p)))  ; 0和(p) 替换 形参x,y
+; (if #t 0 (p)))       ; (= 0 0)求值为#t
+; 0                   ; if求值为0, (p) 的表达式被短路
+{% endhighlight %}
+
+
+
+实际上测试代码里面的if表达式有些多余, 干扰了我的解题; 其实光有两个函数调用就可以判定是否为应用序了:
+
+
+
+
+
+{% highlight scheme %} (define (p) (p))
+ (define (test x y) 1)
+ (test (p))
+{% endhighlight %}
+
+
+
+
+如果求值为1则是正则序, 否则无限循环是应用序.
+
+
+h2. 1.6 new-if 函数的实现问题
+
+
+注意cond和if是个操作符, 而new-if 是函数调用; (if <bool> <a> <b>)操作符可以做到对<bool>求值后, 对<a>或者<b>*之一*求值; 而new-if作为函数调用, 应用序的实现情况下, then-cla和else-cla都会求值; 正是这个差异, 导致题目里面的死循环;
+
+
+下面简单演示死循环的形成:
+
+
+{% highlight scheme %} (define (new-if pre then-cla else-cla)
+     (cond (pre then-cla)
+     	(else else-cla)))
+
+ (new-if 0 1 3)   ; return 3
+ (new-if  4 5 0)  ; return 5
+
+ (define (loop a)
+	    (loop a)) ;构造一个死循环函数
+
+ (new-if 1 1 (loop 100))  ; 应用序下(loop 100)被求值,死循环
+{% endhighlight %}
+
+
+
+new-if据说可以定义成宏来避免函数实参求值, 我还不会,后面学到再说.
+
+
+(这个题目和1.4有异曲同工之妙)
+

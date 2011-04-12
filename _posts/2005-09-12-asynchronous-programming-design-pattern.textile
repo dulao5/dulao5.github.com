@@ -1,0 +1,90 @@
+---
+layout: post
+title: 请问有没有处理异步事件的良好设计模式？
+category: thinking
+---
+
+<pre>目前正在考虑浏览器客户端js的设计问题，更好的设计实现ajax，
+遇到对异步事件处理的问题，总是感到自己处理的不好，拿出来
+大家讨论下。
+
+
+如果一个函数在运行中间需要xmlHttpRequest异步调用，那么和同步调用不同，
+需要小心的处理调用以后如何动作的问题，把调用以后要做的事情写成其
+它函数（最好是内嵌函数），传递给xmlHttpRequest的
+onReadyStateChange事件
+
+例如下面的函数caller需要使用RemoteCall向服务器异步调用，
+那么RemoteCall函数执行以后要做的事必须写到函数onCalled中，
+
+""
+/*
+ * caller是一个功能函数，
+ * 它封装了一个异步方式的远程调用x_call(...)函数
+ * 但是存在的问题是：
+ * 其它调用它的函数必须小心的处理
+ */
+function caller(x,y,objFun)
+{
+	/*前期准备工作
+	....
+	*/
+	//...
+
+	//开始远程调用，将异步调用后需要执行的函数onCalled放到onReadyStateChange事件里
+	RemoteCall("func1",x,y,onCalled);
+
+	//异步调用后要执行的代码
+	function onCalled()
+	{
+		//....执行一些代码
+		//...
+
+		//最后还要记得执行外部传递过来的函数
+		try
+		{
+			objFun();	
+		}
+		catch (e)
+		{
+		}
+	}
+}
+
+//如果有两层以上的调用，必须这么做:
+
+function otherFun()
+{
+	//做一些事情.....
+	//....
+
+	//调用已经封装好的caller
+	caller(1,2,onCalled);
+
+	//后面的事情
+	//....
+	function onCalled()
+	{
+		///.........
+	}
+	
+}
+
+""+script+">"
+
+
+
+上面那么写勉强能将就着看，但是如果有的函数需要调用otherFun()函数怎么办？
+还是要注意调用者的异步处理问题。
+
+请问有什么好办法吗？
+
+---------------
+我想起了MFC对异步事件的处理，好像也不是很爽
+
+---------------
+我准备看看.net的异步方案：
+</pre>
+<a href="http://msdn.microsoft.com/library/chs/default.asp?url=/library/CHS/cpguide/html/cpconasynchronousprogrammingdesignpattern2.asp?frame=true&hidetoc=true">msdn :: dotnet中的异步模式</a>
+从这个blog上<a href="http://www.hunterpro.net/?p=3">hunterpro大杂烩</a>有篇文章
+

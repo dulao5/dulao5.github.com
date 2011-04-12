@@ -1,0 +1,41 @@
+---
+layout: post
+title: firefox 中XMLDocument和string互相转换。
+category: front-end
+---
+
+尝试了很多方法，包括DOM3的Node::textContent等等，都不行。在xml中textContent属性是过滤标签信息之后的纯文本，类似innerText。
+
+
+最后还是Google了关键字 javascript "convert xml to string" ,找到这篇文章《<a style="color: #0000ff;" title="Javascript convert XML to string to XML " href="http://www.captain.at/howto-javascript-convert-string-to-xml-to-string.php" target="_blank">Javascript convert XML to string to XML </a>》，给出了终极方案。
+
+
+
+
+
+<hr size="1" />
+
+
+
+<span class="mcon">*Convert XMLDocument to a string in Javascript:*
+</span>
+
+
+<pre>var string = (new XMLSerializer()).serializeToString(xmlobject);
+alert(string);</pre>
+<pre><hr size="1" /><span class="mcon">*Convert a string to XMLDocument in Javascript:*
+</span></pre>
+<pre>var xmlstring = '<?xml version="1.0"?>\
+<root>\
+	<data>\
+		<row>\
+			<cell>Captain</cell>\
+			<cell>Bryophyllum</cell>\
+			<cell>Zucchini</cell>\
+		</row>\
+	</data>\
+</root>';
+var xmlobject = (new DOMParser()).parseFromString(xmlstring, "text/xml");
+</pre>
+
+

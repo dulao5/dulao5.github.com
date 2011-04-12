@@ -1,0 +1,40 @@
+---
+layout: post
+title: 项目
+category: opensource
+---
+
+h2. <a href="http://code.google.com/p/php-ab/" target="_blank">PHP-AB</a>
+
+
+<li>简介</li>
+这是一个用PHP实现的类似Apache Benchmarking的测试工具.
+
+
+其实, 这是我写着玩的. 只是为了实验PHP写的网络程序能到什么程度.
+
+
+<li>和Apache Benchmarking的差距</li>
+当前版本和Apache Benchmarking有约40%的偏差(仅测试了QPS).
+
+
+对比测试报告见<a href="https://spreadsheets.google.com/pub?key=0An46ixlpiXjldFpnX3VwUHFwR1lLZFRsUWVQd0tZcmc&hl=zh_CN&output=html" target="_blank">这里</a> (翻墙吧)
+
+
+h2. <a href="https://github.com/dulao5/php-emoji">PHP-Emoji</a>
+
+
+日本的三家运营商(DoCoMo/au/SoftBank)绘文字的实现是不同的. 虽然现在他们都支持unicode了, 但是他们对unicode扩展区域的实现不同. 这部分字符需要整理和映射.
+
+
+<a href="http://sites.google.com/site/unicodesymbols/Home/emoji-symbols">这伙家伙</a>整理了这个复杂的字符映射, 将结果提交到了unicode组织. (<a href="http://www.unicode.org/~scherer/emoji4unicode/snapshot/full.html">巨型html文档</a>/<a href="http://www.unicode.org/~scherer/emoji4unicode/snapshot/emojidata.pdf">PDF文档</a>)
+
+
+<a href="http://www.iamcal.com">Cal Henderson</a>提供的<a href="https://github.com/iamcal/php-emoji">php-emoji</a> . 将这个HTML页面转换成了PHP代码. 我发现有些字符转换的映射是错的, 估计是Cal的HTML解析程序存在问题. 于是我用php-dom重写了解析程序, 在github上fork了他的项目 , 算是回馈吧. (<a href="https://github.com/dulao5/php-emoji">见我的fork</a>)
+
+
+我已经给<a href="http://www.iamcal.com">Cal Henderson</a>发邮件了. 他应该不久就会merge进去.
+
+
+
+

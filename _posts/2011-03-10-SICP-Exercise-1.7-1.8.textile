@@ -1,0 +1,98 @@
+---
+layout: post
+title: SICP练习题 1.7~1.8
+category: SICP
+---
+
+h2. 1.7 mysqrt的改进
+
+
+改善精度控制的细节, 判断如果连续两次迭代的猜测值相差很小, 就退出. 实验表明达到效果了, 大数和小数都得到了很大改善.
+
+
+美中不足是我还不会用变量, get-guess-result方法被重复调用了.
+
+
+{% highlight scheme %}
+(define (mysqrt x) 
+
+ 	(define default-guess 1.0)
+ 	(define min-dx 0.000000001)
+
+	(define (get-guess-result guess )
+	 		(* guess guess))
+
+	(define (improve guess )
+		(/ (+ guess (/ x guess)) 2))
+
+	(define (goodguess? guess old-gruess)
+			(< (abs(- (/ (get-guess-result guess)
+					 		old-gruess )
+					1))
+			 	min-dx))
+
+	(define (sqrt-itor guess old-gruess)
+			(if (goodguess? guess old-gruess)
+				guess
+				(sqrt-itor (improve guess )
+				 	(get-guess-result guess ))))
+
+	(sqrt-itor default-guess x))
+{% endhighlight %}
+h2. 1.8 求立方根
+
+
+求立方根实际上只需要替换improve函数和get-guess-result函数的实现, 其他代码相同. 我为了共享代码中的相同部分, 先重构了上面的代码, 做了一些抽象:
+
+
+
+
+
+{% highlight scheme %}
+(define (gen-entire-surd-fun n )
+ 	;entire2/entire3
+
+ 	(define default-guess 1.0)
+ 	(define min-dx 0.000000001)
+
+	(define get-guess-result
+		(cond ((= n 2)
+			(lambda (guess )
+					(* guess guess)))
+	 	((= n 3)
+			(lambda (guess )
+					(* guess guess guess )))))
+
+	(define improve
+  		(cond ((= n 2)
+			(lambda (guess x)
+				(/ (+ guess (/ x guess)) 2)))
+	 	((= n 3)
+			(lambda (guess x)
+				(/ (+ 	(/ x (* guess guess))
+						(* 2 guess)
+					)
+				   3)))))
+
+	(define (goodguess? guess old-gruess)
+			(< (abs(- (/ (get-guess-result guess)
+					 		old-gruess )
+					1))
+			 	min-dx))
+
+	(define (entire-itor x guess old-gruess)
+			(if (goodguess? guess old-gruess)
+				guess
+				(entire-itor x (improve guess x )
+				 	(get-guess-result guess ))))
+
+	(lambda (x) (entire-itor x default-guess x)))
+
+(define my-entire2 (gen-entire-surd-fun 2 ))
+(define my-entire3 (gen-entire-surd-fun 3 ))
+
+(write "hello, world, myentire sicp.1.8")
+{% endhighlight %}
+
+题外话, 熟悉了Lisp的写法, 感觉还是不错的, 简洁明了. 使用缩进能基本消除括号的烦恼. 进一步想, 如果直接使用缩进来控制代码结构, 那就变成Haskell和Python了. :D:D 但这样的风格似乎减弱了*表达式*和*求值*的思想.
+

@@ -1,0 +1,62 @@
+---
+layout: post
+title: micolog的注销
+category: note
+---
+
+登录micolog的管理后台后, 点击注销, 发生了什么?
+
+
+<ul>
+<li> 注销的链接:
+ @
+ http://www.dulao5.com/_ah/logout?continue=https://www.google.com/accounts/Logout%3Fcontinue%3Dhttp://www.dulao5.com/admin/setup%26service%3Dah&nbsp;&nbsp;
+
+
+
+@
+@(Status-Line)	HTTP/1.1 302 Found
+ Location	https://www.google.com/accounts/Logout?continue=http://www.dulao5.com/admin/setup&service=ah
+ @
+
+
+</li>
+<li> google的Logout页面:
+ @
+ https://www.google.com/accounts/Logout?continue=http://www.dulao5.com/admin/setup&service=ah&nbsp;
+
+
+
+
+<body onload="doRedirect()"><p><font face="Arial, sans-serif">请稍候...</font></p>
+
+
+<noscript><meta http-equiv="refresh" content="5; url=&#39;http://www.dulao5.com/admin/setup&#39;"></noscript>
+
+
+<script type="text/javascript">
+
+
+&nbsp; &nbsp;function doRedirect() {
+
+
+&nbsp; &nbsp; &nbsp;location.replace("http://www.dulao5.com/admin/setup");
+
+
+&nbsp; &nbsp;}
+
+
+&nbsp;</script>
+
+
+<img src="https://www.google.com/calendar/remotelogout?r=-1311949284758290125" height="0" width="0" alt="退出"> <img src="https://docs.google.com/remotelogout?r=1732054714620515307" height="0" width="0" alt="退出">
+
+
+<div></div>
+
+
+
+@</li>
+</ul>
+可见, 从dulao5.com到google再回来, 是级联跳转的方式; 而在google Logout页面内, 是并行引用google其他产品logout url的方式 .
+

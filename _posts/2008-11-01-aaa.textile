@@ -1,0 +1,15 @@
+---
+layout: post
+title: 开始学习函数式编程
+category: thinking
+---
+
+两年前，“甜读”《javascript权威指南》，然后深入实战了ajax。那时候，虽然学会了闭包，但只用来解决xmlhttprequest的返回值问题，代码风格还是OO的。实际上还是以旧思想做产品。
+一年前，下载安装了lua并看了一些文档，不过只是对它的嵌入式感兴趣（希望同样的代码既能跑在unix服务器上，也能跑在windows 客户端上），对它的函数式风格不甚了然。后来，学习没怎么深入就中断了。
+最近开始入门ACE，满脑袋里面是并发的问题。
+偶然看到erlang的资料，仔细阅读，甚为惊叹！历经千辛万险终于知道使用CEAN可以迅速安装erlang了，不过，当我看到《<a href="http://erlang-china.org/study/yet-another-pf-guide.html" target="_blank">函数式编程另类指南</a>》这篇文章后，我暂时放弃了erlang的学习。
+我认识到函数式编程的学习，主要是观念转变的问题，我要先拿lua来练习函数式编程这种思维。
+
+
+
+

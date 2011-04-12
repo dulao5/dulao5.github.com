@@ -1,0 +1,103 @@
+---
+layout: post
+title: 注意php的转义字符串
+category: php
+---
+
+<blockquote style="margin-right: 0px;" dir="ltr">
+<p style="font-size: 10pt;">&nbsp;
+
+
+
+<p style="font-size: 10pt;">今天碰到一个处理文件特殊字符的事情，再次注意到这个问题，在php中：
+
+
+<blockquote dir="ltr">
+<p style="font-size: 10pt;"><span style="font-size: 10pt;">* 以单引号为定界符的php字符串，支持两个转义\'和\\
+* 以双引号为定界符的php字符串，支持下列转义：
+&nbsp;&nbsp;&nbsp; \n 换行（LF 或 ASCII 字符 0x0A（10）） 
+&nbsp;&nbsp;&nbsp; \r 回车（CR 或 ASCII 字符 0x0D（13）） 
+&nbsp;&nbsp;&nbsp; \t 水平制表符（HT 或 ASCII 字符 0x09（9）） 
+&nbsp;&nbsp;&nbsp; \\ 反斜线 
+&nbsp;&nbsp;&nbsp; \$ 美元符号 
+&nbsp;&nbsp;&nbsp; \" 双引号 
+&nbsp;&nbsp;&nbsp; \[0-7]{1,3}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 此正则表达式序列匹配一个用八进制符号表示的字符&nbsp; 
+&nbsp;&nbsp;&nbsp; \x[0-9A-Fa-f]{1,2}&nbsp; 此正则表达式序列匹配一个用十六进制符号表示的字符</span>&nbsp;
+
+
+
+<p style="font-size: 10pt;">举几个例子:
+
+
+<p style="font-size: 10pt;">*一个包含\0特殊字符的例子：*
+
+
+<blockquote style="margin-right: 0px;" dir="ltr">
+<p style="font-size: 10pt;">$str =* "ffff<span style="color: #ff0000;">\0</span>ffff";*
+echo(strlen($str));
+echo("\n");
+for($i=0;$i<strlen($str);$i++)echo("\t".ord($str{$i}));
+echo("\n");
+
+
+<p style="font-size: 10pt;">输出结果：
+----------------------
+
+
+<p style="font-size: 10pt;">9
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 102&nbsp;&nbsp;&nbsp;&nbsp; 102&nbsp;&nbsp;&nbsp;&nbsp; 102&nbsp;&nbsp;&nbsp;&nbsp; 102&nbsp;&nbsp;&nbsp;&nbsp;<span style="color: #ff0000;"> 0</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 102&nbsp;&nbsp;&nbsp;&nbsp; 102&nbsp;&nbsp;&nbsp;&nbsp; 102&nbsp;&nbsp;&nbsp;&nbsp; 102
+
+
+
+<p style="font-size: 10pt;">*替换特殊字符的例子*
+
+
+<blockquote style="margin-right: 0px;" dir="ltr">
+<p style="font-size: 10pt;">$str = *"ffff<span style="color: #ff0000;">\0</span>ffff";*
+$str = str_replace("<span style="color: #ff0000;">\x0</span>", "", $str);&nbsp; 
+//或者用$str = str_replace("<span style="color: #ff0000;">\0</span>", "", $str); 
+//或者用$str = str_replace(<span style="color: #ff0000;">chr(0)</span>, "", $str); 
+echo(strlen($str));
+echo("\n");
+for($i=0;$i<strlen($str);$i++)echo("<span style="color: #000000;">\t</span>".ord($str{$i}));
+echo("\n");
+输出结果：
+----------------------
+8
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 102&nbsp;&nbsp;&nbsp;&nbsp; 102&nbsp;&nbsp;&nbsp;&nbsp; 102&nbsp;&nbsp;&nbsp;&nbsp; 102&nbsp;&nbsp;&nbsp;&nbsp; 102&nbsp;&nbsp;&nbsp;&nbsp; 102&nbsp;&nbsp;&nbsp;&nbsp; 102&nbsp;&nbsp;&nbsp;&nbsp; 102
+
+
+
+<p style="font-size: 10pt;">
+<span style="color: red;">*八进制ascii码例子：*</span>
+
+
+<blockquote style="margin-right: 0px;" dir="ltr">
+<p style="font-size: 10pt;">//注意，符合正则\[0-7]{1,3}的字符串，表示一个八进制的ascii码。
+$str = *"\0\01\02\3\7\10\011<span style="color: #ff0000;">\0</span><span style="color: #ff00ff;">8</span><span style="color: #339966;">\</span><span style="color: #0000ff;">8</span>";*&nbsp; //这里的\8不符合要求，被修正为"<a>\\8</a>" （ascii为92和56）
+echo(strlen($str));
+echo("\n");
+for($i=0;$i<strlen($str);$i++)echo("\t".ord($str{$i}));
+echo("\n");
+输出结果：
+----------------------
+11
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; *0&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 1&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 2&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 3&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 7&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 8&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 9&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <span style="color: #ff0000;">0&nbsp;</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <span style="color: #ff00ff;">56&nbsp;</span>&nbsp;&nbsp;&nbsp;&nbsp; <span style="color: #339966;">92&nbsp;&nbsp;</span>&nbsp;&nbsp;&nbsp; <span style="color: #0000ff;">56</span>*
+
+
+
+<p style="font-size: 10pt;"><span style="color: #000000;">*十六进制ascii码例子：*</span>
+
+
+<blockquote style="margin-right: 0px;" dir="ltr">
+<p style="font-size: 10pt;">$str = "*\x0\x1\x2\x3\x7\x8\x9\x10\x11\xff*";
+echo(strlen($str));
+echo("\n");
+for($i=0;$i<strlen($str);$i++)echo("\t".ord($str{$i}));
+echo("\n");
+输出结果：
+----------------------
+10
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 0&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 1&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 2&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 3&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 7&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 8&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 9&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 16&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 17&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 255
+
+

@@ -1,0 +1,28 @@
+---
+layout: post
+title: 关于脚本技术
+category: note
+---
+
+学到用时方恨少啊，以前不很注重命令行脚本，什么shell啊perl啊之类的，实在懒得学。偶尔用到一些需要用脚本来完成的任务，一般用批处理就搞定了，稍微复杂的用php来跑跑。
+
+ 但是现在工作中常常需要完成一些和互联网联系紧密，而且数据量很大的任务，分析需要用正则表达式，需要大量的文件处理功能，而且文件一般很大，最好能支持多线程技术。
+ 心理明白这种工作最好用perl不过了。不过临时抱佛脚有些困难，时间紧也是借口，只好先用php和javascript抵挡一下，拖延一下学习perl的时间^_^。
+
+ 结果现在我的工具五花八门。
+
+ 有时候用c++，它的stl实在太强大了，还可以使用多线程，非常方便，一般用来做命令行程序处理大文件、多线程访问网络等。
+ 俺最好能找个开源程序看看，把命令行参数这种体力活简化一下，象众多linux程序一样支持大量的命令行参数选项和.rc配置文件，要不然改程序太麻烦。编译一次编译一次的头疼&hellip;&hellip;
+ 还计划在c++里面使用正则，看中了pear的c库，不过遇到一些麻烦，还没有在windows平台上编译成功-_-! ，在*nix下应该比较容易吧。
+
+ 有时候用php，不用说，支持正则，联网功能和文件处理都可以，不过没有标准c++库那么强大的数据结构，尽管据说php的数组是map，但是它到底多么强壮我没测过，处理太大的文件（超过1G）我还是不敢用它滴。
+ 缺点，不支持多线程，据手册说php可以调用winapi和com组件，嗯，可以研究一下，关键是数据类型，如何一一把windowsAPI的数据类型转变到php类型。特别是，调用windows的CreateThread函数该怎么用法，那个线程函数指针怎么写？
+
+ 有时候用javascript。嗯，如果需要写带界面的小程序，我会用最快的速度写个HTA程序。用html+css描述界面，用javascript写程序，用xmlHttp组件连接网络，使用正则和DOM分析网页，太方便了。不过还是老问题，怎么多线程？另外hta程序其实是用IE作外壳，处理大文件俺不敢用它。
+
+ 目前有个想法，那就是WSH , 也是用js写脚本，但是跟IE就没关系了。据说很多病毒用它，估计功能不错。和ActiveX结合估计能无敌了。还是回到老话题，我想研究一下写个能创建线程的ActiveX让javascript用，把js的函数对象作为activeX创建线程的执行函数。高手路过的话给点提示吧。我想难点有两个，一个是如何把javascript的函数对象传递到activeX中的线程函数中作为回调函数，一个是如何在这个js函数中使用临界区以及线程通讯。
+
+ 唉，以前没俯下身子研究com和atl，现在傻了，学到用时方恨少啊。
+
+ 相关连接：<a style="color: #ff0000;" title="WSH－Multithreading Script" href="http://www.codecomments.com/archive300-2004-9-233478.html">WSH－Multithreading Script</a> <a title="google搜索" href="http://www.google.com/search?q=Multithreading+wsh&btnG=%E6%90%9C%E7%B4%A2&hl=zh-CN&newwindow=1">google搜索"Multithreading wsh"</a>
+

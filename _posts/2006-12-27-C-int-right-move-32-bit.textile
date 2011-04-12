@@ -1,0 +1,46 @@
+---
+layout: post
+title: C中把int类型>>32位会发生什么?
+category: note
+---
+
+<span style="font-size: 13px;">
+</span>
+
+
+<div id="code0" class="altbg2" style="border: 1px solid #698cc3; margin: 3px 2em 2em; padding: 5px 10px 10px; clear: both; font-family: fixedsys;">&nbs unsigned int nn = ~0;
+&nbs unsigned int ii = 0;
+&nbs while( nn>>ii )
+&nbs {
+&nbs&nbsp; &nbsp;&nbsp;&nbsp;printf("%8x \n", nn>>ii);
+&nbs&nbsp; &nbsp;&nbsp;&nbsp;ii++;
+&nbs&nbsp; &nbsp;&nbsp;&nbsp;if(ii == 100)break;
+&nbs }</div>
+本来我想让nn移位32位然后跳出循环的(*安全的做法当然是nn =>> 1;*)，后来发现这个关系 :
+
+&nbs<span style="font-size: small;"><span style="font-weight: bold;">(nn>>32 == nn)</span>
+
+</span>*粗浅的*查<Programming in C> , 书里面没有把>>的操作数超过32当作"未定义行为" .
+
+从vc6里面看汇编，发现对应的指令是：
+0040B89F&nbsmov&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;edx,dword ptr [ebp-4]
+0040B8A2&nbsmov&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;ecx,dword ptr [ebp-8]
+0040B8A5&nbsshr&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;edx,cl
+
+看起来C编译器没有对ii进行取模操作，而是直接把ii交给shr这个cpu指令
+
+这是intel的文档原文：
+[pdf 下载:http://www.intel.com/cd/ids/developer/apac/zho/dc/pentium4/reference/79962.htm&nbsp; ]
+
+The SAL and SHL instructions perform the same operation (see Figure 7-6). They shift the source operand left by from 1 to 31 bit positions. Empty bit positions are cleared. The CF flag is loaded with the last bit shifted out of the operand.
+
+我的理解: <span style="font-weight: bold;"><span style="font-size: small;">虽然没说明shr 操作数是0和32的情况会发上什么，但是已经说明了1 to 31 , 所以默认把大于31的数对32取模，也算是理所当然的了</span></span>。<span style="font-size: small;">&nbsp;</span>
+另, 如果>>操作符后面是一个常数,例如 <span style="font-size: 13px;">int n = nn >> 32 ;这样的语句, GCC编译器会报告一个警告: right shift count >= width of type
+</span>
+
+
+<span style="font-size: 13px;">还是GCC周全一些啊.</span>
+
+
+<span style="font-size: 13px;">&nbsp;</span>
+

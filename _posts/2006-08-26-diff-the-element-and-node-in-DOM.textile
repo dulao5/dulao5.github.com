@@ -1,0 +1,130 @@
+---
+layout: post
+title: DOM中的element和Node什么区别？－－以及firefox#text节点的烦恼
+category: front-end
+---
+
+偶然研究DOM文档，发现一个&ldquo;深奥&rdquo;的问题&mdash;&mdash;DOM中的element和Note什么区别？
+
+
+google到这篇文章－－《<a style="color: #0000ff;" href="http://hedong.3322.org/archives/000055.html">XMLDOM学习笔记</a>》：
+（4）Node的类型
+
+
+<div class="code">
+<table border="1" cellspacing="0" width="100%">
+<tbody>
+
+<th align="left" valign="top">nodeType <th align="left" valign="top">Named Constant <th align="left" valign="top">nodeTypeString <th align="left" valign="top">nodeName <th align="left" valign="top">nodeValue
+|
+
+
+<td valign="top">1
+<td valign="top">ELEMENT_NODE
+<td valign="top">element
+<td valign="top">tagName
+<td valign="top">null
+|
+
+
+<td valign="top">2
+<td valign="top">ATTRIBUTE_NODE
+<td valign="top">attribute
+<td valign="top">name
+<td valign="top">value
+|
+
+
+<td valign="top">3
+<td valign="top">TEXT_NODE
+<td valign="top">text
+<td valign="top">#text
+<td valign="top">content of node
+|
+
+
+<td valign="top">4
+<td valign="top">CDATA_SECTION_NODE
+<td valign="top">cdatasection
+<td valign="top">#cdata-section
+<td valign="top">content of node
+|
+
+
+<td valign="top">5
+<td valign="top">ENTITY_REFERENCE_NODE
+<td valign="top">entityreference
+<td valign="top">entity reference name
+<td valign="top">null
+|
+
+
+<td valign="top">6
+<td valign="top">ENTITY_NODE
+<td valign="top">entity
+<td valign="top">entity name
+<td valign="top">null
+|
+
+
+<td valign="top">7
+<td valign="top">PROCESSING_INSTRUCTION_NODE
+<td valign="top">processinginstruction
+<td valign="top">target
+<td valign="top">content of node
+|
+
+
+<td valign="top">8
+<td valign="top">COMMENT_NODE
+<td valign="top">comment
+<td valign="top">#comment
+<td valign="top">comment text
+|
+
+
+<td valign="top">9
+<td valign="top">DOCUMENT_NODE
+<td valign="top">document
+<td valign="top">#document
+<td valign="top">null
+|
+
+
+<td valign="top">10
+<td valign="top">DOCUMENT_TYPE_NODE
+<td valign="top">documenttype
+<td valign="top">doctype name
+<td valign="top">null
+|
+
+
+<td valign="top">11
+<td valign="top">DOCUMENT_FRAGMENT_NODE
+<td valign="top">documentfragment
+<td valign="top">#document fragment
+<td valign="top">null
+|
+
+
+<td valign="top">12
+<td valign="top">NOTATION_NODE
+<td valign="top">notation
+<td valign="top">notation name
+<td valign="top">null
+|
+
+</tbody>
+
+</div>
+看起来，只有NodeType==1的node类型才是element，这就是他们的区别.
+
+
+之所以想起这个问题，是因为我在使用dom解析xml文档时，在firefox和opera中，一个cdata数据元素(element)，同时存在两个节点(node) , childNode[0]节点是一个#text节点，内容是空的，childNode[1]节点是一个#cdata-section类型节点。而IE的cdata元素只有一个#cdata-section类型节点。所以解析起来需要顾及浏览器兼容问题。
+
+
+我一直感到text节点是个奇怪的节点，用firefox的dom查看器查看网页时，会看到很多空的#text节点，似乎这和文档的源文件有关系。<span style="color: red;">具体深层的问题我还没有搞清楚。暂且按照惯例，认为firefox和opera的行为是标准行为吧</span>。
+
+
+
+

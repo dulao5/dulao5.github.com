@@ -1,0 +1,35 @@
+---
+layout: post
+title: 寻找。。。
+category: front-end
+---
+
+<pre>
+1. json：
+
+找到了几个对于js对象直接量的文档：
+http://www.crockford.com/JSON/index.html
+原来这叫json哈哈
+这是php对json的封装，经测试，可以自由的把php的对象（数组、变量）安全的转换成js的对象文本
+http://mike.teczno.com/json.html
+已经申请入pear库的提案
+http://pear.php.net/pepr/pepr-proposal-show.php?id=198
+
+2. 又观察了xml方式的客户端绑定，发现除了xslt以外其它办法不好
+   1）xslt可以使用google的ajaxslt
+      带来的问题是美工需要学习xslt
+   2）除了xslt以外，ie可以使用data属性绑定界面和xml。但是不予考虑
+   3）xml转换成js数组,然后使用jstemplate处理数据和界面（转换好写，但是浪费一次遍历）
+   4）使用xmldoc直接写循环，读取节点元素绑定到界面
+      界面就嵌入到代码中了，不利于和美工合作以及维护
+
+3.发现google其实是使用json+模板的方案
+
+4.对比了sajax和xajax以及php-json的序列化，
+  序列化成xml,  sajax比较弱，但是可以使用php的xml_serialize做
+		xajax还可以
+  序列化成json,php-json做的很不错
+
+5.查看了ajaxAC的方式，它把php的类和js的类同步的很好，从php到js的代码转化也很不错
+  
+</pre>

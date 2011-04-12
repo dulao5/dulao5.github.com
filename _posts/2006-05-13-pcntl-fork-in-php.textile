@@ -1,0 +1,76 @@
+---
+layout: post
+title: php也支持fork哈哈
+category: php
+---
+
+<span style="font-size: small;"> 用php编写命令行脚本很方便，很多功能顺手就来，数组、正则和网络功能都很强大，可以说用php编写脚本进行我的日常工作很惬意。
+ 但是我一直没找到php多线程的办法。因此遇到很多需要多线程的问题我都是&ldquo;把多线程转化成多进程&rdquo;。怎么讲呢，其实很土，把要处理的配置文件分成几十份，写几十个批处理(.bat)php myphp.php conf_n.txt 。然后全选这些文件回车一下，这样就同时有好多程序一起跑了。
+ 今天试着搜索php+fork，果然找到办法了，真是惊喜啊。请看<a href="http://php.liukang.com/manual/en/ref.pcntl.php">php手册中"process control functions "部分</a>，其中几个关键函数是pcntl_fork 和pcntl_waitpi。
+
+ 下面是摘抄：</span>
+
+
+
+h1. <a name="function.pcntl-fork"></a>pcntl_fork
+
+
+<div class="refnamediv"><a name="AEN79754"></a>
+(PHP 4 >= 4.1.0)
+
+
+pcntl_fork&<60;--&<60;Forks the currently running  process</div>
+<div class="refsect1"><a name="AEN79757"></a>
+h2. Description
+
+
+int *pcntl_fork* ( void)
+
+
+The *pcntl_fork()* function creates a child process that  differs from the parent process only in it's PID and PPID. Please see your  system's fork(2) man page for specific details as to how fork works on your  system.
+
+
+On success, the PID of the child process is returned in the parent's thread  of execution, and a 0 is returned in the child's thread of execution. On  failure, a -1 will be returned in the parent's context, no child process will be  created, and a PHP error is raised.
+
+
+<table class="EXAMPLE" border="0" cellspacing="0" cellpadding="0" width="100%">
+<tbody>
+
+|
+<div class="example"><a name="AEN79766"></a>
+*例子 1. *pcntl_fork()* Example*
+
+
+<table border="0" cellpadding="5" bgcolor="#e0e0e0">
+<tbody>
+
+|
+<pre class="php"><?php
+
+$pid = pcntl_fork();
+if ($pid == -1) {
+     die("could not fork");
+} else if ($pid) {
+     // we are the parent
+} else {
+     // we are the child
+}
+
+?></pre>
+
+|
+
+</tbody>
+
+</div>
+
+|
+
+</tbody>
+
+
+
+
+</div>
+@<span class="html"><span class="default">&nbsp;</span></span>@<a></a><a href="/admin/function.pcntl-waitpid.html">&nbsp;</a><a href="/admin/function.pcntl-waitpid.html">&nbsp;</a>
+

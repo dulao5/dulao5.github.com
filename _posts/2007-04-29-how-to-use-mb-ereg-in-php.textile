@@ -1,0 +1,50 @@
+---
+layout: post
+title: mb_ereg 如何匹配全部？
+category: php
+---
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; mbstring为宽字符提供了mb_ereg/mb_eregi/mb_ereg_search*等函数来替代preg_match/ereg等函数。但是并没有实现类似preg_match_all之类的函数。而是通过mb_ereg_search*系列函数来间接实现匹配全部的功能。
+
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 参考下面的代码:
+
+
+<blockquote style="margin-right: 0px;" dir="ltr">
+<blockquote style="margin-right: 0px;" dir="ltr">
+<?php
+&nbsp;&nbsp;&nbsp; $str = "中国abc + abc ?!？！字符＃　china string";
+
+
+&nbsp;&nbsp; $reg = "\w+";&nbsp;&nbsp;&nbsp; //匹配全部单词不需要(\w+)*来实现重复匹配
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; //而是通过mb_ereg_search循环得到匹配结果
+
+
+&nbsp;&nbsp; mb_regex_encoding("UTF-8");
+
+
+&nbsp;&nbsp; mb_ereg_search_init($str, $reg);
+&nbsp;&nbsp;&nbsp; $r = mb_ereg_search();
+
+
+&nbsp;&nbsp; if(!$r)
+&nbsp;&nbsp;&nbsp; {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; echo "null\n";
+&nbsp;&nbsp;&nbsp; }
+&nbsp;&nbsp;&nbsp; else
+&nbsp;&nbsp;&nbsp; {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; $r = mb_ereg_search_getregs();&nbsp; //get first result
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; do
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; var_dump($r[0]);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; $r = mb_ereg_search_regs(); //get next result
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; }
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; while($r);
+&nbsp;&nbsp;&nbsp; }
+?>
+
+
+
+
+<p dir="ltr">&nbsp;
+

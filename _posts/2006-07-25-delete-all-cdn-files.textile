@@ -1,0 +1,57 @@
+---
+layout: post
+title: 手工清除cdn流氓软件
+category: note
+---
+
+我的电脑是win xp，平时一般用firefox，很少用ie。即使用ie我对activex也做了限制，所以自从上网以来很少中流氓软件的招。
+
+
+今天安装一个共享软件，不幸意外安装上了叫做cdn、letscool等流氓冬冬，怎么卸载都卸载不了。据查cdn是CNNIC的一个软件，号称&ldquo;通用网址&rdquo;，看样子和3721是同类。虽然cdn提供了卸载程序，但是卸载后无论如何都依然存在。
+
+
+看到cdn的安装目录是&ldquo;c:\program files\cnnic\cdn&rdquo;于是手工删除这个目录，没想到文件夹下的所有dll文件都被进程锁定，无法删除。打开&ldquo;任务管理器&rdquo;发现有个叫做&ldquo;cdnup&rdquo;的进程无法中止。看来就是这个流氓进程了。
+
+
+从网上google相关信息，看到这篇<a style="color: #0000ff;" title="《垃圾流氓反删除批处理文件》" href="http://www.littleyu.com/article/uninstall.html">《垃圾流氓反删除批处理文件》</a>文章写的很酷，于是马上打开命令行窗口试验，发现没有起到作用。但是里面这两行给了我启发：
+
+
+<blockquote style="margin-right: 0px;" dir="ltr">
+rem kao kao cao cao windirected 傲迅 wmpdrm.dll
+rem 这个垃圾流氓卸载 需要在安全模式下进行,也可以终止explorer.exe,taskmgr.exe,输入法等进程只留下基本进程,在CMD窗口中执行可以卸载
+
+
+
+看起来和流氓软件相关的进程太多了，所以我无法删掉这些文件。
+
+
+于是马上重启机器，按住F8进入&ldquo;带命令行的安全模式&rdquo;，登陆后系统为我打开一个cmd命令行窗口。输入命令tasklist回车，发现现在进程很少，的确没有cdn/explorer等程序。这下好了。为了确保把一切cdn相关文件一网打进，我使用了这个命令：
+
+
+<blockquote style="margin-right: 0px;" dir="ltr">
+for /R %d in (*cdn*) do echo "%d"&nbsp;&nbsp;&nbsp;&nbsp; //没有使用del命令是怕删掉别的无辜文件
+
+
+
+发现包含cdn关键字的文件很多，除了program files文件夹下的文件，Documents and Settings\User\Local Settings\Temp下也有很多。于是我输入：
+
+
+<blockquote style="margin-right: 0px;" dir="ltr">
+for /R %d in (*cdn*) do&nbsp;del "%d"&nbsp;&nbsp;&nbsp;&nbsp; //用引号是避免路径中的空格对del命令的干扰
+
+
+
+<p dir="ltr">然后
+
+
+<blockquote style="margin-right: 0px;" dir="ltr">
+<p dir="ltr">rmdir "program files\cnnic\cdn"
+rmdir "\program files\cnnic"
+
+
+
+<p dir="ltr">这样，cnnic相关文件就被清除干净了。用同样的办法，我也清除了letscool这个流氓。最后打开regedit,查找所有run的项，删除未知来源的键值。我的电脑终于恢复了宁静和谐，哈哈。
+
+
+<p dir="ltr">&nbsp;
+

@@ -1,0 +1,17 @@
+---
+layout: post
+title: 速记：如何在主机A上使用ssh连接B不需要输入密码
+category: note
+---
+
+搞懂之后，发现只需要在A上输入下面几个命令：
+
+
+ssh-keygen -t rsa #输入一个不同于登陆密码的密码
+scp .ssh/id_rsa.pub&nbsp; hostname_B:/home/youruser/.ssh/authorized_keys
+exec /usr/bin/ssh-agent $SHELL
+ssh-add #输入刚才那个密码
+
+
+
+

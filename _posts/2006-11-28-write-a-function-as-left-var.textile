@@ -1,0 +1,43 @@
+---
+layout: post
+title: 写一个函数,函数做为左值
+category: cpp
+---
+
+除了赋值操作符重载，想来想去只想到一个应用，使用下面的左值为其他模块提供操作本模块的接口。
+
+
+static int g_i = 0;
+
+
+int & set_g_i()
+{
+&nbsp;return g_i;
+}
+
+
+int * set_g_i2()
+{
+&nbsp;return &g_i;
+}
+。。。。
+
+
+int main(int argc, char * argv[], char * envp[])
+{
+&nbsp;&nbsp; set_g_i() = 5;
+&nbsp;&nbsp; printf("%d\n", g_i);
+
+
+&nbsp; *set_g_i2() = 7;
+&nbsp;&nbsp; printf("%d\n", g_i);
+
+
+}
+
+
+
+
+
+但是这样太牵强了。也许只有面试的时候才会有用吧，^_^。
+

@@ -1,0 +1,624 @@
+---
+layout: post
+title: 尝试php命令行脚本多进程并发执行
+category: php
+---
+
+<p class="MsoNormal" style="margin: 0cm 0cm 0pt; text-align: left; mso-pagination: widow-orphan; tab-stops: 45.8pt 91.6pt 137.4pt 183.2pt 229.0pt 274.8pt 320.6pt 366.4pt 412.2pt 458.0pt 503.8pt 549.6pt 595.4pt 641.2pt 687.0pt 732.8pt;"><span style="font-size: 12pt; font-family: &#23435;&#20307;; mso-bidi-font-family: &#23435;&#20307;; mso-font-kerning: 0pt;" lang="EN-US">&nbsp;<!--?xml:namespace prefix = o ns = "urn:schemas-microsoft-com:office:office" /--></span>
+
+
+
+
+
+
+
+
+<p class="MsoNormal" style="margin: 0cm 0cm 0pt; text-align: left; mso-pagination: widow-orphan; mso-margin-top-alt: auto; mso-margin-bottom-alt: auto;"><span style="font-size: 9pt; font-family: &#23435;&#20307;; mso-bidi-font-family: &#23435;&#20307;; mso-font-kerning: 0pt;" lang="EN-US">php不支持多线程，但是我们可以把问题转换成&ldquo;多进程&rdquo;来解决。由于php中的pcntl_fork只有unix平台才可以使用，所以本文尝试使用<a href="http://www.php.net/popen"><span style="color: #000066; mso-bidi-font-size: 12.0pt;">popen</span></a>来替代。 </span>
+
+
+
+
+
+
+
+
+<p class="MsoNormal" style="margin: 0cm 0cm 0pt; text-align: left; mso-pagination: widow-orphan; tab-stops: 45.8pt 91.6pt 137.4pt 183.2pt 229.0pt 274.8pt 320.6pt 366.4pt 412.2pt 458.0pt 503.8pt 549.6pt 595.4pt 641.2pt 687.0pt 732.8pt;"><span style="font-size: 12pt; font-family: &#23435;&#20307;; mso-bidi-font-family: &#23435;&#20307;; mso-font-kerning: 0pt;" lang="EN-US"><span style="font-size: small;"><span style="mso-spacerun: yes;">&nbsp; </span>
+下面是一个例子：
+<span style="mso-spacerun: yes;">&nbsp; </span>
+被并行调用的子程序代码：
+</span></span>*<span style="font-size: 9pt; color: black; font-family: &#23435;&#20307;; mso-bidi-font-family: &#23435;&#20307;; mso-font-kerning: 0pt;" lang="EN-US"><?php</span>*<span style="font-size: 12pt; font-family: &#23435;&#20307;; mso-bidi-font-family: &#23435;&#20307;; mso-font-kerning: 0pt;" lang="EN-US">&nbsp;</span>
+
+
+
+
+
+
+
+
+<p class="MsoNormal" style="margin: 0cm 0cm 0pt; text-align: left; mso-pagination: widow-orphan; tab-stops: 45.8pt 91.6pt 137.4pt 183.2pt 229.0pt 274.8pt 320.6pt 366.4pt 412.2pt 458.0pt 503.8pt 549.6pt 595.4pt 641.2pt 687.0pt 732.8pt;"><span style="font-size: 12pt; font-family: &#23435;&#20307;; mso-bidi-font-family: &#23435;&#20307;; mso-font-kerning: 0pt;" lang="EN-US"><span style="font-size: small;"><span style="mso-spacerun: yes;">&nbsp; </span></span></span>
+
+
+<span style="font-size: small;">
+</span>
+
+
+
+
+
+<p class="MsoNormal" style="margin: 0cm 0cm 0pt; text-align: left; mso-pagination: widow-orphan; tab-stops: 45.8pt 91.6pt 137.4pt 183.2pt 229.0pt 274.8pt 320.6pt 366.4pt 412.2pt 458.0pt 503.8pt 549.6pt 595.4pt 641.2pt 687.0pt 732.8pt;"><span style="font-size: 9pt; color: #b1b100; font-family: &#23435;&#20307;; mso-bidi-font-family: &#23435;&#20307;; mso-font-kerning: 0pt;" lang="EN-US">if</span><span style="font-size: 9pt; color: #66cc66; font-family: &#23435;&#20307;; mso-bidi-font-family: &#23435;&#20307;; mso-font-kerning: 0pt;" lang="EN-US">(</span><span style="font-size: 9pt; color: blue; font-family: &#23435;&#20307;; mso-bidi-font-family: &#23435;&#20307;; mso-font-kerning: 0pt;" lang="EN-US">$argc</span><span style="font-size: 12pt; font-family: &#23435;&#20307;; mso-bidi-font-family: &#23435;&#20307;; mso-font-kerning: 0pt;" lang="EN-US">==</span><span style="font-size: 9pt; color: #cc66cc; font-family: &#23435;&#20307;; mso-bidi-font-family: &#23435;&#20307;; mso-font-kerning: 0pt;" lang="EN-US">1</span><span style="font-size: 9pt; color: #66cc66; font-family: &#23435;&#20307;; mso-bidi-font-family: &#23435;&#20307;; mso-font-kerning: 0pt;" lang="EN-US">){</span><span style="font-size: 12pt; font-family: &#23435;&#20307;; mso-bidi-font-family: &#23435;&#20307;; mso-font-kerning: 0pt;" lang="EN-US">&nbsp;</span>
+
+
+
+
+
+
+
+
+<p class="MsoNormal" style="margin: 0cm 0cm 0pt; text-align: left; mso-pagination: widow-orphan; tab-stops: 45.8pt 91.6pt 137.4pt 183.2pt 229.0pt 274.8pt 320.6pt 366.4pt 412.2pt 458.0pt 503.8pt 549.6pt 595.4pt 641.2pt 687.0pt 732.8pt;"><span style="font-size: 12pt; font-family: &#23435;&#20307;; mso-bidi-font-family: &#23435;&#20307;; mso-font-kerning: 0pt;" lang="EN-US"><a href="http://www.php.net/echo"><span style="font-size: 9pt; color: #000066; mso-bidi-font-size: 12.0pt;">echo</span></a></span><span style="font-size: 9pt; color: #66cc66; font-family: &#23435;&#20307;; mso-bidi-font-family: &#23435;&#20307;; mso-font-kerning: 0pt;" lang="EN-US">(</span><span style="font-size: 9pt; color: red; font-family: &#23435;&#20307;; mso-bidi-font-family: &#23435;&#20307;; mso-font-kerning: 0pt;" lang="EN-US">"argv</span>*<span style="font-size: 9pt; color: #000099; font-family: &#23435;&#20307;; mso-bidi-font-family: &#23435;&#20307;; mso-font-kerning: 0pt;" lang="EN-US">\n</span>*<span style="font-size: 9pt; color: red; font-family: &#23435;&#20307;; mso-bidi-font-family: &#23435;&#20307;; mso-font-kerning: 0pt;" lang="EN-US">"</span><span style="font-size: 9pt; color: #66cc66; font-family: &#23435;&#20307;; mso-bidi-font-family: &#23435;&#20307;; mso-font-kerning: 0pt;" lang="EN-US">)</span><span style="font-size: 12pt; font-family: &#23435;&#20307;; mso-bidi-font-family: &#23435;&#20307;; mso-font-kerning: 0pt;" lang="EN-US">;
+</span><span style="font-size: 9pt; color: #66cc66; font-family: &#23435;&#20307;; mso-bidi-font-family: &#23435;&#20307;; mso-font-kerning: 0pt;" lang="EN-US">}</span><span style="font-size: 12pt; font-family: &#23435;&#20307;; mso-bidi-font-family: &#23435;&#20307;; mso-font-kerning: 0pt;" lang="EN-US">&nbsp;</span>
+
+
+
+
+
+
+
+
+<p class="MsoNormal" style="margin: 0cm 0cm 0pt; text-align: left; mso-pagination: widow-orphan; tab-stops: 45.8pt 91.6pt 137.4pt 183.2pt 229.0pt 274.8pt 320.6pt 366.4pt 412.2pt 458.0pt 503.8pt 549.6pt 595.4pt 641.2pt 687.0pt 732.8pt;"><span style="font-size: 12pt; font-family: &#23435;&#20307;; mso-bidi-font-family: &#23435;&#20307;; mso-font-kerning: 0pt;" lang="EN-US"><span style="font-size: small;"><span style="mso-spacerun: yes;">&nbsp; </span></span></span>
+
+
+<span style="font-size: small;">
+</span>
+
+
+
+
+
+<p class="MsoNormal" style="margin: 0cm 0cm 0pt; text-align: left; mso-pagination: widow-orphan; tab-stops: 45.8pt 91.6pt 137.4pt 183.2pt 229.0pt 274.8pt 320.6pt 366.4pt 412.2pt 458.0pt 503.8pt 549.6pt 595.4pt 641.2pt 687.0pt 732.8pt;"><span style="font-size: 9pt; color: blue; font-family: &#23435;&#20307;; mso-bidi-font-family: &#23435;&#20307;; mso-font-kerning: 0pt;" lang="EN-US">$arg</span><span style="font-size: 12pt; font-family: &#23435;&#20307;; mso-bidi-font-family: &#23435;&#20307;; mso-font-kerning: 0pt;" lang="EN-US"> = </span><span style="font-size: 9pt; color: blue; font-family: &#23435;&#20307;; mso-bidi-font-family: &#23435;&#20307;; mso-font-kerning: 0pt;" lang="EN-US">$argv</span><span style="font-size: 9pt; color: #66cc66; font-family: &#23435;&#20307;; mso-bidi-font-family: &#23435;&#20307;; mso-font-kerning: 0pt;" lang="EN-US">[</span><span style="font-size: 9pt; color: #cc66cc; font-family: &#23435;&#20307;; mso-bidi-font-family: &#23435;&#20307;; mso-font-kerning: 0pt;" lang="EN-US">1</span><span style="font-size: 9pt; color: #66cc66; font-family: &#23435;&#20307;; mso-bidi-font-family: &#23435;&#20307;; mso-font-kerning: 0pt;" lang="EN-US">]</span><span style="font-size: 12pt; font-family: &#23435;&#20307;; mso-bidi-font-family: &#23435;&#20307;; mso-font-kerning: 0pt;" lang="EN-US">;
+<span style="font-size: small;"><span style="mso-spacerun: yes;">&nbsp; </span>
+</span></span><span style="font-size: 9pt; color: #b1b100; font-family: &#23435;&#20307;; mso-bidi-font-family: &#23435;&#20307;; mso-font-kerning: 0pt;" lang="EN-US">for</span><span style="font-size: 9pt; color: #66cc66; font-family: &#23435;&#20307;; mso-bidi-font-family: &#23435;&#20307;; mso-font-kerning: 0pt;" lang="EN-US">(</span><span style="font-size: 9pt; color: blue; font-family: &#23435;&#20307;; mso-bidi-font-family: &#23435;&#20307;; mso-font-kerning: 0pt;" lang="EN-US">$i</span><span style="font-size: 12pt; font-family: &#23435;&#20307;; mso-bidi-font-family: &#23435;&#20307;; mso-font-kerning: 0pt;" lang="EN-US">=</span><span style="font-size: 9pt; color: #cc66cc; font-family: &#23435;&#20307;; mso-bidi-font-family: &#23435;&#20307;; mso-font-kerning: 0pt;" lang="EN-US">0</span><span style="font-size: 12pt; font-family: &#23435;&#20307;; mso-bidi-font-family: &#23435;&#20307;; mso-font-kerning: 0pt;" lang="EN-US">; </span><span style="font-size: 9pt; color: blue; font-family: &#23435;&#20307;; mso-bidi-font-family: &#23435;&#20307;; mso-font-kerning: 0pt;" lang="EN-US">$i</span><span style="font-size: 12pt; font-family: &#23435;&#20307;; mso-bidi-font-family: &#23435;&#20307;; mso-font-kerning: 0pt;" lang="EN-US"><</span><span style="font-size: 9pt; color: #cc66cc; font-family: &#23435;&#20307;; mso-bidi-font-family: &#23435;&#20307;; mso-font-kerning: 0pt;" lang="EN-US">10</span><span style="font-size: 12pt; font-family: &#23435;&#20307;; mso-bidi-font-family: &#23435;&#20307;; mso-font-kerning: 0pt;" lang="EN-US">; </span><span style="font-size: 9pt; color: blue; font-family: &#23435;&#20307;; mso-bidi-font-family: &#23435;&#20307;; mso-font-kerning: 0pt;" lang="EN-US">$i</span><span style="font-size: 12pt; font-family: &#23435;&#20307;; mso-bidi-font-family: &#23435;&#20307;; mso-font-kerning: 0pt;" lang="EN-US">++</span><span style="font-size: 9pt; color: #66cc66; font-family: &#23435;&#20307;; mso-bidi-font-family: &#23435;&#20307;; mso-font-kerning: 0pt;" lang="EN-US">)</span><span style="font-size: 12pt; font-family: &#23435;&#20307;; mso-bidi-font-family: &#23435;&#20307;; mso-font-kerning: 0pt;" lang="EN-US">&nbsp;</span>
+
+
+
+
+
+
+
+
+<p class="MsoNormal" style="margin: 0cm 0cm 0pt; text-align: left; mso-pagination: widow-orphan; tab-stops: 45.8pt 91.6pt 137.4pt 183.2pt 229.0pt 274.8pt 320.6pt 366.4pt 412.2pt 458.0pt 503.8pt 549.6pt 595.4pt 641.2pt 687.0pt 732.8pt;"><span style="font-size: 9pt; color: #66cc66; font-family: &#23435;&#20307;; mso-bidi-font-family: &#23435;&#20307;; mso-font-kerning: 0pt;" lang="EN-US">{</span><span style="font-size: 12pt; font-family: &#23435;&#20307;; mso-bidi-font-family: &#23435;&#20307;; mso-font-kerning: 0pt;" lang="EN-US">&nbsp;</span>
+
+
+
+
+
+
+
+
+<p class="MsoNormal" style="margin: 0cm 0cm 0pt; text-align: left; mso-pagination: widow-orphan; tab-stops: 45.8pt 91.6pt 137.4pt 183.2pt 229.0pt 274.8pt 320.6pt 366.4pt 412.2pt 458.0pt 503.8pt 549.6pt 595.4pt 641.2pt 687.0pt 732.8pt;"><span style="font-size: 12pt; font-family: &#23435;&#20307;; mso-bidi-font-family: &#23435;&#20307;; mso-font-kerning: 0pt;" lang="EN-US"><span style="font-size: small;"><span style="mso-spacerun: yes;">&nbsp; </span></span></span>
+
+
+<span style="font-size: small;">
+</span>
+
+
+
+
+
+<p class="MsoNormal" style="margin: 0cm 0cm 0pt; text-align: left; mso-pagination: widow-orphan; tab-stops: 45.8pt 91.6pt 137.4pt 183.2pt 229.0pt 274.8pt 320.6pt 366.4pt 412.2pt 458.0pt 503.8pt 549.6pt 595.4pt 641.2pt 687.0pt 732.8pt;"><span style="font-size: 12pt; font-family: &#23435;&#20307;; mso-bidi-font-family: &#23435;&#20307;; mso-font-kerning: 0pt;" lang="EN-US"><a href="http://www.php.net/echo"><span style="font-size: 9pt; color: #000066; mso-bidi-font-size: 12.0pt;">echo</span></a></span><span style="font-size: 9pt; color: #66cc66; font-family: &#23435;&#20307;; mso-bidi-font-family: &#23435;&#20307;; mso-font-kerning: 0pt;" lang="EN-US">(</span><span style="font-size: 9pt; color: blue; font-family: &#23435;&#20307;; mso-bidi-font-family: &#23435;&#20307;; mso-font-kerning: 0pt;" lang="EN-US">$i</span><span style="font-size: 12pt; font-family: &#23435;&#20307;; mso-bidi-font-family: &#23435;&#20307;; mso-font-kerning: 0pt;" lang="EN-US">.</span><span style="font-size: 9pt; color: red; font-family: &#23435;&#20307;; mso-bidi-font-family: &#23435;&#20307;; mso-font-kerning: 0pt;" lang="EN-US">".1."</span><span style="font-size: 12pt; font-family: &#23435;&#20307;; mso-bidi-font-family: &#23435;&#20307;; mso-font-kerning: 0pt;" lang="EN-US">.<a href="http://www.php.net/time"><span style="font-size: 9pt; color: #000066; mso-bidi-font-size: 12.0pt;">time</span></a></span><span style="font-size: 9pt; color: #66cc66; font-family: &#23435;&#20307;; mso-bidi-font-family: &#23435;&#20307;; mso-font-kerning: 0pt;" lang="EN-US">()</span><span style="font-size: 12pt; font-family: &#23435;&#20307;; mso-bidi-font-family: &#23435;&#20307;; mso-font-kerning: 0pt;" lang="EN-US">.</span><span style="font-size: 9pt; color: red; font-family: &#23435;&#20307;; mso-bidi-font-family: &#23435;&#20307;; mso-font-kerning: 0pt;" lang="EN-US">" exec $arg </span>*<span style="font-size: 9pt; color: #000099; font-family: &#23435;&#20307;; mso-bidi-font-family: &#23435;&#20307;; mso-font-kerning: 0pt;" lang="EN-US">\n</span>*<span style="font-size: 9pt; color: red; font-family: &#23435;&#20307;; mso-bidi-font-family: &#23435;&#20307;; mso-font-kerning: 0pt;" lang="EN-US">"</span><span style="font-size: 9pt; color: #66cc66; font-family: &#23435;&#20307;; mso-bidi-font-family: &#23435;&#20307;; mso-font-kerning: 0pt;" lang="EN-US">)</span><span style="font-size: 12pt; font-family: &#23435;&#20307;; mso-bidi-font-family: &#23435;&#20307;; mso-font-kerning: 0pt;" lang="EN-US">;
+</span><span style="font-size: 9pt; color: #b1b100; font-family: &#23435;&#20307;; mso-bidi-font-family: &#23435;&#20307;; mso-font-kerning: 0pt;" lang="EN-US">if</span><span style="font-size: 9pt; color: #66cc66; font-family: &#23435;&#20307;; mso-bidi-font-family: &#23435;&#20307;; mso-font-kerning: 0pt;" lang="EN-US">(</span><span style="font-size: 9pt; color: blue; font-family: &#23435;&#20307;; mso-bidi-font-family: &#23435;&#20307;; mso-font-kerning: 0pt;" lang="EN-US">$arg</span><span style="font-size: 12pt; font-family: &#23435;&#20307;; mso-bidi-font-family: &#23435;&#20307;; mso-font-kerning: 0pt;" lang="EN-US">==</span><span style="font-size: 9pt; color: red; font-family: &#23435;&#20307;; mso-bidi-font-family: &#23435;&#20307;; mso-font-kerning: 0pt;" lang="EN-US">'php2'</span><span style="font-size: 9pt; color: #66cc66; font-family: &#23435;&#20307;; mso-bidi-font-family: &#23435;&#20307;; mso-font-kerning: 0pt;" lang="EN-US">)</span><span style="font-size: 12pt; font-family: &#23435;&#20307;; mso-bidi-font-family: &#23435;&#20307;; mso-font-kerning: 0pt;" lang="EN-US">&nbsp;</span>
+
+
+
+
+
+
+
+
+<p class="MsoNormal" style="margin: 0cm 0cm 0pt; text-align: left; mso-pagination: widow-orphan; tab-stops: 45.8pt 91.6pt 137.4pt 183.2pt 229.0pt 274.8pt 320.6pt 366.4pt 412.2pt 458.0pt 503.8pt 549.6pt 595.4pt 641.2pt 687.0pt 732.8pt;"><span style="font-size: 9pt; color: #66cc66; font-family: &#23435;&#20307;; mso-bidi-font-family: &#23435;&#20307;; mso-font-kerning: 0pt;" lang="EN-US">{</span><span style="font-size: 12pt; font-family: &#23435;&#20307;; mso-bidi-font-family: &#23435;&#20307;; mso-font-kerning: 0pt;" lang="EN-US">&nbsp;</span>
+
+
+
+
+
+
+
+
+<p class="MsoNormal" style="margin: 0cm 0cm 0pt; text-align: left; mso-pagination: widow-orphan; tab-stops: 45.8pt 91.6pt 137.4pt 183.2pt 229.0pt 274.8pt 320.6pt 366.4pt 412.2pt 458.0pt 503.8pt 549.6pt 595.4pt 641.2pt 687.0pt 732.8pt;"><span style="font-size: 12pt; font-family: &#23435;&#20307;; mso-bidi-font-family: &#23435;&#20307;; mso-font-kerning: 0pt;" lang="EN-US"><a href="http://www.php.net/sleep"><span style="font-size: 9pt; color: #000066; mso-bidi-font-size: 12.0pt;">sleep</span></a></span><span style="font-size: 9pt; color: #66cc66; font-family: &#23435;&#20307;; mso-bidi-font-family: &#23435;&#20307;; mso-font-kerning: 0pt;" lang="EN-US">(</span><span style="font-size: 9pt; color: #cc66cc; font-family: &#23435;&#20307;; mso-bidi-font-family: &#23435;&#20307;; mso-font-kerning: 0pt;" lang="EN-US">1</span><span style="font-size: 9pt; color: #66cc66; font-family: &#23435;&#20307;; mso-bidi-font-family: &#23435;&#20307;; mso-font-kerning: 0pt;" lang="EN-US">)</span><span style="font-size: 12pt; font-family: &#23435;&#20307;; mso-bidi-font-family: &#23435;&#20307;; mso-font-kerning: 0pt;" lang="EN-US">;
+<a href="http://www.php.net/echo"><span style="font-size: 9pt; color: #000066; mso-bidi-font-size: 12.0pt;">echo</span></a></span><span style="font-size: 9pt; color: #66cc66; font-family: &#23435;&#20307;; mso-bidi-font-family: &#23435;&#20307;; mso-font-kerning: 0pt;" lang="EN-US">(</span><span style="font-size: 9pt; color: blue; font-family: &#23435;&#20307;; mso-bidi-font-family: &#23435;&#20307;; mso-font-kerning: 0pt;" lang="EN-US">$i</span><span style="font-size: 12pt; font-family: &#23435;&#20307;; mso-bidi-font-family: &#23435;&#20307;; mso-font-kerning: 0pt;" lang="EN-US">.</span><span style="font-size: 9pt; color: red; font-family: &#23435;&#20307;; mso-bidi-font-family: &#23435;&#20307;; mso-font-kerning: 0pt;" lang="EN-US">".2."</span><span style="font-size: 12pt; font-family: &#23435;&#20307;; mso-bidi-font-family: &#23435;&#20307;; mso-font-kerning: 0pt;" lang="EN-US">.<a href="http://www.php.net/time"><span style="font-size: 9pt; color: #000066; mso-bidi-font-size: 12.0pt;">time</span></a></span><span style="font-size: 9pt; color: #66cc66; font-family: &#23435;&#20307;; mso-bidi-font-family: &#23435;&#20307;; mso-font-kerning: 0pt;" lang="EN-US">()</span><span style="font-size: 12pt; font-family: &#23435;&#20307;; mso-bidi-font-family: &#23435;&#20307;; mso-font-kerning: 0pt;" lang="EN-US">.</span><span style="font-size: 9pt; color: red; font-family: &#23435;&#20307;; mso-bidi-font-family: &#23435;&#20307;; mso-font-kerning: 0pt;" lang="EN-US">" exec $arg </span>*<span style="font-size: 9pt; color: #000099; font-family: &#23435;&#20307;; mso-bidi-font-family: &#23435;&#20307;; mso-font-kerning: 0pt;" lang="EN-US">\n</span>*<span style="font-size: 9pt; color: red; font-family: &#23435;&#20307;; mso-bidi-font-family: &#23435;&#20307;; mso-font-kerning: 0pt;" lang="EN-US">"</span><span style="font-size: 9pt; color: #66cc66; font-family: &#23435;&#20307;; mso-bidi-font-family: &#23435;&#20307;; mso-font-kerning: 0pt;" lang="EN-US">)</span><span style="font-size: 12pt; font-family: &#23435;&#20307;; mso-bidi-font-family: &#23435;&#20307;; mso-font-kerning: 0pt;" lang="EN-US">;
+<a href="http://www.php.net/sleep"><span style="font-size: 9pt; color: #000066; mso-bidi-font-size: 12.0pt;">sleep</span></a></span><span style="font-size: 9pt; color: #66cc66; font-family: &#23435;&#20307;; mso-bidi-font-family: &#23435;&#20307;; mso-font-kerning: 0pt;" lang="EN-US">(</span><span style="font-size: 9pt; color: #cc66cc; font-family: &#23435;&#20307;; mso-bidi-font-family: &#23435;&#20307;; mso-font-kerning: 0pt;" lang="EN-US">1</span><span style="font-size: 9pt; color: #66cc66; font-family: &#23435;&#20307;; mso-bidi-font-family: &#23435;&#20307;; mso-font-kerning: 0pt;" lang="EN-US">)</span><span style="font-size: 12pt; font-family: &#23435;&#20307;; mso-bidi-font-family: &#23435;&#20307;; mso-font-kerning: 0pt;" lang="EN-US">;
+</span><span style="font-size: 9pt; color: #66cc66; font-family: &#23435;&#20307;; mso-bidi-font-family: &#23435;&#20307;; mso-font-kerning: 0pt;" lang="EN-US">}</span><span style="font-size: 12pt; font-family: &#23435;&#20307;; mso-bidi-font-family: &#23435;&#20307;; mso-font-kerning: 0pt;" lang="EN-US">&nbsp;</span>
+
+
+
+
+
+
+
+
+<p class="MsoNormal" style="margin: 0cm 0cm 0pt; text-align: left; mso-pagination: widow-orphan; tab-stops: 45.8pt 91.6pt 137.4pt 183.2pt 229.0pt 274.8pt 320.6pt 366.4pt 412.2pt 458.0pt 503.8pt 549.6pt 595.4pt 641.2pt 687.0pt 732.8pt;"><span style="font-size: 9pt; color: #b1b100; font-family: &#23435;&#20307;; mso-bidi-font-family: &#23435;&#20307;; mso-font-kerning: 0pt;" lang="EN-US">else</span><span style="font-size: 12pt; font-family: &#23435;&#20307;; mso-bidi-font-family: &#23435;&#20307;; mso-font-kerning: 0pt;" lang="EN-US">&nbsp;</span>
+
+
+
+
+
+
+
+
+<p class="MsoNormal" style="margin: 0cm 0cm 0pt; text-align: left; mso-pagination: widow-orphan; tab-stops: 45.8pt 91.6pt 137.4pt 183.2pt 229.0pt 274.8pt 320.6pt 366.4pt 412.2pt 458.0pt 503.8pt 549.6pt 595.4pt 641.2pt 687.0pt 732.8pt;"><span style="font-size: 12pt; font-family: &#23435;&#20307;; mso-bidi-font-family: &#23435;&#20307;; mso-font-kerning: 0pt;" lang="EN-US"><a href="http://www.php.net/sleep"><span style="font-size: 9pt; color: #000066; mso-bidi-font-size: 12.0pt;">sleep</span></a></span><span style="font-size: 9pt; color: #66cc66; font-family: &#23435;&#20307;; mso-bidi-font-family: &#23435;&#20307;; mso-font-kerning: 0pt;" lang="EN-US">(</span><span style="font-size: 9pt; color: #cc66cc; font-family: &#23435;&#20307;; mso-bidi-font-family: &#23435;&#20307;; mso-font-kerning: 0pt;" lang="EN-US">1</span><span style="font-size: 9pt; color: #66cc66; font-family: &#23435;&#20307;; mso-bidi-font-family: &#23435;&#20307;; mso-font-kerning: 0pt;" lang="EN-US">)</span><span style="font-size: 12pt; font-family: &#23435;&#20307;; mso-bidi-font-family: &#23435;&#20307;; mso-font-kerning: 0pt;" lang="EN-US">;
+</span><span style="font-size: 9pt; color: #66cc66; font-family: &#23435;&#20307;; mso-bidi-font-family: &#23435;&#20307;; mso-font-kerning: 0pt;" lang="EN-US">}</span><span style="font-size: 12pt; font-family: &#23435;&#20307;; mso-bidi-font-family: &#23435;&#20307;; mso-font-kerning: 0pt;" lang="EN-US">&nbsp;</span>
+
+
+
+
+
+
+
+
+<p class="MsoNormal" style="margin: 0cm 0cm 0pt; text-align: left; mso-pagination: widow-orphan; tab-stops: 45.8pt 91.6pt 137.4pt 183.2pt 229.0pt 274.8pt 320.6pt 366.4pt 412.2pt 458.0pt 503.8pt 549.6pt 595.4pt 641.2pt 687.0pt 732.8pt;"><span style="font-size: 12pt; font-family: &#23435;&#20307;; mso-bidi-font-family: &#23435;&#20307;; mso-font-kerning: 0pt;" lang="EN-US"><span style="font-size: small;"><span style="mso-spacerun: yes;">&nbsp; </span></span></span>
+
+
+<span style="font-size: small;">
+</span>
+
+
+
+
+
+<p class="MsoNormal" style="margin: 0cm 0cm 0pt; text-align: left; mso-pagination: widow-orphan; tab-stops: 45.8pt 91.6pt 137.4pt 183.2pt 229.0pt 274.8pt 320.6pt 366.4pt 412.2pt 458.0pt 503.8pt 549.6pt 595.4pt 641.2pt 687.0pt 732.8pt;"><span style="font-size: 12pt; font-family: &#23435;&#20307;; mso-bidi-font-family: &#23435;&#20307;; mso-font-kerning: 0pt;" lang="EN-US"><span style="font-size: small;"><span style="mso-spacerun: yes;">&nbsp; </span></span></span>
+
+
+<span style="font-size: small;">
+</span>
+
+
+
+
+
+<p class="MsoNormal" style="margin: 0cm 0cm 0pt; text-align: left; mso-pagination: widow-orphan; tab-stops: 45.8pt 91.6pt 137.4pt 183.2pt 229.0pt 274.8pt 320.6pt 366.4pt 412.2pt 458.0pt 503.8pt 549.6pt 595.4pt 641.2pt 687.0pt 732.8pt;">*<span style="font-size: 9pt; color: black; font-family: &#23435;&#20307;; mso-bidi-font-family: &#23435;&#20307;; mso-font-kerning: 0pt;" lang="EN-US">?></span>*<span style="font-size: 12pt; font-family: &#23435;&#20307;; mso-bidi-font-family: &#23435;&#20307;; mso-font-kerning: 0pt;" lang="EN-US">&nbsp;</span>
+
+
+
+
+
+
+
+
+<p class="MsoNormal" style="margin: 0cm 0cm 0pt; text-align: left; mso-pagination: widow-orphan; tab-stops: 45.8pt 91.6pt 137.4pt 183.2pt 229.0pt 274.8pt 320.6pt 366.4pt 412.2pt 458.0pt 503.8pt 549.6pt 595.4pt 641.2pt 687.0pt 732.8pt;"><span style="font-size: 12pt; font-family: &#23435;&#20307;; mso-bidi-font-family: &#23435;&#20307;; mso-font-kerning: 0pt;" lang="EN-US"><span style="font-size: small;"><span style="mso-spacerun: yes;">&nbsp; </span></span></span>
+
+
+<span style="font-size: small;">
+</span>
+
+
+
+
+
+<p class="MsoNormal" style="margin: 0cm 0cm 0pt; text-align: left; mso-pagination: widow-orphan; tab-stops: 45.8pt 91.6pt 137.4pt 183.2pt 229.0pt 274.8pt 320.6pt 366.4pt 412.2pt 458.0pt 503.8pt 549.6pt 595.4pt 641.2pt 687.0pt 732.8pt;"><span style="font-size: 12pt; font-family: &#23435;&#20307;; mso-bidi-font-family: &#23435;&#20307;; mso-font-kerning: 0pt;" lang="EN-US">----------------------------</span>
+
+
+
+
+
+
+
+
+<p class="MsoNormal" style="margin: 0cm 0cm 0pt; text-align: left; mso-pagination: widow-orphan; tab-stops: 45.8pt 91.6pt 137.4pt 183.2pt 229.0pt 274.8pt 320.6pt 366.4pt 412.2pt 458.0pt 503.8pt 549.6pt 595.4pt 641.2pt 687.0pt 732.8pt;"><span style="font-size: 12pt; font-family: &#23435;&#20307;; mso-bidi-font-family: &#23435;&#20307;; mso-font-kerning: 0pt;" lang="EN-US"><span style="font-size: small;"><span style="mso-spacerun: yes;">&nbsp; </span></span></span>
+
+
+<span style="font-size: small;">
+</span>
+
+
+
+
+
+<p class="MsoNormal" style="margin: 0cm 0cm 0pt; text-align: left; mso-pagination: widow-orphan; tab-stops: 45.8pt 91.6pt 137.4pt 183.2pt 229.0pt 274.8pt 320.6pt 366.4pt 412.2pt 458.0pt 503.8pt 549.6pt 595.4pt 641.2pt 687.0pt 732.8pt;"><span style="font-size: 12pt; font-family: &#23435;&#20307;; mso-bidi-font-family: &#23435;&#20307;; mso-font-kerning: 0pt;">主调用者程序，由他调用子进程，同时并发的收集子程序的输出<span lang="EN-US">&nbsp;</span></span>
+
+
+
+
+
+
+
+
+<p class="MsoNormal" style="margin: 0cm 0cm 0pt; text-align: left; mso-pagination: widow-orphan; tab-stops: 45.8pt 91.6pt 137.4pt 183.2pt 229.0pt 274.8pt 320.6pt 366.4pt 412.2pt 458.0pt 503.8pt 549.6pt 595.4pt 641.2pt 687.0pt 732.8pt;"><span style="font-size: 12pt; font-family: &#23435;&#20307;; mso-bidi-font-family: &#23435;&#20307;; mso-font-kerning: 0pt;" lang="EN-US"><span style="font-size: small;"><span style="mso-spacerun: yes;">&nbsp; </span></span></span>
+
+
+<span style="font-size: small;">
+</span>
+
+
+
+
+
+<p class="MsoNormal" style="margin: 0cm 0cm 0pt; text-align: left; mso-pagination: widow-orphan; tab-stops: 45.8pt 91.6pt 137.4pt 183.2pt 229.0pt 274.8pt 320.6pt 366.4pt 412.2pt 458.0pt 503.8pt 549.6pt 595.4pt 641.2pt 687.0pt 732.8pt;">*<span style="font-size: 9pt; color: black; font-family: &#23435;&#20307;; mso-bidi-font-family: &#23435;&#20307;; mso-font-kerning: 0pt;" lang="EN-US"><?php</span>*<span style="font-size: 12pt; font-family: &#23435;&#20307;; mso-bidi-font-family: &#23435;&#20307;; mso-font-kerning: 0pt;" lang="EN-US">&nbsp;</span>
+
+
+
+
+
+
+
+
+<p class="MsoNormal" style="margin: 0cm 0cm 0pt; text-align: left; mso-pagination: widow-orphan; tab-stops: 45.8pt 91.6pt 137.4pt 183.2pt 229.0pt 274.8pt 320.6pt 366.4pt 412.2pt 458.0pt 503.8pt 549.6pt 595.4pt 641.2pt 687.0pt 732.8pt;"><span style="font-size: 12pt; font-family: &#23435;&#20307;; mso-bidi-font-family: &#23435;&#20307;; mso-font-kerning: 0pt;" lang="EN-US"><a href="http://www.php.net/error_reporting"><span style="font-size: 9pt; color: #000066; mso-bidi-font-size: 12.0pt;">error_reporting</span></a></span><span style="font-size: 9pt; color: #66cc66; font-family: &#23435;&#20307;; mso-bidi-font-family: &#23435;&#20307;; mso-font-kerning: 0pt;" lang="EN-US">(</span>*<span style="font-size: 9pt; color: black; font-family: &#23435;&#20307;; mso-bidi-font-family: &#23435;&#20307;; mso-font-kerning: 0pt;" lang="EN-US">E_ALL</span>*<span style="font-size: 9pt; color: #66cc66; font-family: &#23435;&#20307;; mso-bidi-font-family: &#23435;&#20307;; mso-font-kerning: 0pt;" lang="EN-US">)</span><span style="font-size: 12pt; font-family: &#23435;&#20307;; mso-bidi-font-family: &#23435;&#20307;; mso-font-kerning: 0pt;" lang="EN-US">;
+<span style="font-size: small;"><span style="mso-spacerun: yes;">&nbsp; </span>
+<span style="mso-spacerun: yes;">&nbsp; </span>
+</span></span><span style="font-size: 9pt; color: blue; font-family: &#23435;&#20307;; mso-bidi-font-family: &#23435;&#20307;; mso-font-kerning: 0pt;" lang="EN-US">$handle1</span><span style="font-size: 12pt; font-family: &#23435;&#20307;; mso-bidi-font-family: &#23435;&#20307;; mso-font-kerning: 0pt;" lang="EN-US"> = <a href="http://www.php.net/popen"><span style="font-size: 9pt; color: #000066; mso-bidi-font-size: 12.0pt;">popen</span></a></span><span style="font-size: 9pt; color: #66cc66; font-family: &#23435;&#20307;; mso-bidi-font-family: &#23435;&#20307;; mso-font-kerning: 0pt;" lang="EN-US">(</span><span style="font-size: 9pt; color: red; font-family: &#23435;&#20307;; mso-bidi-font-family: &#23435;&#20307;; mso-font-kerning: 0pt;" lang="EN-US">'php sub.php php1'</span><span style="font-size: 12pt; font-family: &#23435;&#20307;; mso-bidi-font-family: &#23435;&#20307;; mso-font-kerning: 0pt;" lang="EN-US">, </span><span style="font-size: 9pt; color: red; font-family: &#23435;&#20307;; mso-bidi-font-family: &#23435;&#20307;; mso-font-kerning: 0pt;" lang="EN-US">'r'</span><span style="font-size: 9pt; color: #66cc66; font-family: &#23435;&#20307;; mso-bidi-font-family: &#23435;&#20307;; mso-font-kerning: 0pt;" lang="EN-US">)</span><span style="font-size: 12pt; font-family: &#23435;&#20307;; mso-bidi-font-family: &#23435;&#20307;; mso-font-kerning: 0pt;" lang="EN-US">;
+</span><span style="font-size: 9pt; color: blue; font-family: &#23435;&#20307;; mso-bidi-font-family: &#23435;&#20307;; mso-font-kerning: 0pt;" lang="EN-US">$handle2</span><span style="font-size: 12pt; font-family: &#23435;&#20307;; mso-bidi-font-family: &#23435;&#20307;; mso-font-kerning: 0pt;" lang="EN-US"> = <a href="http://www.php.net/popen"><span style="font-size: 9pt; color: #000066; mso-bidi-font-size: 12.0pt;">popen</span></a></span><span style="font-size: 9pt; color: #66cc66; font-family: &#23435;&#20307;; mso-bidi-font-family: &#23435;&#20307;; mso-font-kerning: 0pt;" lang="EN-US">(</span><span style="font-size: 9pt; color: red; font-family: &#23435;&#20307;; mso-bidi-font-family: &#23435;&#20307;; mso-font-kerning: 0pt;" lang="EN-US">'php sub.php php2'</span><span style="font-size: 12pt; font-family: &#23435;&#20307;; mso-bidi-font-family: &#23435;&#20307;; mso-font-kerning: 0pt;" lang="EN-US">, </span><span style="font-size: 9pt; color: red; font-family: &#23435;&#20307;; mso-bidi-font-family: &#23435;&#20307;; mso-font-kerning: 0pt;" lang="EN-US">'r'</span><span style="font-size: 9pt; color: #66cc66; font-family: &#23435;&#20307;; mso-bidi-font-family: &#23435;&#20307;; mso-font-kerning: 0pt;" lang="EN-US">)</span><span style="font-size: 12pt; font-family: &#23435;&#20307;; mso-bidi-font-family: &#23435;&#20307;; mso-font-kerning: 0pt;" lang="EN-US">;
+</span><span style="font-size: 9pt; color: blue; font-family: &#23435;&#20307;; mso-bidi-font-family: &#23435;&#20307;; mso-font-kerning: 0pt;" lang="EN-US">$handle3</span><span style="font-size: 12pt; font-family: &#23435;&#20307;; mso-bidi-font-family: &#23435;&#20307;; mso-font-kerning: 0pt;" lang="EN-US"> = <a href="http://www.php.net/popen"><span style="font-size: 9pt; color: #000066; mso-bidi-font-size: 12.0pt;">popen</span></a></span><span style="font-size: 9pt; color: #66cc66; font-family: &#23435;&#20307;; mso-bidi-font-family: &#23435;&#20307;; mso-font-kerning: 0pt;" lang="EN-US">(</span><span style="font-size: 9pt; color: red; font-family: &#23435;&#20307;; mso-bidi-font-family: &#23435;&#20307;; mso-font-kerning: 0pt;" lang="EN-US">'php sub.php php3'</span><span style="font-size: 12pt; font-family: &#23435;&#20307;; mso-bidi-font-family: &#23435;&#20307;; mso-font-kerning: 0pt;" lang="EN-US">, </span><span style="font-size: 9pt; color: red; font-family: &#23435;&#20307;; mso-bidi-font-family: &#23435;&#20307;; mso-font-kerning: 0pt;" lang="EN-US">'r'</span><span style="font-size: 9pt; color: #66cc66; font-family: &#23435;&#20307;; mso-bidi-font-family: &#23435;&#20307;; mso-font-kerning: 0pt;" lang="EN-US">)</span><span style="font-size: 12pt; font-family: &#23435;&#20307;; mso-bidi-font-family: &#23435;&#20307;; mso-font-kerning: 0pt;" lang="EN-US">;
+<span style="font-size: small;"><span style="mso-spacerun: yes;">&nbsp; </span>
+<span style="mso-spacerun: yes;">&nbsp; </span>
+</span><a href="http://www.php.net/echo"><span style="font-size: 9pt; color: #000066; mso-bidi-font-size: 12.0pt;">echo</span></a> </span><span style="font-size: 9pt; color: red; font-family: &#23435;&#20307;; mso-bidi-font-family: &#23435;&#20307;; mso-font-kerning: 0pt;" lang="EN-US">"'$handle1'; "</span><span style="font-size: 12pt; font-family: &#23435;&#20307;; mso-bidi-font-family: &#23435;&#20307;; mso-font-kerning: 0pt;" lang="EN-US"> . <a href="http://www.php.net/gettype"><span style="font-size: 9pt; color: #000066; mso-bidi-font-size: 12.0pt;">gettype</span></a></span><span style="font-size: 9pt; color: #66cc66; font-family: &#23435;&#20307;; mso-bidi-font-family: &#23435;&#20307;; mso-font-kerning: 0pt;" lang="EN-US">(</span><span style="font-size: 9pt; color: blue; font-family: &#23435;&#20307;; mso-bidi-font-family: &#23435;&#20307;; mso-font-kerning: 0pt;" lang="EN-US">$handle1</span><span style="font-size: 9pt; color: #66cc66; font-family: &#23435;&#20307;; mso-bidi-font-family: &#23435;&#20307;; mso-font-kerning: 0pt;" lang="EN-US">)</span><span style="font-size: 12pt; font-family: &#23435;&#20307;; mso-bidi-font-family: &#23435;&#20307;; mso-font-kerning: 0pt;" lang="EN-US"> . </span><span style="font-size: 9pt; color: red; font-family: &#23435;&#20307;; mso-bidi-font-family: &#23435;&#20307;; mso-font-kerning: 0pt;" lang="EN-US">"</span>*<span style="font-size: 9pt; color: #000099; font-family: &#23435;&#20307;; mso-bidi-font-family: &#23435;&#20307;; mso-font-kerning: 0pt;" lang="EN-US">\n</span>*<span style="font-size: 9pt; color: red; font-family: &#23435;&#20307;; mso-bidi-font-family: &#23435;&#20307;; mso-font-kerning: 0pt;" lang="EN-US">"</span><span style="font-size: 12pt; font-family: &#23435;&#20307;; mso-bidi-font-family: &#23435;&#20307;; mso-font-kerning: 0pt;" lang="EN-US">;
+<a href="http://www.php.net/echo"><span style="font-size: 9pt; color: #000066; mso-bidi-font-size: 12.0pt;">echo</span></a> </span><span style="font-size: 9pt; color: red; font-family: &#23435;&#20307;; mso-bidi-font-family: &#23435;&#20307;; mso-font-kerning: 0pt;" lang="EN-US">"'$handle2'; "</span><span style="font-size: 12pt; font-family: &#23435;&#20307;; mso-bidi-font-family: &#23435;&#20307;; mso-font-kerning: 0pt;" lang="EN-US"> . <a href="http://www.php.net/gettype"><span style="font-size: 9pt; color: #000066; mso-bidi-font-size: 12.0pt;">gettype</span></a></span><span style="font-size: 9pt; color: #66cc66; font-family: &#23435;&#20307;; mso-bidi-font-family: &#23435;&#20307;; mso-font-kerning: 0pt;" lang="EN-US">(</span><span style="font-size: 9pt; color: blue; font-family: &#23435;&#20307;; mso-bidi-font-family: &#23435;&#20307;; mso-font-kerning: 0pt;" lang="EN-US">$handle2</span><span style="font-size: 9pt; color: #66cc66; font-family: &#23435;&#20307;; mso-bidi-font-family: &#23435;&#20307;; mso-font-kerning: 0pt;" lang="EN-US">)</span><span style="font-size: 12pt; font-family: &#23435;&#20307;; mso-bidi-font-family: &#23435;&#20307;; mso-font-kerning: 0pt;" lang="EN-US"> . </span><span style="font-size: 9pt; color: red; font-family: &#23435;&#20307;; mso-bidi-font-family: &#23435;&#20307;; mso-font-kerning: 0pt;" lang="EN-US">"</span>*<span style="font-size: 9pt; color: #000099; font-family: &#23435;&#20307;; mso-bidi-font-family: &#23435;&#20307;; mso-font-kerning: 0pt;" lang="EN-US">\n</span>*<span style="font-size: 9pt; color: red; font-family: &#23435;&#20307;; mso-bidi-font-family: &#23435;&#20307;; mso-font-kerning: 0pt;" lang="EN-US">"</span><span style="font-size: 12pt; font-family: &#23435;&#20307;; mso-bidi-font-family: &#23435;&#20307;; mso-font-kerning: 0pt;" lang="EN-US">;
+<a href="http://www.php.net/echo"><span style="font-size: 9pt; color: #000066; mso-bidi-font-size: 12.0pt;">echo</span></a> </span><span style="font-size: 9pt; color: red; font-family: &#23435;&#20307;; mso-bidi-font-family: &#23435;&#20307;; mso-font-kerning: 0pt;" lang="EN-US">"'$handle3'; "</span><span style="font-size: 12pt; font-family: &#23435;&#20307;; mso-bidi-font-family: &#23435;&#20307;; mso-font-kerning: 0pt;" lang="EN-US"> . <a href="http://www.php.net/gettype"><span style="font-size: 9pt; color: #000066; mso-bidi-font-size: 12.0pt;">gettype</span></a></span><span style="font-size: 9pt; color: #66cc66; font-family: &#23435;&#20307;; mso-bidi-font-family: &#23435;&#20307;; mso-font-kerning: 0pt;" lang="EN-US">(</span><span style="font-size: 9pt; color: blue; font-family: &#23435;&#20307;; mso-bidi-font-family: &#23435;&#20307;; mso-font-kerning: 0pt;" lang="EN-US">$handle3</span><span style="font-size: 9pt; color: #66cc66; font-family: &#23435;&#20307;; mso-bidi-font-family: &#23435;&#20307;; mso-font-kerning: 0pt;" lang="EN-US">)</span><span style="font-size: 12pt; font-family: &#23435;&#20307;; mso-bidi-font-family: &#23435;&#20307;; mso-font-kerning: 0pt;" lang="EN-US"> . </span><span style="font-size: 9pt; color: red; font-family: &#23435;&#20307;; mso-bidi-font-family: &#23435;&#20307;; mso-font-kerning: 0pt;" lang="EN-US">"</span>*<span style="font-size: 9pt; color: #000099; font-family: &#23435;&#20307;; mso-bidi-font-family: &#23435;&#20307;; mso-font-kerning: 0pt;" lang="EN-US">\n</span>*<span style="font-size: 9pt; color: red; font-family: &#23435;&#20307;; mso-bidi-font-family: &#23435;&#20307;; mso-font-kerning: 0pt;" lang="EN-US">"</span><span style="font-size: 12pt; font-family: &#23435;&#20307;; mso-bidi-font-family: &#23435;&#20307;; mso-font-kerning: 0pt;" lang="EN-US">;
+<span style="font-size: small;"><span style="mso-spacerun: yes;">&nbsp; </span>
+</span></span>_<span style="font-size: 9pt; color: gray; font-family: &#23435;&#20307;; mso-bidi-font-family: &#23435;&#20307;; mso-font-kerning: 0pt;" lang="EN-US">//sleep(20);</span>_<span style="font-size: 12pt; font-family: &#23435;&#20307;; mso-bidi-font-family: &#23435;&#20307;; mso-font-kerning: 0pt;" lang="EN-US">&nbsp;</span>
+
+
+
+
+
+
+
+
+<p class="MsoNormal" style="margin: 0cm 0cm 0pt; text-align: left; mso-pagination: widow-orphan; tab-stops: 45.8pt 91.6pt 137.4pt 183.2pt 229.0pt 274.8pt 320.6pt 366.4pt 412.2pt 458.0pt 503.8pt 549.6pt 595.4pt 641.2pt 687.0pt 732.8pt;"><span style="font-size: 12pt; font-family: &#23435;&#20307;; mso-bidi-font-family: &#23435;&#20307;; mso-font-kerning: 0pt;" lang="EN-US"><span style="font-size: small;"><span style="mso-spacerun: yes;">&nbsp; </span></span></span>
+
+
+<span style="font-size: small;">
+</span>
+
+
+
+
+
+<p class="MsoNormal" style="margin: 0cm 0cm 0pt; text-align: left; mso-pagination: widow-orphan; tab-stops: 45.8pt 91.6pt 137.4pt 183.2pt 229.0pt 274.8pt 320.6pt 366.4pt 412.2pt 458.0pt 503.8pt 549.6pt 595.4pt 641.2pt 687.0pt 732.8pt;"><span style="font-size: 9pt; color: #b1b100; font-family: &#23435;&#20307;; mso-bidi-font-family: &#23435;&#20307;; mso-font-kerning: 0pt;" lang="EN-US">while</span><span style="font-size: 9pt; color: #66cc66; font-family: &#23435;&#20307;; mso-bidi-font-family: &#23435;&#20307;; mso-font-kerning: 0pt;" lang="EN-US">(</span><span style="font-size: 12pt; font-family: &#23435;&#20307;; mso-bidi-font-family: &#23435;&#20307;; mso-font-kerning: 0pt;" lang="EN-US">!<a href="http://www.php.net/feof"><span style="font-size: 9pt; color: #000066; mso-bidi-font-size: 12.0pt;">feof</span></a></span><span style="font-size: 9pt; color: #66cc66; font-family: &#23435;&#20307;; mso-bidi-font-family: &#23435;&#20307;; mso-font-kerning: 0pt;" lang="EN-US">(</span><span style="font-size: 9pt; color: blue; font-family: &#23435;&#20307;; mso-bidi-font-family: &#23435;&#20307;; mso-font-kerning: 0pt;" lang="EN-US">$handle1</span><span style="font-size: 9pt; color: #66cc66; font-family: &#23435;&#20307;; mso-bidi-font-family: &#23435;&#20307;; mso-font-kerning: 0pt;" lang="EN-US">)</span><span style="font-size: 12pt; font-family: &#23435;&#20307;; mso-bidi-font-family: &#23435;&#20307;; mso-font-kerning: 0pt;" lang="EN-US"> || !<a href="http://www.php.net/feof"><span style="font-size: 9pt; color: #000066; mso-bidi-font-size: 12.0pt;">feof</span></a></span><span style="font-size: 9pt; color: #66cc66; font-family: &#23435;&#20307;; mso-bidi-font-family: &#23435;&#20307;; mso-font-kerning: 0pt;" lang="EN-US">(</span><span style="font-size: 9pt; color: blue; font-family: &#23435;&#20307;; mso-bidi-font-family: &#23435;&#20307;; mso-font-kerning: 0pt;" lang="EN-US">$handle2</span><span style="font-size: 9pt; color: #66cc66; font-family: &#23435;&#20307;; mso-bidi-font-family: &#23435;&#20307;; mso-font-kerning: 0pt;" lang="EN-US">)</span><span style="font-size: 12pt; font-family: &#23435;&#20307;; mso-bidi-font-family: &#23435;&#20307;; mso-font-kerning: 0pt;" lang="EN-US"> || !<a href="http://www.php.net/feof"><span style="font-size: 9pt; color: #000066; mso-bidi-font-size: 12.0pt;">feof</span></a></span><span style="font-size: 9pt; color: #66cc66; font-family: &#23435;&#20307;; mso-bidi-font-family: &#23435;&#20307;; mso-font-kerning: 0pt;" lang="EN-US">(</span><span style="font-size: 9pt; color: blue; font-family: &#23435;&#20307;; mso-bidi-font-family: &#23435;&#20307;; mso-font-kerning: 0pt;" lang="EN-US">$handle3</span><span style="font-size: 9pt; color: #66cc66; font-family: &#23435;&#20307;; mso-bidi-font-family: &#23435;&#20307;; mso-font-kerning: 0pt;" lang="EN-US">)</span><span style="font-size: 12pt; font-family: &#23435;&#20307;; mso-bidi-font-family: &#23435;&#20307;; mso-font-kerning: 0pt;" lang="EN-US"> </span><span style="font-size: 9pt; color: #66cc66; font-family: &#23435;&#20307;; mso-bidi-font-family: &#23435;&#20307;; mso-font-kerning: 0pt;" lang="EN-US">)</span><span style="font-size: 12pt; font-family: &#23435;&#20307;; mso-bidi-font-family: &#23435;&#20307;; mso-font-kerning: 0pt;" lang="EN-US">&nbsp;</span>
+
+
+
+
+
+
+
+
+<p class="MsoNormal" style="margin: 0cm 0cm 0pt; text-align: left; mso-pagination: widow-orphan; tab-stops: 45.8pt 91.6pt 137.4pt 183.2pt 229.0pt 274.8pt 320.6pt 366.4pt 412.2pt 458.0pt 503.8pt 549.6pt 595.4pt 641.2pt 687.0pt 732.8pt;"><span style="font-size: 9pt; color: #66cc66; font-family: &#23435;&#20307;; mso-bidi-font-family: &#23435;&#20307;; mso-font-kerning: 0pt;" lang="EN-US">{</span><span style="font-size: 12pt; font-family: &#23435;&#20307;; mso-bidi-font-family: &#23435;&#20307;; mso-font-kerning: 0pt;" lang="EN-US">&nbsp;</span>
+
+
+
+
+
+
+
+
+<p class="MsoNormal" style="margin: 0cm 0cm 0pt; text-align: left; mso-pagination: widow-orphan; tab-stops: 45.8pt 91.6pt 137.4pt 183.2pt 229.0pt 274.8pt 320.6pt 366.4pt 412.2pt 458.0pt 503.8pt 549.6pt 595.4pt 641.2pt 687.0pt 732.8pt;"><span style="font-size: 12pt; font-family: &#23435;&#20307;; mso-bidi-font-family: &#23435;&#20307;; mso-font-kerning: 0pt;" lang="EN-US"><span style="font-size: small;"><span style="mso-spacerun: yes;">&nbsp; </span></span></span>
+
+
+<span style="font-size: small;">
+</span>
+
+
+
+
+
+<p class="MsoNormal" style="margin: 0cm 0cm 0pt; text-align: left; mso-pagination: widow-orphan; tab-stops: 45.8pt 91.6pt 137.4pt 183.2pt 229.0pt 274.8pt 320.6pt 366.4pt 412.2pt 458.0pt 503.8pt 549.6pt 595.4pt 641.2pt 687.0pt 732.8pt;"><span style="font-size: 9pt; color: blue; font-family: &#23435;&#20307;; mso-bidi-font-family: &#23435;&#20307;; mso-font-kerning: 0pt;" lang="EN-US">$read</span><span style="font-size: 12pt; font-family: &#23435;&#20307;; mso-bidi-font-family: &#23435;&#20307;; mso-font-kerning: 0pt;" lang="EN-US"> = <a href="http://www.php.net/fgets"><span style="font-size: 9pt; color: #000066; mso-bidi-font-size: 12.0pt;">fgets</span></a></span><span style="font-size: 9pt; color: #66cc66; font-family: &#23435;&#20307;; mso-bidi-font-family: &#23435;&#20307;; mso-font-kerning: 0pt;" lang="EN-US">(</span><span style="font-size: 9pt; color: blue; font-family: &#23435;&#20307;; mso-bidi-font-family: &#23435;&#20307;; mso-font-kerning: 0pt;" lang="EN-US">$handle1</span><span style="font-size: 9pt; color: #66cc66; font-family: &#23435;&#20307;; mso-bidi-font-family: &#23435;&#20307;; mso-font-kerning: 0pt;" lang="EN-US">)</span><span style="font-size: 12pt; font-family: &#23435;&#20307;; mso-bidi-font-family: &#23435;&#20307;; mso-font-kerning: 0pt;" lang="EN-US">;
+<a href="http://www.php.net/echo"><span style="font-size: 9pt; color: #000066; mso-bidi-font-size: 12.0pt;">echo</span></a> </span><span style="font-size: 9pt; color: blue; font-family: &#23435;&#20307;; mso-bidi-font-family: &#23435;&#20307;; mso-font-kerning: 0pt;" lang="EN-US">$read</span><span style="font-size: 12pt; font-family: &#23435;&#20307;; mso-bidi-font-family: &#23435;&#20307;; mso-font-kerning: 0pt;" lang="EN-US">;
+<span style="font-size: small;"><span style="mso-spacerun: yes;">&nbsp; </span>
+</span></span><span style="font-size: 9pt; color: blue; font-family: &#23435;&#20307;; mso-bidi-font-family: &#23435;&#20307;; mso-font-kerning: 0pt;" lang="EN-US">$read</span><span style="font-size: 12pt; font-family: &#23435;&#20307;; mso-bidi-font-family: &#23435;&#20307;; mso-font-kerning: 0pt;" lang="EN-US"> = <a href="http://www.php.net/fgets"><span style="font-size: 9pt; color: #000066; mso-bidi-font-size: 12.0pt;">fgets</span></a></span><span style="font-size: 9pt; color: #66cc66; font-family: &#23435;&#20307;; mso-bidi-font-family: &#23435;&#20307;; mso-font-kerning: 0pt;" lang="EN-US">(</span><span style="font-size: 9pt; color: blue; font-family: &#23435;&#20307;; mso-bidi-font-family: &#23435;&#20307;; mso-font-kerning: 0pt;" lang="EN-US">$handle2</span><span style="font-size: 9pt; color: #66cc66; font-family: &#23435;&#20307;; mso-bidi-font-family: &#23435;&#20307;; mso-font-kerning: 0pt;" lang="EN-US">)</span><span style="font-size: 12pt; font-family: &#23435;&#20307;; mso-bidi-font-family: &#23435;&#20307;; mso-font-kerning: 0pt;" lang="EN-US">;
+<a href="http://www.php.net/echo"><span style="font-size: 9pt; color: #000066; mso-bidi-font-size: 12.0pt;">echo</span></a> </span><span style="font-size: 9pt; color: blue; font-family: &#23435;&#20307;; mso-bidi-font-family: &#23435;&#20307;; mso-font-kerning: 0pt;" lang="EN-US">$read</span><span style="font-size: 12pt; font-family: &#23435;&#20307;; mso-bidi-font-family: &#23435;&#20307;; mso-font-kerning: 0pt;" lang="EN-US">;
+<span style="font-size: small;"><span style="mso-spacerun: yes;">&nbsp; </span>
+</span></span><span style="font-size: 9pt; color: blue; font-family: &#23435;&#20307;; mso-bidi-font-family: &#23435;&#20307;; mso-font-kerning: 0pt;" lang="EN-US">$read</span><span style="font-size: 12pt; font-family: &#23435;&#20307;; mso-bidi-font-family: &#23435;&#20307;; mso-font-kerning: 0pt;" lang="EN-US"> = <a href="http://www.php.net/fgets"><span style="font-size: 9pt; color: #000066; mso-bidi-font-size: 12.0pt;">fgets</span></a></span><span style="font-size: 9pt; color: #66cc66; font-family: &#23435;&#20307;; mso-bidi-font-family: &#23435;&#20307;; mso-font-kerning: 0pt;" lang="EN-US">(</span><span style="font-size: 9pt; color: blue; font-family: &#23435;&#20307;; mso-bidi-font-family: &#23435;&#20307;; mso-font-kerning: 0pt;" lang="EN-US">$handle3</span><span style="font-size: 9pt; color: #66cc66; font-family: &#23435;&#20307;; mso-bidi-font-family: &#23435;&#20307;; mso-font-kerning: 0pt;" lang="EN-US">)</span><span style="font-size: 12pt; font-family: &#23435;&#20307;; mso-bidi-font-family: &#23435;&#20307;; mso-font-kerning: 0pt;" lang="EN-US">;
+<a href="http://www.php.net/echo"><span style="font-size: 9pt; color: #000066; mso-bidi-font-size: 12.0pt;">echo</span></a> </span><span style="font-size: 9pt; color: blue; font-family: &#23435;&#20307;; mso-bidi-font-family: &#23435;&#20307;; mso-font-kerning: 0pt;" lang="EN-US">$read</span><span style="font-size: 12pt; font-family: &#23435;&#20307;; mso-bidi-font-family: &#23435;&#20307;; mso-font-kerning: 0pt;" lang="EN-US">;
+</span><span style="font-size: 9pt; color: #66cc66; font-family: &#23435;&#20307;; mso-bidi-font-family: &#23435;&#20307;; mso-font-kerning: 0pt;" lang="EN-US">}</span><span style="font-size: 12pt; font-family: &#23435;&#20307;; mso-bidi-font-family: &#23435;&#20307;; mso-font-kerning: 0pt;" lang="EN-US">&nbsp;</span>
+
+
+
+
+
+
+
+
+<p class="MsoNormal" style="margin: 0cm 0cm 0pt; text-align: left; mso-pagination: widow-orphan; tab-stops: 45.8pt 91.6pt 137.4pt 183.2pt 229.0pt 274.8pt 320.6pt 366.4pt 412.2pt 458.0pt 503.8pt 549.6pt 595.4pt 641.2pt 687.0pt 732.8pt;"><span style="font-size: 12pt; font-family: &#23435;&#20307;; mso-bidi-font-family: &#23435;&#20307;; mso-font-kerning: 0pt;" lang="EN-US"><span style="font-size: small;"><span style="mso-spacerun: yes;">&nbsp; </span></span></span>
+
+
+<span style="font-size: small;">
+</span>
+
+
+
+
+
+<p class="MsoNormal" style="margin: 0cm 0cm 0pt; text-align: left; mso-pagination: widow-orphan; tab-stops: 45.8pt 91.6pt 137.4pt 183.2pt 229.0pt 274.8pt 320.6pt 366.4pt 412.2pt 458.0pt 503.8pt 549.6pt 595.4pt 641.2pt 687.0pt 732.8pt;"><span style="font-size: 12pt; font-family: &#23435;&#20307;; mso-bidi-font-family: &#23435;&#20307;; mso-font-kerning: 0pt;" lang="EN-US"><a href="http://www.php.net/pclose"><span style="font-size: 9pt; color: #000066; mso-bidi-font-size: 12.0pt;">pclose</span></a></span><span style="font-size: 9pt; color: #66cc66; font-family: &#23435;&#20307;; mso-bidi-font-family: &#23435;&#20307;; mso-font-kerning: 0pt;" lang="EN-US">(</span><span style="font-size: 9pt; color: blue; font-family: &#23435;&#20307;; mso-bidi-font-family: &#23435;&#20307;; mso-font-kerning: 0pt;" lang="EN-US">$handle1</span><span style="font-size: 9pt; color: #66cc66; font-family: &#23435;&#20307;; mso-bidi-font-family: &#23435;&#20307;; mso-font-kerning: 0pt;" lang="EN-US">)</span><span style="font-size: 12pt; font-family: &#23435;&#20307;; mso-bidi-font-family: &#23435;&#20307;; mso-font-kerning: 0pt;" lang="EN-US">;
+<a href="http://www.php.net/pclose"><span style="font-size: 9pt; color: #000066; mso-bidi-font-size: 12.0pt;">pclose</span></a></span><span style="font-size: 9pt; color: #66cc66; font-family: &#23435;&#20307;; mso-bidi-font-family: &#23435;&#20307;; mso-font-kerning: 0pt;" lang="EN-US">(</span><span style="font-size: 9pt; color: blue; font-family: &#23435;&#20307;; mso-bidi-font-family: &#23435;&#20307;; mso-font-kerning: 0pt;" lang="EN-US">$handle2</span><span style="font-size: 9pt; color: #66cc66; font-family: &#23435;&#20307;; mso-bidi-font-family: &#23435;&#20307;; mso-font-kerning: 0pt;" lang="EN-US">)</span><span style="font-size: 12pt; font-family: &#23435;&#20307;; mso-bidi-font-family: &#23435;&#20307;; mso-font-kerning: 0pt;" lang="EN-US">;
+<a href="http://www.php.net/pclose"><span style="font-size: 9pt; color: #000066; mso-bidi-font-size: 12.0pt;">pclose</span></a></span><span style="font-size: 9pt; color: #66cc66; font-family: &#23435;&#20307;; mso-bidi-font-family: &#23435;&#20307;; mso-font-kerning: 0pt;" lang="EN-US">(</span><span style="font-size: 9pt; color: blue; font-family: &#23435;&#20307;; mso-bidi-font-family: &#23435;&#20307;; mso-font-kerning: 0pt;" lang="EN-US">$handle3</span><span style="font-size: 9pt; color: #66cc66; font-family: &#23435;&#20307;; mso-bidi-font-family: &#23435;&#20307;; mso-font-kerning: 0pt;" lang="EN-US">)</span><span style="font-size: 12pt; font-family: &#23435;&#20307;; mso-bidi-font-family: &#23435;&#20307;; mso-font-kerning: 0pt;" lang="EN-US">;
+</span>*<span style="font-size: 9pt; color: black; font-family: &#23435;&#20307;; mso-bidi-font-family: &#23435;&#20307;; mso-font-kerning: 0pt;" lang="EN-US">?></span>*<span style="font-size: 12pt; font-family: &#23435;&#20307;; mso-bidi-font-family: &#23435;&#20307;; mso-font-kerning: 0pt;" lang="EN-US">&nbsp;</span>
+
+
+
+
+
+
+
+
+<p class="MsoNormal" style="margin: 0cm 0cm 0pt; text-align: left; mso-pagination: widow-orphan; tab-stops: 45.8pt 91.6pt 137.4pt 183.2pt 229.0pt 274.8pt 320.6pt 366.4pt 412.2pt 458.0pt 503.8pt 549.6pt 595.4pt 641.2pt 687.0pt 732.8pt;"><span style="font-size: 12pt; font-family: &#23435;&#20307;; mso-bidi-font-family: &#23435;&#20307;; mso-font-kerning: 0pt;" lang="EN-US"><span style="font-size: small;"><span style="mso-spacerun: yes;">&nbsp; </span></span></span>
+
+
+<span style="font-size: small;">
+</span>
+
+
+
+
+
+<p class="MsoNormal" style="margin: 0cm 0cm 0pt; text-align: left; mso-pagination: widow-orphan; tab-stops: 45.8pt 91.6pt 137.4pt 183.2pt 229.0pt 274.8pt 320.6pt 366.4pt 412.2pt 458.0pt 503.8pt 549.6pt 595.4pt 641.2pt 687.0pt 732.8pt;"><span style="font-size: 12pt; font-family: &#23435;&#20307;; mso-bidi-font-family: &#23435;&#20307;; mso-font-kerning: 0pt;" lang="EN-US">-------------------</span>
+
+
+
+
+
+
+
+
+<p class="MsoNormal" style="margin: 0cm 0cm 0pt; text-align: left; mso-pagination: widow-orphan; tab-stops: 45.8pt 91.6pt 137.4pt 183.2pt 229.0pt 274.8pt 320.6pt 366.4pt 412.2pt 458.0pt 503.8pt 549.6pt 595.4pt 641.2pt 687.0pt 732.8pt;"><span style="font-size: 12pt; font-family: &#23435;&#20307;; mso-bidi-font-family: &#23435;&#20307;; mso-font-kerning: 0pt;">下面是我机器上的输出：<span lang="EN-US">&nbsp;</span></span>
+
+
+
+
+
+
+
+
+<p class="MsoNormal" style="margin: 0cm 0cm 0pt; text-align: left; mso-pagination: widow-orphan; tab-stops: 45.8pt 91.6pt 137.4pt 183.2pt 229.0pt 274.8pt 320.6pt 366.4pt 412.2pt 458.0pt 503.8pt 549.6pt 595.4pt 641.2pt 687.0pt 732.8pt;">*<span style="font-size: 9pt; color: black; font-family: &#23435;&#20307;; mso-bidi-font-family: &#23435;&#20307;; mso-font-kerning: 0pt;" lang="EN-US"><?</span>*<span style="font-size: 12pt; font-family: &#23435;&#20307;; mso-bidi-font-family: &#23435;&#20307;; mso-font-kerning: 0pt;" lang="EN-US">&nbsp;</span>
+
+
+
+
+
+
+
+
+<p class="MsoNormal" style="margin: 0cm 0cm 0pt; text-align: left; mso-pagination: widow-orphan; tab-stops: 45.8pt 91.6pt 137.4pt 183.2pt 229.0pt 274.8pt 320.6pt 366.4pt 412.2pt 458.0pt 503.8pt 549.6pt 595.4pt 641.2pt 687.0pt 732.8pt;"><span style="font-size: 12pt; font-family: &#23435;&#20307;; mso-bidi-font-family: &#23435;&#20307;; mso-font-kerning: 0pt;" lang="EN-US">C:\my_proxy_hunter>php <a href="http://www.php.net/exec"><span style="font-size: 9pt; color: #000066; mso-bidi-font-size: 12.0pt;">exec</span></a>.php
+</span><span style="font-size: 9pt; color: red; font-family: &#23435;&#20307;; mso-bidi-font-family: &#23435;&#20307;; mso-font-kerning: 0pt;" lang="EN-US">'Resource id #4'</span><span style="font-size: 12pt; font-family: &#23435;&#20307;; mso-bidi-font-family: &#23435;&#20307;; mso-font-kerning: 0pt;" lang="EN-US">; resource
+</span><span style="font-size: 9pt; color: red; font-family: &#23435;&#20307;; mso-bidi-font-family: &#23435;&#20307;; mso-font-kerning: 0pt;" lang="EN-US">'Resource id #5'</span><span style="font-size: 12pt; font-family: &#23435;&#20307;; mso-bidi-font-family: &#23435;&#20307;; mso-font-kerning: 0pt;" lang="EN-US">; resource
+</span><span style="font-size: 9pt; color: red; font-family: &#23435;&#20307;; mso-bidi-font-family: &#23435;&#20307;; mso-font-kerning: 0pt;" lang="EN-US">'Resource id #6'</span><span style="font-size: 12pt; font-family: &#23435;&#20307;; mso-bidi-font-family: &#23435;&#20307;; mso-font-kerning: 0pt;" lang="EN-US">; resource
+</span><span style="font-size: 9pt; color: #cc66cc; font-family: &#23435;&#20307;; mso-bidi-font-family: &#23435;&#20307;; mso-font-kerning: 0pt;" lang="EN-US">0</span><span style="font-size: 12pt; font-family: &#23435;&#20307;; mso-bidi-font-family: &#23435;&#20307;; mso-font-kerning: 0pt;" lang="EN-US">.</span><span style="font-size: 9pt; color: #cc66cc; font-family: &#23435;&#20307;; mso-bidi-font-family: &#23435;&#20307;; mso-font-kerning: 0pt;" lang="EN-US">1</span><span style="font-size: 12pt; font-family: &#23435;&#20307;; mso-bidi-font-family: &#23435;&#20307;; mso-font-kerning: 0pt;" lang="EN-US">.</span><span style="font-size: 9pt; color: #cc66cc; font-family: &#23435;&#20307;; mso-bidi-font-family: &#23435;&#20307;; mso-font-kerning: 0pt;" lang="EN-US">1147935331</span><span style="font-size: 12pt; font-family: &#23435;&#20307;; mso-bidi-font-family: &#23435;&#20307;; mso-font-kerning: 0pt;" lang="EN-US"> <a href="http://www.php.net/exec"><span style="font-size: 9pt; color: #000066; mso-bidi-font-size: 12.0pt;">exec</span></a> php1
+</span><span style="font-size: 9pt; color: #cc66cc; font-family: &#23435;&#20307;; mso-bidi-font-family: &#23435;&#20307;; mso-font-kerning: 0pt;" lang="EN-US">0</span><span style="font-size: 12pt; font-family: &#23435;&#20307;; mso-bidi-font-family: &#23435;&#20307;; mso-font-kerning: 0pt;" lang="EN-US">.</span><span style="font-size: 9pt; color: #cc66cc; font-family: &#23435;&#20307;; mso-bidi-font-family: &#23435;&#20307;; mso-font-kerning: 0pt;" lang="EN-US">1</span><span style="font-size: 12pt; font-family: &#23435;&#20307;; mso-bidi-font-family: &#23435;&#20307;; mso-font-kerning: 0pt;" lang="EN-US">.</span><span style="font-size: 9pt; color: #cc66cc; font-family: &#23435;&#20307;; mso-bidi-font-family: &#23435;&#20307;; mso-font-kerning: 0pt;" lang="EN-US">1147935331</span><span style="font-size: 12pt; font-family: &#23435;&#20307;; mso-bidi-font-family: &#23435;&#20307;; mso-font-kerning: 0pt;" lang="EN-US"> <a href="http://www.php.net/exec"><span style="font-size: 9pt; color: #000066; mso-bidi-font-size: 12.0pt;">exec</span></a> php2
+</span><span style="font-size: 9pt; color: #cc66cc; font-family: &#23435;&#20307;; mso-bidi-font-family: &#23435;&#20307;; mso-font-kerning: 0pt;" lang="EN-US">0</span><span style="font-size: 12pt; font-family: &#23435;&#20307;; mso-bidi-font-family: &#23435;&#20307;; mso-font-kerning: 0pt;" lang="EN-US">.</span><span style="font-size: 9pt; color: #cc66cc; font-family: &#23435;&#20307;; mso-bidi-font-family: &#23435;&#20307;; mso-font-kerning: 0pt;" lang="EN-US">1</span><span style="font-size: 12pt; font-family: &#23435;&#20307;; mso-bidi-font-family: &#23435;&#20307;; mso-font-kerning: 0pt;" lang="EN-US">.</span><span style="font-size: 9pt; color: #cc66cc; font-family: &#23435;&#20307;; mso-bidi-font-family: &#23435;&#20307;; mso-font-kerning: 0pt;" lang="EN-US">1147935331</span><span style="font-size: 12pt; font-family: &#23435;&#20307;; mso-bidi-font-family: &#23435;&#20307;; mso-font-kerning: 0pt;" lang="EN-US"> <a href="http://www.php.net/exec"><span style="font-size: 9pt; color: #000066; mso-bidi-font-size: 12.0pt;">exec</span></a> php3
+</span><span style="font-size: 9pt; color: #cc66cc; font-family: &#23435;&#20307;; mso-bidi-font-family: &#23435;&#20307;; mso-font-kerning: 0pt;" lang="EN-US">1</span><span style="font-size: 12pt; font-family: &#23435;&#20307;; mso-bidi-font-family: &#23435;&#20307;; mso-font-kerning: 0pt;" lang="EN-US">.</span><span style="font-size: 9pt; color: #cc66cc; font-family: &#23435;&#20307;; mso-bidi-font-family: &#23435;&#20307;; mso-font-kerning: 0pt;" lang="EN-US">1</span><span style="font-size: 12pt; font-family: &#23435;&#20307;; mso-bidi-font-family: &#23435;&#20307;; mso-font-kerning: 0pt;" lang="EN-US">.</span><span style="font-size: 9pt; color: #cc66cc; font-family: &#23435;&#20307;; mso-bidi-font-family: &#23435;&#20307;; mso-font-kerning: 0pt;" lang="EN-US">1147935332</span><span style="font-size: 12pt; font-family: &#23435;&#20307;; mso-bidi-font-family: &#23435;&#20307;; mso-font-kerning: 0pt;" lang="EN-US"> <a href="http://www.php.net/exec"><span style="font-size: 9pt; color: #000066; mso-bidi-font-size: 12.0pt;">exec</span></a> php1
+</span><span style="font-size: 9pt; color: #cc66cc; font-family: &#23435;&#20307;; mso-bidi-font-family: &#23435;&#20307;; mso-font-kerning: 0pt;" lang="EN-US">0</span><span style="font-size: 12pt; font-family: &#23435;&#20307;; mso-bidi-font-family: &#23435;&#20307;; mso-font-kerning: 0pt;" lang="EN-US">.</span><span style="font-size: 9pt; color: #cc66cc; font-family: &#23435;&#20307;; mso-bidi-font-family: &#23435;&#20307;; mso-font-kerning: 0pt;" lang="EN-US">2</span><span style="font-size: 12pt; font-family: &#23435;&#20307;; mso-bidi-font-family: &#23435;&#20307;; mso-font-kerning: 0pt;" lang="EN-US">.</span><span style="font-size: 9pt; color: #cc66cc; font-family: &#23435;&#20307;; mso-bidi-font-family: &#23435;&#20307;; mso-font-kerning: 0pt;" lang="EN-US">1147935332</span><span style="font-size: 12pt; font-family: &#23435;&#20307;; mso-bidi-font-family: &#23435;&#20307;; mso-font-kerning: 0pt;" lang="EN-US"> <a href="http://www.php.net/exec"><span style="font-size: 9pt; color: #000066; mso-bidi-font-size: 12.0pt;">exec</span></a> php2
+</span><span style="font-size: 9pt; color: #cc66cc; font-family: &#23435;&#20307;; mso-bidi-font-family: &#23435;&#20307;; mso-font-kerning: 0pt;" lang="EN-US">1</span><span style="font-size: 12pt; font-family: &#23435;&#20307;; mso-bidi-font-family: &#23435;&#20307;; mso-font-kerning: 0pt;" lang="EN-US">.</span><span style="font-size: 9pt; color: #cc66cc; font-family: &#23435;&#20307;; mso-bidi-font-family: &#23435;&#20307;; mso-font-kerning: 0pt;" lang="EN-US">1</span><span style="font-size: 12pt; font-family: &#23435;&#20307;; mso-bidi-font-family: &#23435;&#20307;; mso-font-kerning: 0pt;" lang="EN-US">.</span><span style="font-size: 9pt; color: #cc66cc; font-family: &#23435;&#20307;; mso-bidi-font-family: &#23435;&#20307;; mso-font-kerning: 0pt;" lang="EN-US">1147935332</span><span style="font-size: 12pt; font-family: &#23435;&#20307;; mso-bidi-font-family: &#23435;&#20307;; mso-font-kerning: 0pt;" lang="EN-US"> <a href="http://www.php.net/exec"><span style="font-size: 9pt; color: #000066; mso-bidi-font-size: 12.0pt;">exec</span></a> php3
+</span><span style="font-size: 9pt; color: #cc66cc; font-family: &#23435;&#20307;; mso-bidi-font-family: &#23435;&#20307;; mso-font-kerning: 0pt;" lang="EN-US">2</span><span style="font-size: 12pt; font-family: &#23435;&#20307;; mso-bidi-font-family: &#23435;&#20307;; mso-font-kerning: 0pt;" lang="EN-US">.</span><span style="font-size: 9pt; color: #cc66cc; font-family: &#23435;&#20307;; mso-bidi-font-family: &#23435;&#20307;; mso-font-kerning: 0pt;" lang="EN-US">1</span><span style="font-size: 12pt; font-family: &#23435;&#20307;; mso-bidi-font-family: &#23435;&#20307;; mso-font-kerning: 0pt;" lang="EN-US">.</span><span style="font-size: 9pt; color: #cc66cc; font-family: &#23435;&#20307;; mso-bidi-font-family: &#23435;&#20307;; mso-font-kerning: 0pt;" lang="EN-US">1147935333</span><span style="font-size: 12pt; font-family: &#23435;&#20307;; mso-bidi-font-family: &#23435;&#20307;; mso-font-kerning: 0pt;" lang="EN-US"> <a href="http://www.php.net/exec"><span style="font-size: 9pt; color: #000066; mso-bidi-font-size: 12.0pt;">exec</span></a> php1
+</span><span style="font-size: 9pt; color: #cc66cc; font-family: &#23435;&#20307;; mso-bidi-font-family: &#23435;&#20307;; mso-font-kerning: 0pt;" lang="EN-US">1</span><span style="font-size: 12pt; font-family: &#23435;&#20307;; mso-bidi-font-family: &#23435;&#20307;; mso-font-kerning: 0pt;" lang="EN-US">.</span><span style="font-size: 9pt; color: #cc66cc; font-family: &#23435;&#20307;; mso-bidi-font-family: &#23435;&#20307;; mso-font-kerning: 0pt;" lang="EN-US">1</span><span style="font-size: 12pt; font-family: &#23435;&#20307;; mso-bidi-font-family: &#23435;&#20307;; mso-font-kerning: 0pt;" lang="EN-US">.</span><span style="font-size: 9pt; color: #cc66cc; font-family: &#23435;&#20307;; mso-bidi-font-family: &#23435;&#20307;; mso-font-kerning: 0pt;" lang="EN-US">1147935333</span><span style="font-size: 12pt; font-family: &#23435;&#20307;; mso-bidi-font-family: &#23435;&#20307;; mso-font-kerning: 0pt;" lang="EN-US"> <a href="http://www.php.net/exec"><span style="font-size: 9pt; color: #000066; mso-bidi-font-size: 12.0pt;">exec</span></a> php2
+</span><span style="font-size: 9pt; color: #cc66cc; font-family: &#23435;&#20307;; mso-bidi-font-family: &#23435;&#20307;; mso-font-kerning: 0pt;" lang="EN-US">2</span><span style="font-size: 12pt; font-family: &#23435;&#20307;; mso-bidi-font-family: &#23435;&#20307;; mso-font-kerning: 0pt;" lang="EN-US">.</span><span style="font-size: 9pt; color: #cc66cc; font-family: &#23435;&#20307;; mso-bidi-font-family: &#23435;&#20307;; mso-font-kerning: 0pt;" lang="EN-US">1</span><span style="font-size: 12pt; font-family: &#23435;&#20307;; mso-bidi-font-family: &#23435;&#20307;; mso-font-kerning: 0pt;" lang="EN-US">.</span><span style="font-size: 9pt; color: #cc66cc; font-family: &#23435;&#20307;; mso-bidi-font-family: &#23435;&#20307;; mso-font-kerning: 0pt;" lang="EN-US">1147935333</span><span style="font-size: 12pt; font-family: &#23435;&#20307;; mso-bidi-font-family: &#23435;&#20307;; mso-font-kerning: 0pt;" lang="EN-US"> <a href="http://www.php.net/exec"><span style="font-size: 9pt; color: #000066; mso-bidi-font-size: 12.0pt;">exec</span></a> php3
+</span><span style="font-size: 9pt; color: #cc66cc; font-family: &#23435;&#20307;; mso-bidi-font-family: &#23435;&#20307;; mso-font-kerning: 0pt;" lang="EN-US">3</span><span style="font-size: 12pt; font-family: &#23435;&#20307;; mso-bidi-font-family: &#23435;&#20307;; mso-font-kerning: 0pt;" lang="EN-US">.</span><span style="font-size: 9pt; color: #cc66cc; font-family: &#23435;&#20307;; mso-bidi-font-family: &#23435;&#20307;; mso-font-kerning: 0pt;" lang="EN-US">1</span><span style="font-size: 12pt; font-family: &#23435;&#20307;; mso-bidi-font-family: &#23435;&#20307;; mso-font-kerning: 0pt;" lang="EN-US">.</span><span style="font-size: 9pt; color: #cc66cc; font-family: &#23435;&#20307;; mso-bidi-font-family: &#23435;&#20307;; mso-font-kerning: 0pt;" lang="EN-US">1147935334</span><span style="font-size: 12pt; font-family: &#23435;&#20307;; mso-bidi-font-family: &#23435;&#20307;; mso-font-kerning: 0pt;" lang="EN-US"> <a href="http://www.php.net/exec"><span style="font-size: 9pt; color: #000066; mso-bidi-font-size: 12.0pt;">exec</span></a> php1
+</span><span style="font-size: 9pt; color: #cc66cc; font-family: &#23435;&#20307;; mso-bidi-font-family: &#23435;&#20307;; mso-font-kerning: 0pt;" lang="EN-US">1</span><span style="font-size: 12pt; font-family: &#23435;&#20307;; mso-bidi-font-family: &#23435;&#20307;; mso-font-kerning: 0pt;" lang="EN-US">.</span><span style="font-size: 9pt; color: #cc66cc; font-family: &#23435;&#20307;; mso-bidi-font-family: &#23435;&#20307;; mso-font-kerning: 0pt;" lang="EN-US">2</span><span style="font-size: 12pt; font-family: &#23435;&#20307;; mso-bidi-font-family: &#23435;&#20307;; mso-font-kerning: 0pt;" lang="EN-US">.</span><span style="font-size: 9pt; color: #cc66cc; font-family: &#23435;&#20307;; mso-bidi-font-family: &#23435;&#20307;; mso-font-kerning: 0pt;" lang="EN-US">1147935334</span><span style="font-size: 12pt; font-family: &#23435;&#20307;; mso-bidi-font-family: &#23435;&#20307;; mso-font-kerning: 0pt;" lang="EN-US"> <a href="http://www.php.net/exec"><span style="font-size: 9pt; color: #000066; mso-bidi-font-size: 12.0pt;">exec</span></a> php2
+</span><span style="font-size: 9pt; color: #cc66cc; font-family: &#23435;&#20307;; mso-bidi-font-family: &#23435;&#20307;; mso-font-kerning: 0pt;" lang="EN-US">3</span><span style="font-size: 12pt; font-family: &#23435;&#20307;; mso-bidi-font-family: &#23435;&#20307;; mso-font-kerning: 0pt;" lang="EN-US">.</span><span style="font-size: 9pt; color: #cc66cc; font-family: &#23435;&#20307;; mso-bidi-font-family: &#23435;&#20307;; mso-font-kerning: 0pt;" lang="EN-US">1</span><span style="font-size: 12pt; font-family: &#23435;&#20307;; mso-bidi-font-family: &#23435;&#20307;; mso-font-kerning: 0pt;" lang="EN-US">.</span><span style="font-size: 9pt; color: #cc66cc; font-family: &#23435;&#20307;; mso-bidi-font-family: &#23435;&#20307;; mso-font-kerning: 0pt;" lang="EN-US">1147935334</span><span style="font-size: 12pt; font-family: &#23435;&#20307;; mso-bidi-font-family: &#23435;&#20307;; mso-font-kerning: 0pt;" lang="EN-US"> <a href="http://www.php.net/exec"><span style="font-size: 9pt; color: #000066; mso-bidi-font-size: 12.0pt;">exec</span></a> php3
+</span><span style="font-size: 9pt; color: #cc66cc; font-family: &#23435;&#20307;; mso-bidi-font-family: &#23435;&#20307;; mso-font-kerning: 0pt;" lang="EN-US">4</span><span style="font-size: 12pt; font-family: &#23435;&#20307;; mso-bidi-font-family: &#23435;&#20307;; mso-font-kerning: 0pt;" lang="EN-US">.</span><span style="font-size: 9pt; color: #cc66cc; font-family: &#23435;&#20307;; mso-bidi-font-family: &#23435;&#20307;; mso-font-kerning: 0pt;" lang="EN-US">1</span><span style="font-size: 12pt; font-family: &#23435;&#20307;; mso-bidi-font-family: &#23435;&#20307;; mso-font-kerning: 0pt;" lang="EN-US">.</span><span style="font-size: 9pt; color: #cc66cc; font-family: &#23435;&#20307;; mso-bidi-font-family: &#23435;&#20307;; mso-font-kerning: 0pt;" lang="EN-US">1147935335</span><span style="font-size: 12pt; font-family: &#23435;&#20307;; mso-bidi-font-family: &#23435;&#20307;; mso-font-kerning: 0pt;" lang="EN-US"> <a href="http://www.php.net/exec"><span style="font-size: 9pt; color: #000066; mso-bidi-font-size: 12.0pt;">exec</span></a> php1
+</span><span style="font-size: 9pt; color: #cc66cc; font-family: &#23435;&#20307;; mso-bidi-font-family: &#23435;&#20307;; mso-font-kerning: 0pt;" lang="EN-US">2</span><span style="font-size: 12pt; font-family: &#23435;&#20307;; mso-bidi-font-family: &#23435;&#20307;; mso-font-kerning: 0pt;" lang="EN-US">.</span><span style="font-size: 9pt; color: #cc66cc; font-family: &#23435;&#20307;; mso-bidi-font-family: &#23435;&#20307;; mso-font-kerning: 0pt;" lang="EN-US">1</span><span style="font-size: 12pt; font-family: &#23435;&#20307;; mso-bidi-font-family: &#23435;&#20307;; mso-font-kerning: 0pt;" lang="EN-US">.</span><span style="font-size: 9pt; color: #cc66cc; font-family: &#23435;&#20307;; mso-bidi-font-family: &#23435;&#20307;; mso-font-kerning: 0pt;" lang="EN-US">1147935335</span><span style="font-size: 12pt; font-family: &#23435;&#20307;; mso-bidi-font-family: &#23435;&#20307;; mso-font-kerning: 0pt;" lang="EN-US"> <a href="http://www.php.net/exec"><span style="font-size: 9pt; color: #000066; mso-bidi-font-size: 12.0pt;">exec</span></a> php2
+</span><span style="font-size: 9pt; color: #cc66cc; font-family: &#23435;&#20307;; mso-bidi-font-family: &#23435;&#20307;; mso-font-kerning: 0pt;" lang="EN-US">4</span><span style="font-size: 12pt; font-family: &#23435;&#20307;; mso-bidi-font-family: &#23435;&#20307;; mso-font-kerning: 0pt;" lang="EN-US">.</span><span style="font-size: 9pt; color: #cc66cc; font-family: &#23435;&#20307;; mso-bidi-font-family: &#23435;&#20307;; mso-font-kerning: 0pt;" lang="EN-US">1</span><span style="font-size: 12pt; font-family: &#23435;&#20307;; mso-bidi-font-family: &#23435;&#20307;; mso-font-kerning: 0pt;" lang="EN-US">.</span><span style="font-size: 9pt; color: #cc66cc; font-family: &#23435;&#20307;; mso-bidi-font-family: &#23435;&#20307;; mso-font-kerning: 0pt;" lang="EN-US">1147935335</span><span style="font-size: 12pt; font-family: &#23435;&#20307;; mso-bidi-font-family: &#23435;&#20307;; mso-font-kerning: 0pt;" lang="EN-US"> <a href="http://www.php.net/exec"><span style="font-size: 9pt; color: #000066; mso-bidi-font-size: 12.0pt;">exec</span></a> php3
+</span><span style="font-size: 9pt; color: #cc66cc; font-family: &#23435;&#20307;; mso-bidi-font-family: &#23435;&#20307;; mso-font-kerning: 0pt;" lang="EN-US">5</span><span style="font-size: 12pt; font-family: &#23435;&#20307;; mso-bidi-font-family: &#23435;&#20307;; mso-font-kerning: 0pt;" lang="EN-US">.</span><span style="font-size: 9pt; color: #cc66cc; font-family: &#23435;&#20307;; mso-bidi-font-family: &#23435;&#20307;; mso-font-kerning: 0pt;" lang="EN-US">1</span><span style="font-size: 12pt; font-family: &#23435;&#20307;; mso-bidi-font-family: &#23435;&#20307;; mso-font-kerning: 0pt;" lang="EN-US">.</span><span style="font-size: 9pt; color: #cc66cc; font-family: &#23435;&#20307;; mso-bidi-font-family: &#23435;&#20307;; mso-font-kerning: 0pt;" lang="EN-US">1147935336</span><span style="font-size: 12pt; font-family: &#23435;&#20307;; mso-bidi-font-family: &#23435;&#20307;; mso-font-kerning: 0pt;" lang="EN-US"> <a href="http://www.php.net/exec"><span style="font-size: 9pt; color: #000066; mso-bidi-font-size: 12.0pt;">exec</span></a> php1
+</span><span style="font-size: 9pt; color: #cc66cc; font-family: &#23435;&#20307;; mso-bidi-font-family: &#23435;&#20307;; mso-font-kerning: 0pt;" lang="EN-US">2</span><span style="font-size: 12pt; font-family: &#23435;&#20307;; mso-bidi-font-family: &#23435;&#20307;; mso-font-kerning: 0pt;" lang="EN-US">.</span><span style="font-size: 9pt; color: #cc66cc; font-family: &#23435;&#20307;; mso-bidi-font-family: &#23435;&#20307;; mso-font-kerning: 0pt;" lang="EN-US">2</span><span style="font-size: 12pt; font-family: &#23435;&#20307;; mso-bidi-font-family: &#23435;&#20307;; mso-font-kerning: 0pt;" lang="EN-US">.</span><span style="font-size: 9pt; color: #cc66cc; font-family: &#23435;&#20307;; mso-bidi-font-family: &#23435;&#20307;; mso-font-kerning: 0pt;" lang="EN-US">1147935336</span><span style="font-size: 12pt; font-family: &#23435;&#20307;; mso-bidi-font-family: &#23435;&#20307;; mso-font-kerning: 0pt;" lang="EN-US"> <a href="http://www.php.net/exec"><span style="font-size: 9pt; color: #000066; mso-bidi-font-size: 12.0pt;">exec</span></a> php2
+</span><span style="font-size: 9pt; color: #cc66cc; font-family: &#23435;&#20307;; mso-bidi-font-family: &#23435;&#20307;; mso-font-kerning: 0pt;" lang="EN-US">5</span><span style="font-size: 12pt; font-family: &#23435;&#20307;; mso-bidi-font-family: &#23435;&#20307;; mso-font-kerning: 0pt;" lang="EN-US">.</span><span style="font-size: 9pt; color: #cc66cc; font-family: &#23435;&#20307;; mso-bidi-font-family: &#23435;&#20307;; mso-font-kerning: 0pt;" lang="EN-US">1</span><span style="font-size: 12pt; font-family: &#23435;&#20307;; mso-bidi-font-family: &#23435;&#20307;; mso-font-kerning: 0pt;" lang="EN-US">.</span><span style="font-size: 9pt; color: #cc66cc; font-family: &#23435;&#20307;; mso-bidi-font-family: &#23435;&#20307;; mso-font-kerning: 0pt;" lang="EN-US">1147935336</span><span style="font-size: 12pt; font-family: &#23435;&#20307;; mso-bidi-font-family: &#23435;&#20307;; mso-font-kerning: 0pt;" lang="EN-US"> <a href="http://www.php.net/exec"><span style="font-size: 9pt; color: #000066; mso-bidi-font-size: 12.0pt;">exec</span></a> php3
+</span><span style="font-size: 9pt; color: #cc66cc; font-family: &#23435;&#20307;; mso-bidi-font-family: &#23435;&#20307;; mso-font-kerning: 0pt;" lang="EN-US">6</span><span style="font-size: 12pt; font-family: &#23435;&#20307;; mso-bidi-font-family: &#23435;&#20307;; mso-font-kerning: 0pt;" lang="EN-US">.</span><span style="font-size: 9pt; color: #cc66cc; font-family: &#23435;&#20307;; mso-bidi-font-family: &#23435;&#20307;; mso-font-kerning: 0pt;" lang="EN-US">1</span><span style="font-size: 12pt; font-family: &#23435;&#20307;; mso-bidi-font-family: &#23435;&#20307;; mso-font-kerning: 0pt;" lang="EN-US">.</span><span style="font-size: 9pt; color: #cc66cc; font-family: &#23435;&#20307;; mso-bidi-font-family: &#23435;&#20307;; mso-font-kerning: 0pt;" lang="EN-US">1147935337</span><span style="font-size: 12pt; font-family: &#23435;&#20307;; mso-bidi-font-family: &#23435;&#20307;; mso-font-kerning: 0pt;" lang="EN-US"> <a href="http://www.php.net/exec"><span style="font-size: 9pt; color: #000066; mso-bidi-font-size: 12.0pt;">exec</span></a> php1
+</span><span style="font-size: 9pt; color: #cc66cc; font-family: &#23435;&#20307;; mso-bidi-font-family: &#23435;&#20307;; mso-font-kerning: 0pt;" lang="EN-US">3</span><span style="font-size: 12pt; font-family: &#23435;&#20307;; mso-bidi-font-family: &#23435;&#20307;; mso-font-kerning: 0pt;" lang="EN-US">.</span><span style="font-size: 9pt; color: #cc66cc; font-family: &#23435;&#20307;; mso-bidi-font-family: &#23435;&#20307;; mso-font-kerning: 0pt;" lang="EN-US">1</span><span style="font-size: 12pt; font-family: &#23435;&#20307;; mso-bidi-font-family: &#23435;&#20307;; mso-font-kerning: 0pt;" lang="EN-US">.</span><span style="font-size: 9pt; color: #cc66cc; font-family: &#23435;&#20307;; mso-bidi-font-family: &#23435;&#20307;; mso-font-kerning: 0pt;" lang="EN-US">1147935337</span><span style="font-size: 12pt; font-family: &#23435;&#20307;; mso-bidi-font-family: &#23435;&#20307;; mso-font-kerning: 0pt;" lang="EN-US"> <a href="http://www.php.net/exec"><span style="font-size: 9pt; color: #000066; mso-bidi-font-size: 12.0pt;">exec</span></a> php2
+</span><span style="font-size: 9pt; color: #cc66cc; font-family: &#23435;&#20307;; mso-bidi-font-family: &#23435;&#20307;; mso-font-kerning: 0pt;" lang="EN-US">6</span><span style="font-size: 12pt; font-family: &#23435;&#20307;; mso-bidi-font-family: &#23435;&#20307;; mso-font-kerning: 0pt;" lang="EN-US">.</span><span style="font-size: 9pt; color: #cc66cc; font-family: &#23435;&#20307;; mso-bidi-font-family: &#23435;&#20307;; mso-font-kerning: 0pt;" lang="EN-US">1</span><span style="font-size: 12pt; font-family: &#23435;&#20307;; mso-bidi-font-family: &#23435;&#20307;; mso-font-kerning: 0pt;" lang="EN-US">.</span><span style="font-size: 9pt; color: #cc66cc; font-family: &#23435;&#20307;; mso-bidi-font-family: &#23435;&#20307;; mso-font-kerning: 0pt;" lang="EN-US">1147935337</span><span style="font-size: 12pt; font-family: &#23435;&#20307;; mso-bidi-font-family: &#23435;&#20307;; mso-font-kerning: 0pt;" lang="EN-US"> <a href="http://www.php.net/exec"><span style="font-size: 9pt; color: #000066; mso-bidi-font-size: 12.0pt;">exec</span></a> php3
+</span><span style="font-size: 9pt; color: #cc66cc; font-family: &#23435;&#20307;; mso-bidi-font-family: &#23435;&#20307;; mso-font-kerning: 0pt;" lang="EN-US">7</span><span style="font-size: 12pt; font-family: &#23435;&#20307;; mso-bidi-font-family: &#23435;&#20307;; mso-font-kerning: 0pt;" lang="EN-US">.</span><span style="font-size: 9pt; color: #cc66cc; font-family: &#23435;&#20307;; mso-bidi-font-family: &#23435;&#20307;; mso-font-kerning: 0pt;" lang="EN-US">1</span><span style="font-size: 12pt; font-family: &#23435;&#20307;; mso-bidi-font-family: &#23435;&#20307;; mso-font-kerning: 0pt;" lang="EN-US">.</span><span style="font-size: 9pt; color: #cc66cc; font-family: &#23435;&#20307;; mso-bidi-font-family: &#23435;&#20307;; mso-font-kerning: 0pt;" lang="EN-US">1147935338</span><span style="font-size: 12pt; font-family: &#23435;&#20307;; mso-bidi-font-family: &#23435;&#20307;; mso-font-kerning: 0pt;" lang="EN-US"> <a href="http://www.php.net/exec"><span style="font-size: 9pt; color: #000066; mso-bidi-font-size: 12.0pt;">exec</span></a> php1
+</span><span style="font-size: 9pt; color: #cc66cc; font-family: &#23435;&#20307;; mso-bidi-font-family: &#23435;&#20307;; mso-font-kerning: 0pt;" lang="EN-US">3</span><span style="font-size: 12pt; font-family: &#23435;&#20307;; mso-bidi-font-family: &#23435;&#20307;; mso-font-kerning: 0pt;" lang="EN-US">.</span><span style="font-size: 9pt; color: #cc66cc; font-family: &#23435;&#20307;; mso-bidi-font-family: &#23435;&#20307;; mso-font-kerning: 0pt;" lang="EN-US">2</span><span style="font-size: 12pt; font-family: &#23435;&#20307;; mso-bidi-font-family: &#23435;&#20307;; mso-font-kerning: 0pt;" lang="EN-US">.</span><span style="font-size: 9pt; color: #cc66cc; font-family: &#23435;&#20307;; mso-bidi-font-family: &#23435;&#20307;; mso-font-kerning: 0pt;" lang="EN-US">1147935338</span><span style="font-size: 12pt; font-family: &#23435;&#20307;; mso-bidi-font-family: &#23435;&#20307;; mso-font-kerning: 0pt;" lang="EN-US"> <a href="http://www.php.net/exec"><span style="font-size: 9pt; color: #000066; mso-bidi-font-size: 12.0pt;">exec</span></a> php2
+</span><span style="font-size: 9pt; color: #cc66cc; font-family: &#23435;&#20307;; mso-bidi-font-family: &#23435;&#20307;; mso-font-kerning: 0pt;" lang="EN-US">7</span><span style="font-size: 12pt; font-family: &#23435;&#20307;; mso-bidi-font-family: &#23435;&#20307;; mso-font-kerning: 0pt;" lang="EN-US">.</span><span style="font-size: 9pt; color: #cc66cc; font-family: &#23435;&#20307;; mso-bidi-font-family: &#23435;&#20307;; mso-font-kerning: 0pt;" lang="EN-US">1</span><span style="font-size: 12pt; font-family: &#23435;&#20307;; mso-bidi-font-family: &#23435;&#20307;; mso-font-kerning: 0pt;" lang="EN-US">.</span><span style="font-size: 9pt; color: #cc66cc; font-family: &#23435;&#20307;; mso-bidi-font-family: &#23435;&#20307;; mso-font-kerning: 0pt;" lang="EN-US">1147935338</span><span style="font-size: 12pt; font-family: &#23435;&#20307;; mso-bidi-font-family: &#23435;&#20307;; mso-font-kerning: 0pt;" lang="EN-US"> <a href="http://www.php.net/exec"><span style="font-size: 9pt; color: #000066; mso-bidi-font-size: 12.0pt;">exec</span></a> php3
+</span><span style="font-size: 9pt; color: #cc66cc; font-family: &#23435;&#20307;; mso-bidi-font-family: &#23435;&#20307;; mso-font-kerning: 0pt;" lang="EN-US">8</span><span style="font-size: 12pt; font-family: &#23435;&#20307;; mso-bidi-font-family: &#23435;&#20307;; mso-font-kerning: 0pt;" lang="EN-US">.</span><span style="font-size: 9pt; color: #cc66cc; font-family: &#23435;&#20307;; mso-bidi-font-family: &#23435;&#20307;; mso-font-kerning: 0pt;" lang="EN-US">1</span><span style="font-size: 12pt; font-family: &#23435;&#20307;; mso-bidi-font-family: &#23435;&#20307;; mso-font-kerning: 0pt;" lang="EN-US">.</span><span style="font-size: 9pt; color: #cc66cc; font-family: &#23435;&#20307;; mso-bidi-font-family: &#23435;&#20307;; mso-font-kerning: 0pt;" lang="EN-US">1147935339</span><span style="font-size: 12pt; font-family: &#23435;&#20307;; mso-bidi-font-family: &#23435;&#20307;; mso-font-kerning: 0pt;" lang="EN-US"> <a href="http://www.php.net/exec"><span style="font-size: 9pt; color: #000066; mso-bidi-font-size: 12.0pt;">exec</span></a> php1
+</span><span style="font-size: 9pt; color: #cc66cc; font-family: &#23435;&#20307;; mso-bidi-font-family: &#23435;&#20307;; mso-font-kerning: 0pt;" lang="EN-US">4</span><span style="font-size: 12pt; font-family: &#23435;&#20307;; mso-bidi-font-family: &#23435;&#20307;; mso-font-kerning: 0pt;" lang="EN-US">.</span><span style="font-size: 9pt; color: #cc66cc; font-family: &#23435;&#20307;; mso-bidi-font-family: &#23435;&#20307;; mso-font-kerning: 0pt;" lang="EN-US">1</span><span style="font-size: 12pt; font-family: &#23435;&#20307;; mso-bidi-font-family: &#23435;&#20307;; mso-font-kerning: 0pt;" lang="EN-US">.</span><span style="font-size: 9pt; color: #cc66cc; font-family: &#23435;&#20307;; mso-bidi-font-family: &#23435;&#20307;; mso-font-kerning: 0pt;" lang="EN-US">1147935339</span><span style="font-size: 12pt; font-family: &#23435;&#20307;; mso-bidi-font-family: &#23435;&#20307;; mso-font-kerning: 0pt;" lang="EN-US"> <a href="http://www.php.net/exec"><span style="font-size: 9pt; color: #000066; mso-bidi-font-size: 12.0pt;">exec</span></a> php2
+</span><span style="font-size: 9pt; color: #cc66cc; font-family: &#23435;&#20307;; mso-bidi-font-family: &#23435;&#20307;; mso-font-kerning: 0pt;" lang="EN-US">8</span><span style="font-size: 12pt; font-family: &#23435;&#20307;; mso-bidi-font-family: &#23435;&#20307;; mso-font-kerning: 0pt;" lang="EN-US">.</span><span style="font-size: 9pt; color: #cc66cc; font-family: &#23435;&#20307;; mso-bidi-font-family: &#23435;&#20307;; mso-font-kerning: 0pt;" lang="EN-US">1</span><span style="font-size: 12pt; font-family: &#23435;&#20307;; mso-bidi-font-family: &#23435;&#20307;; mso-font-kerning: 0pt;" lang="EN-US">.</span><span style="font-size: 9pt; color: #cc66cc; font-family: &#23435;&#20307;; mso-bidi-font-family: &#23435;&#20307;; mso-font-kerning: 0pt;" lang="EN-US">1147935339</span><span style="font-size: 12pt; font-family: &#23435;&#20307;; mso-bidi-font-family: &#23435;&#20307;; mso-font-kerning: 0pt;" lang="EN-US"> <a href="http://www.php.net/exec"><span style="font-size: 9pt; color: #000066; mso-bidi-font-size: 12.0pt;">exec</span></a> php3
+</span><span style="font-size: 9pt; color: #cc66cc; font-family: &#23435;&#20307;; mso-bidi-font-family: &#23435;&#20307;; mso-font-kerning: 0pt;" lang="EN-US">9</span><span style="font-size: 12pt; font-family: &#23435;&#20307;; mso-bidi-font-family: &#23435;&#20307;; mso-font-kerning: 0pt;" lang="EN-US">.</span><span style="font-size: 9pt; color: #cc66cc; font-family: &#23435;&#20307;; mso-bidi-font-family: &#23435;&#20307;; mso-font-kerning: 0pt;" lang="EN-US">1</span><span style="font-size: 12pt; font-family: &#23435;&#20307;; mso-bidi-font-family: &#23435;&#20307;; mso-font-kerning: 0pt;" lang="EN-US">.</span><span style="font-size: 9pt; color: #cc66cc; font-family: &#23435;&#20307;; mso-bidi-font-family: &#23435;&#20307;; mso-font-kerning: 0pt;" lang="EN-US">1147935340</span><span style="font-size: 12pt; font-family: &#23435;&#20307;; mso-bidi-font-family: &#23435;&#20307;; mso-font-kerning: 0pt;" lang="EN-US"> <a href="http://www.php.net/exec"><span style="font-size: 9pt; color: #000066; mso-bidi-font-size: 12.0pt;">exec</span></a> php1
+</span><span style="font-size: 9pt; color: #cc66cc; font-family: &#23435;&#20307;; mso-bidi-font-family: &#23435;&#20307;; mso-font-kerning: 0pt;" lang="EN-US">4</span><span style="font-size: 12pt; font-family: &#23435;&#20307;; mso-bidi-font-family: &#23435;&#20307;; mso-font-kerning: 0pt;" lang="EN-US">.</span><span style="font-size: 9pt; color: #cc66cc; font-family: &#23435;&#20307;; mso-bidi-font-family: &#23435;&#20307;; mso-font-kerning: 0pt;" lang="EN-US">2</span><span style="font-size: 12pt; font-family: &#23435;&#20307;; mso-bidi-font-family: &#23435;&#20307;; mso-font-kerning: 0pt;" lang="EN-US">.</span><span style="font-size: 9pt; color: #cc66cc; font-family: &#23435;&#20307;; mso-bidi-font-family: &#23435;&#20307;; mso-font-kerning: 0pt;" lang="EN-US">1147935340</span><span style="font-size: 12pt; font-family: &#23435;&#20307;; mso-bidi-font-family: &#23435;&#20307;; mso-font-kerning: 0pt;" lang="EN-US"> <a href="http://www.php.net/exec"><span style="font-size: 9pt; color: #000066; mso-bidi-font-size: 12.0pt;">exec</span></a> php2
+</span><span style="font-size: 9pt; color: #cc66cc; font-family: &#23435;&#20307;; mso-bidi-font-family: &#23435;&#20307;; mso-font-kerning: 0pt;" lang="EN-US">9</span><span style="font-size: 12pt; font-family: &#23435;&#20307;; mso-bidi-font-family: &#23435;&#20307;; mso-font-kerning: 0pt;" lang="EN-US">.</span><span style="font-size: 9pt; color: #cc66cc; font-family: &#23435;&#20307;; mso-bidi-font-family: &#23435;&#20307;; mso-font-kerning: 0pt;" lang="EN-US">1</span><span style="font-size: 12pt; font-family: &#23435;&#20307;; mso-bidi-font-family: &#23435;&#20307;; mso-font-kerning: 0pt;" lang="EN-US">.</span><span style="font-size: 9pt; color: #cc66cc; font-family: &#23435;&#20307;; mso-bidi-font-family: &#23435;&#20307;; mso-font-kerning: 0pt;" lang="EN-US">1147935340</span><span style="font-size: 12pt; font-family: &#23435;&#20307;; mso-bidi-font-family: &#23435;&#20307;; mso-font-kerning: 0pt;" lang="EN-US"> <a href="http://www.php.net/exec"><span style="font-size: 9pt; color: #000066; mso-bidi-font-size: 12.0pt;">exec</span></a> php3
+</span><span style="font-size: 9pt; color: #cc66cc; font-family: &#23435;&#20307;; mso-bidi-font-family: &#23435;&#20307;; mso-font-kerning: 0pt;" lang="EN-US">5</span><span style="font-size: 12pt; font-family: &#23435;&#20307;; mso-bidi-font-family: &#23435;&#20307;; mso-font-kerning: 0pt;" lang="EN-US">.</span><span style="font-size: 9pt; color: #cc66cc; font-family: &#23435;&#20307;; mso-bidi-font-family: &#23435;&#20307;; mso-font-kerning: 0pt;" lang="EN-US">1</span><span style="font-size: 12pt; font-family: &#23435;&#20307;; mso-bidi-font-family: &#23435;&#20307;; mso-font-kerning: 0pt;" lang="EN-US">.</span><span style="font-size: 9pt; color: #cc66cc; font-family: &#23435;&#20307;; mso-bidi-font-family: &#23435;&#20307;; mso-font-kerning: 0pt;" lang="EN-US">1147935341</span><span style="font-size: 12pt; font-family: &#23435;&#20307;; mso-bidi-font-family: &#23435;&#20307;; mso-font-kerning: 0pt;" lang="EN-US"> <a href="http://www.php.net/exec"><span style="font-size: 9pt; color: #000066; mso-bidi-font-size: 12.0pt;">exec</span></a> php2
+</span><span style="font-size: 9pt; color: #cc66cc; font-family: &#23435;&#20307;; mso-bidi-font-family: &#23435;&#20307;; mso-font-kerning: 0pt;" lang="EN-US">5</span><span style="font-size: 12pt; font-family: &#23435;&#20307;; mso-bidi-font-family: &#23435;&#20307;; mso-font-kerning: 0pt;" lang="EN-US">.</span><span style="font-size: 9pt; color: #cc66cc; font-family: &#23435;&#20307;; mso-bidi-font-family: &#23435;&#20307;; mso-font-kerning: 0pt;" lang="EN-US">2</span><span style="font-size: 12pt; font-family: &#23435;&#20307;; mso-bidi-font-family: &#23435;&#20307;; mso-font-kerning: 0pt;" lang="EN-US">.</span><span style="font-size: 9pt; color: #cc66cc; font-family: &#23435;&#20307;; mso-bidi-font-family: &#23435;&#20307;; mso-font-kerning: 0pt;" lang="EN-US">1147935342</span><span style="font-size: 12pt; font-family: &#23435;&#20307;; mso-bidi-font-family: &#23435;&#20307;; mso-font-kerning: 0pt;" lang="EN-US"> <a href="http://www.php.net/exec"><span style="font-size: 9pt; color: #000066; mso-bidi-font-size: 12.0pt;">exec</span></a> php2
+</span><span style="font-size: 9pt; color: #cc66cc; font-family: &#23435;&#20307;; mso-bidi-font-family: &#23435;&#20307;; mso-font-kerning: 0pt;" lang="EN-US">6</span><span style="font-size: 12pt; font-family: &#23435;&#20307;; mso-bidi-font-family: &#23435;&#20307;; mso-font-kerning: 0pt;" lang="EN-US">.</span><span style="font-size: 9pt; color: #cc66cc; font-family: &#23435;&#20307;; mso-bidi-font-family: &#23435;&#20307;; mso-font-kerning: 0pt;" lang="EN-US">1</span><span style="font-size: 12pt; font-family: &#23435;&#20307;; mso-bidi-font-family: &#23435;&#20307;; mso-font-kerning: 0pt;" lang="EN-US">.</span><span style="font-size: 9pt; color: #cc66cc; font-family: &#23435;&#20307;; mso-bidi-font-family: &#23435;&#20307;; mso-font-kerning: 0pt;" lang="EN-US">1147935343</span><span style="font-size: 12pt; font-family: &#23435;&#20307;; mso-bidi-font-family: &#23435;&#20307;; mso-font-kerning: 0pt;" lang="EN-US"> <a href="http://www.php.net/exec"><span style="font-size: 9pt; color: #000066; mso-bidi-font-size: 12.0pt;">exec</span></a> php2
+</span><span style="font-size: 9pt; color: #cc66cc; font-family: &#23435;&#20307;; mso-bidi-font-family: &#23435;&#20307;; mso-font-kerning: 0pt;" lang="EN-US">6</span><span style="font-size: 12pt; font-family: &#23435;&#20307;; mso-bidi-font-family: &#23435;&#20307;; mso-font-kerning: 0pt;" lang="EN-US">.</span><span style="font-size: 9pt; color: #cc66cc; font-family: &#23435;&#20307;; mso-bidi-font-family: &#23435;&#20307;; mso-font-kerning: 0pt;" lang="EN-US">2</span><span style="font-size: 12pt; font-family: &#23435;&#20307;; mso-bidi-font-family: &#23435;&#20307;; mso-font-kerning: 0pt;" lang="EN-US">.</span><span style="font-size: 9pt; color: #cc66cc; font-family: &#23435;&#20307;; mso-bidi-font-family: &#23435;&#20307;; mso-font-kerning: 0pt;" lang="EN-US">1147935344</span><span style="font-size: 12pt; font-family: &#23435;&#20307;; mso-bidi-font-family: &#23435;&#20307;; mso-font-kerning: 0pt;" lang="EN-US"> <a href="http://www.php.net/exec"><span style="font-size: 9pt; color: #000066; mso-bidi-font-size: 12.0pt;">exec</span></a> php2
+</span><span style="font-size: 9pt; color: #cc66cc; font-family: &#23435;&#20307;; mso-bidi-font-family: &#23435;&#20307;; mso-font-kerning: 0pt;" lang="EN-US">7</span><span style="font-size: 12pt; font-family: &#23435;&#20307;; mso-bidi-font-family: &#23435;&#20307;; mso-font-kerning: 0pt;" lang="EN-US">.</span><span style="font-size: 9pt; color: #cc66cc; font-family: &#23435;&#20307;; mso-bidi-font-family: &#23435;&#20307;; mso-font-kerning: 0pt;" lang="EN-US">1</span><span style="font-size: 12pt; font-family: &#23435;&#20307;; mso-bidi-font-family: &#23435;&#20307;; mso-font-kerning: 0pt;" lang="EN-US">.</span><span style="font-size: 9pt; color: #cc66cc; font-family: &#23435;&#20307;; mso-bidi-font-family: &#23435;&#20307;; mso-font-kerning: 0pt;" lang="EN-US">1147935345</span><span style="font-size: 12pt; font-family: &#23435;&#20307;; mso-bidi-font-family: &#23435;&#20307;; mso-font-kerning: 0pt;" lang="EN-US"> <a href="http://www.php.net/exec"><span style="font-size: 9pt; color: #000066; mso-bidi-font-size: 12.0pt;">exec</span></a> php2
+</span><span style="font-size: 9pt; color: #cc66cc; font-family: &#23435;&#20307;; mso-bidi-font-family: &#23435;&#20307;; mso-font-kerning: 0pt;" lang="EN-US">7</span><span style="font-size: 12pt; font-family: &#23435;&#20307;; mso-bidi-font-family: &#23435;&#20307;; mso-font-kerning: 0pt;" lang="EN-US">.</span><span style="font-size: 9pt; color: #cc66cc; font-family: &#23435;&#20307;; mso-bidi-font-family: &#23435;&#20307;; mso-font-kerning: 0pt;" lang="EN-US">2</span><span style="font-size: 12pt; font-family: &#23435;&#20307;; mso-bidi-font-family: &#23435;&#20307;; mso-font-kerning: 0pt;" lang="EN-US">.</span><span style="font-size: 9pt; color: #cc66cc; font-family: &#23435;&#20307;; mso-bidi-font-family: &#23435;&#20307;; mso-font-kerning: 0pt;" lang="EN-US">1147935346</span><span style="font-size: 12pt; font-family: &#23435;&#20307;; mso-bidi-font-family: &#23435;&#20307;; mso-font-kerning: 0pt;" lang="EN-US"> <a href="http://www.php.net/exec"><span style="font-size: 9pt; color: #000066; mso-bidi-font-size: 12.0pt;">exec</span></a> php2
+</span><span style="font-size: 9pt; color: #cc66cc; font-family: &#23435;&#20307;; mso-bidi-font-family: &#23435;&#20307;; mso-font-kerning: 0pt;" lang="EN-US">8</span><span style="font-size: 12pt; font-family: &#23435;&#20307;; mso-bidi-font-family: &#23435;&#20307;; mso-font-kerning: 0pt;" lang="EN-US">.</span><span style="font-size: 9pt; color: #cc66cc; font-family: &#23435;&#20307;; mso-bidi-font-family: &#23435;&#20307;; mso-font-kerning: 0pt;" lang="EN-US">1</span><span style="font-size: 12pt; font-family: &#23435;&#20307;; mso-bidi-font-family: &#23435;&#20307;; mso-font-kerning: 0pt;" lang="EN-US">.</span><span style="font-size: 9pt; color: #cc66cc; font-family: &#23435;&#20307;; mso-bidi-font-family: &#23435;&#20307;; mso-font-kerning: 0pt;" lang="EN-US">1147935347</span><span style="font-size: 12pt; font-family: &#23435;&#20307;; mso-bidi-font-family: &#23435;&#20307;; mso-font-kerning: 0pt;" lang="EN-US"> <a href="http://www.php.net/exec"><span style="font-size: 9pt; color: #000066; mso-bidi-font-size: 12.0pt;">exec</span></a> php2
+</span><span style="font-size: 9pt; color: #cc66cc; font-family: &#23435;&#20307;; mso-bidi-font-family: &#23435;&#20307;; mso-font-kerning: 0pt;" lang="EN-US">8</span><span style="font-size: 12pt; font-family: &#23435;&#20307;; mso-bidi-font-family: &#23435;&#20307;; mso-font-kerning: 0pt;" lang="EN-US">.</span><span style="font-size: 9pt; color: #cc66cc; font-family: &#23435;&#20307;; mso-bidi-font-family: &#23435;&#20307;; mso-font-kerning: 0pt;" lang="EN-US">2</span><span style="font-size: 12pt; font-family: &#23435;&#20307;; mso-bidi-font-family: &#23435;&#20307;; mso-font-kerning: 0pt;" lang="EN-US">.</span><span style="font-size: 9pt; color: #cc66cc; font-family: &#23435;&#20307;; mso-bidi-font-family: &#23435;&#20307;; mso-font-kerning: 0pt;" lang="EN-US">1147935348</span><span style="font-size: 12pt; font-family: &#23435;&#20307;; mso-bidi-font-family: &#23435;&#20307;; mso-font-kerning: 0pt;" lang="EN-US"> <a href="http://www.php.net/exec"><span style="font-size: 9pt; color: #000066; mso-bidi-font-size: 12.0pt;">exec</span></a> php2
+</span><span style="font-size: 9pt; color: #cc66cc; font-family: &#23435;&#20307;; mso-bidi-font-family: &#23435;&#20307;; mso-font-kerning: 0pt;" lang="EN-US">9</span><span style="font-size: 12pt; font-family: &#23435;&#20307;; mso-bidi-font-family: &#23435;&#20307;; mso-font-kerning: 0pt;" lang="EN-US">.</span><span style="font-size: 9pt; color: #cc66cc; font-family: &#23435;&#20307;; mso-bidi-font-family: &#23435;&#20307;; mso-font-kerning: 0pt;" lang="EN-US">1</span><span style="font-size: 12pt; font-family: &#23435;&#20307;; mso-bidi-font-family: &#23435;&#20307;; mso-font-kerning: 0pt;" lang="EN-US">.</span><span style="font-size: 9pt; color: #cc66cc; font-family: &#23435;&#20307;; mso-bidi-font-family: &#23435;&#20307;; mso-font-kerning: 0pt;" lang="EN-US">1147935349</span><span style="font-size: 12pt; font-family: &#23435;&#20307;; mso-bidi-font-family: &#23435;&#20307;; mso-font-kerning: 0pt;" lang="EN-US"> <a href="http://www.php.net/exec"><span style="font-size: 9pt; color: #000066; mso-bidi-font-size: 12.0pt;">exec</span></a> php2
+</span><span style="font-size: 9pt; color: #cc66cc; font-family: &#23435;&#20307;; mso-bidi-font-family: &#23435;&#20307;; mso-font-kerning: 0pt;" lang="EN-US">9</span><span style="font-size: 12pt; font-family: &#23435;&#20307;; mso-bidi-font-family: &#23435;&#20307;; mso-font-kerning: 0pt;" lang="EN-US">.</span><span style="font-size: 9pt; color: #cc66cc; font-family: &#23435;&#20307;; mso-bidi-font-family: &#23435;&#20307;; mso-font-kerning: 0pt;" lang="EN-US">2</span><span style="font-size: 12pt; font-family: &#23435;&#20307;; mso-bidi-font-family: &#23435;&#20307;; mso-font-kerning: 0pt;" lang="EN-US">.</span><span style="font-size: 9pt; color: #cc66cc; font-family: &#23435;&#20307;; mso-bidi-font-family: &#23435;&#20307;; mso-font-kerning: 0pt;" lang="EN-US">1147935350</span><span style="font-size: 12pt; font-family: &#23435;&#20307;; mso-bidi-font-family: &#23435;&#20307;; mso-font-kerning: 0pt;" lang="EN-US"> <a href="http://www.php.net/exec"><span style="font-size: 9pt; color: #000066; mso-bidi-font-size: 12.0pt;">exec</span></a> php2
+</span>*<span style="font-size: 9pt; color: black; font-family: &#23435;&#20307;; mso-bidi-font-family: &#23435;&#20307;; mso-font-kerning: 0pt;" lang="EN-US">?></span>*<span style="font-size: 12pt; font-family: &#23435;&#20307;; mso-bidi-font-family: &#23435;&#20307;; mso-font-kerning: 0pt;" lang="EN-US">&nbsp;</span>
+
+
+
+
+
+
+
+
+<p class="MsoNormal" style="margin: 0cm 0cm 0pt; text-align: left; mso-pagination: widow-orphan; tab-stops: 45.8pt 91.6pt 137.4pt 183.2pt 229.0pt 274.8pt 320.6pt 366.4pt 412.2pt 458.0pt 503.8pt 549.6pt 595.4pt 641.2pt 687.0pt 732.8pt;"><span style="font-size: 12pt; font-family: &#23435;&#20307;; mso-bidi-font-family: &#23435;&#20307;; mso-font-kerning: 0pt;" lang="EN-US"><span style="font-size: small;"><span style="mso-spacerun: yes;">&nbsp; </span></span></span>
+
+
+<span style="font-size: small;">
+</span>
+
+
+
+
+
+<p class="MsoNormal" style="margin: 0cm 0cm 0pt; text-align: left; mso-pagination: widow-orphan; tab-stops: 45.8pt 91.6pt 137.4pt 183.2pt 229.0pt 274.8pt 320.6pt 366.4pt 412.2pt 458.0pt 503.8pt 549.6pt 595.4pt 641.2pt 687.0pt 732.8pt;"><span style="font-size: 12pt; font-family: &#23435;&#20307;; mso-bidi-font-family: &#23435;&#20307;; mso-font-kerning: 0pt;" lang="EN-US"><span style="font-size: small;"><span style="mso-spacerun: yes;">&nbsp; </span></span></span>
+
+
+<span style="font-size: small;">
+</span>
+
+
+
+
+
+<p class="MsoNormal" style="margin: 0cm 0cm 0pt; text-align: left; mso-pagination: widow-orphan; tab-stops: 45.8pt 91.6pt 137.4pt 183.2pt 229.0pt 274.8pt 320.6pt 366.4pt 412.2pt 458.0pt 503.8pt 549.6pt 595.4pt 641.2pt 687.0pt 732.8pt;"><span style="font-size: 12pt; font-family: &#23435;&#20307;; mso-bidi-font-family: &#23435;&#20307;; mso-font-kerning: 0pt;" lang="EN-US">**总结：**</span>
+
+
+
+
+
+
+
+
+<p class="MsoNormal" style="margin: 0cm 0cm 0pt; text-align: left; mso-pagination: widow-orphan; tab-stops: 45.8pt 91.6pt 137.4pt 183.2pt 229.0pt 274.8pt 320.6pt 366.4pt 412.2pt 458.0pt 503.8pt 549.6pt 595.4pt 641.2pt 687.0pt 732.8pt;"><span style="font-size: 12pt; font-family: &#23435;&#20307;; mso-bidi-font-family: &#23435;&#20307;; mso-font-kerning: 0pt;" lang="EN-US"><span style="font-size: small;"><span style="mso-spacerun: yes;">&nbsp; </span></span></span>
+
+
+<span style="font-size: small;">
+</span>
+
+
+
+
+
+<p class="MsoNormal" style="margin: 0cm 0cm 0pt; text-align: left; mso-pagination: widow-orphan; tab-stops: 45.8pt 91.6pt 137.4pt 183.2pt 229.0pt 274.8pt 320.6pt 366.4pt 412.2pt 458.0pt 503.8pt 549.6pt 595.4pt 641.2pt 687.0pt 732.8pt;"><span style="font-size: 12pt; font-family: &#23435;&#20307;; mso-bidi-font-family: &#23435;&#20307;; mso-font-kerning: 0pt;" lang="EN-US">**主程序循环等待子进程， 通过<a href="http://www.php.net/fgets"><span style="font-size: 9pt; color: #000066; mso-bidi-font-size: 12.0pt;">fgets</span></a>或<a href="http://www.php.net/fread"><span style="font-size: 9pt; color: #000066; mso-bidi-font-size: 12.0pt;">fread</span></a> 把子进程的输出获取出来 ， 从时间戳上看，的确实现了并发执行。**
+<span style="font-size: small;"><span style="mso-spacerun: yes;">&nbsp; </span>
+-----------------------------------------------
+改进：
+<span style="mso-spacerun: yes;">&nbsp; </span>
+*<span style="mso-spacerun: yes;">&nbsp; </span></span><a href="http://www.php.net/popen"><span style="font-size: 9pt; color: #000066; mso-bidi-font-size: 12.0pt;">popen</span></a>打开的句柄是单向的，如果需要向子进程交互，可以使用<a href="http://www.php.net/proc_open"><span style="font-size: 9pt; color: #000066; mso-bidi-font-size: 12.0pt;">proc_open</span></a></span>
+
+
+
+
+
+
+
+
+<p class="MsoNormal" style="margin: 0cm 0cm 0pt; text-align: left; mso-pagination: widow-orphan; tab-stops: 45.8pt 91.6pt 137.4pt 183.2pt 229.0pt 274.8pt 320.6pt 366.4pt 412.2pt 458.0pt 503.8pt 549.6pt 595.4pt 641.2pt 687.0pt 732.8pt;"><span style="font-size: 12pt; font-family: &#23435;&#20307;; mso-bidi-font-family: &#23435;&#20307;; mso-font-kerning: 0pt;" lang="EN-US">*<span style="font-size: small;"><span style="mso-spacerun: yes;">&nbsp; </span>使用数组和子函数代替</span></span><span style="font-size: 9pt; color: #b1b100; font-family: &#23435;&#20307;; mso-bidi-font-family: &#23435;&#20307;; mso-font-kerning: 0pt;" lang="EN-US">while</span><span style="font-size: 9pt; color: #66cc66; font-family: &#23435;&#20307;; mso-bidi-font-family: &#23435;&#20307;; mso-font-kerning: 0pt;" lang="EN-US">(</span><span style="font-size: 12pt; font-family: &#23435;&#20307;; mso-bidi-font-family: &#23435;&#20307;; mso-font-kerning: 0pt;" lang="EN-US">!<a href="http://www.php.net/feof"><span style="font-size: 9pt; color: #000066; mso-bidi-font-size: 12.0pt;">feof</span></a></span><span style="font-size: 9pt; color: #66cc66; font-family: &#23435;&#20307;; mso-bidi-font-family: &#23435;&#20307;; mso-font-kerning: 0pt;" lang="EN-US">(</span><span style="font-size: 9pt; color: blue; font-family: &#23435;&#20307;; mso-bidi-font-family: &#23435;&#20307;; mso-font-kerning: 0pt;" lang="EN-US">$handle1</span><span style="font-size: 9pt; color: #66cc66; font-family: &#23435;&#20307;; mso-bidi-font-family: &#23435;&#20307;; mso-font-kerning: 0pt;" lang="EN-US">)</span><span style="font-size: 12pt; font-family: &#23435;&#20307;; mso-bidi-font-family: &#23435;&#20307;; mso-font-kerning: 0pt;" lang="EN-US"> || !<a href="http://www.php.net/feof"><span style="font-size: 9pt; color: #000066; mso-bidi-font-size: 12.0pt;">feof</span></a></span><span style="font-size: 9pt; color: #66cc66; font-family: &#23435;&#20307;; mso-bidi-font-family: &#23435;&#20307;; mso-font-kerning: 0pt;" lang="EN-US">(</span><span style="font-size: 9pt; color: blue; font-family: &#23435;&#20307;; mso-bidi-font-family: &#23435;&#20307;; mso-font-kerning: 0pt;" lang="EN-US">$handle2</span><span style="font-size: 9pt; color: #66cc66; font-family: &#23435;&#20307;; mso-bidi-font-family: &#23435;&#20307;; mso-font-kerning: 0pt;" lang="EN-US">)</span><span style="font-size: 12pt; font-family: &#23435;&#20307;; mso-bidi-font-family: &#23435;&#20307;; mso-font-kerning: 0pt;" lang="EN-US"> || !<a href="http://www.php.net/feof"><span style="font-size: 9pt; color: #000066; mso-bidi-font-size: 12.0pt;">feof</span></a></span><span style="font-size: 9pt; color: #66cc66; font-family: &#23435;&#20307;; mso-bidi-font-family: &#23435;&#20307;; mso-font-kerning: 0pt;" lang="EN-US">(</span><span style="font-size: 9pt; color: blue; font-family: &#23435;&#20307;; mso-bidi-font-family: &#23435;&#20307;; mso-font-kerning: 0pt;" lang="EN-US">$handle3</span><span style="font-size: 9pt; color: #66cc66; font-family: &#23435;&#20307;; mso-bidi-font-family: &#23435;&#20307;; mso-font-kerning: 0pt;" lang="EN-US">)</span><span style="font-size: 12pt; font-family: &#23435;&#20307;; mso-bidi-font-family: &#23435;&#20307;; mso-font-kerning: 0pt;" lang="EN-US"> </span><span style="font-size: 9pt; color: #66cc66; font-family: &#23435;&#20307;; mso-bidi-font-family: &#23435;&#20307;; mso-font-kerning: 0pt;" lang="EN-US">)</span><span style="font-size: 12pt; font-family: &#23435;&#20307;; mso-bidi-font-family: &#23435;&#20307;; mso-font-kerning: 0pt;">这种龌龊的写法<span lang="EN-US">
+<span style="font-size: small;">*<span style="mso-spacerun: yes;">&nbsp; </span></span><span style="font-size: small;">用</span><a href="http://www.php.net/fread"><span style="font-size: 9pt; color: #000066; mso-bidi-font-size: 12.0pt;">fread</span></a><span style="font-size: small;">一次把子进程已经产生的输出取完，而不是每次一行。</span></span></span>
+
+
+<span style="font-size: small;">
+</span>
+
+
+
+
+
+<p class="MsoNormal" style="margin: 0cm 0cm 12pt; text-align: left; mso-pagination: widow-orphan;"><span style="font-size: 9pt; font-family: &#23435;&#20307;; mso-bidi-font-family: &#23435;&#20307;; mso-font-kerning: 0pt;" lang="EN-US">
+这是另一个改进：
+</span><span style="font-size: 10pt; font-family: &#23435;&#20307;; mso-bidi-font-family: &#23435;&#20307;; mso-font-kerning: 0pt;">一个并发执行<span lang="EN-US"><span style="font-size: x-small;">shell任务的调度者,本程序读取一个任务文件,把里面的每行命令并发执行, 可以设置同时存在的子进程数目:</span></span></span>
+
+
+<span style="font-size: x-small;">
+</span>
+
+
+
+
+
+<p class="MsoNormal" style="margin: 0cm 0cm 0pt; text-align: left; mso-pagination: widow-orphan;">*<span style="font-size: 9pt; font-family: &#23435;&#20307;; mso-bidi-font-family: &#23435;&#20307;; mso-font-kerning: 0pt;" lang="EN-US">CODE:</span>*
+
+
+*
+*
+
+
+
+
+
+<p class="MsoNormal" style="margin: 0cm 0cm 0pt; text-align: right; mso-pagination: widow-orphan;">*<span style="font-size: 9pt; font-family: &#23435;&#20307;; mso-bidi-font-family: &#23435;&#20307;; mso-font-kerning: 0pt;" lang="EN-US"><a href="http://bbs.chinaunix.net/viewthread.php?tid=661015&extra=page%3D1%26filter%3Ddigest&page=3"><span style="mso-bidi-font-size: 12.0pt;">[Copy to clipboard]</span></a></span>*
+
+
+*
+*
+
+
+
+
+
+<p class="MsoNormal" style="margin: 0cm 0cm 0pt; text-align: left; mso-pagination: widow-orphan;"><span style="font-size: 9pt; font-family: fixedsys; mso-bidi-font-family: &#23435;&#20307;; mso-font-kerning: 0pt;" lang="EN-US"><?
+/*
+<span style="mso-spacerun: yes;">&nbsp; </span><span style="mso-spacerun: yes;">&nbsp;</span><span style="mso-spacerun: yes;">&nbsp;&nbsp;</span></span><span style="font-size: 9pt; font-family: &#23435;&#20307;; mso-bidi-font-family: &#23435;&#20307;; mso-font-kerning: 0pt; mso-ascii-font-family: fixedsys; mso-hansi-font-family: fixedsys;">主任务管理器</span><span style="font-size: 9pt; font-family: fixedsys; mso-bidi-font-family: &#23435;&#20307;; mso-font-kerning: 0pt;" lang="EN-US">
+<span style="mso-spacerun: yes;">&nbsp; </span><span style="mso-spacerun: yes;">&nbsp;</span><span style="mso-spacerun: yes;">&nbsp;&nbsp;</span></span><span style="font-size: 9pt; font-family: &#23435;&#20307;; mso-bidi-font-family: &#23435;&#20307;; mso-font-kerning: 0pt; mso-ascii-font-family: fixedsys; mso-hansi-font-family: fixedsys;">并发的执行子任务列表</span><span style="font-size: 9pt; font-family: fixedsys; mso-bidi-font-family: &#23435;&#20307;; mso-font-kerning: 0pt;" lang="EN-US">
+*/
+
+include("../common/conf.php");
+include("../common/function.php");
+
+//</span><span style="font-size: 9pt; font-family: &#23435;&#20307;; mso-bidi-font-family: &#23435;&#20307;; mso-font-kerning: 0pt; mso-ascii-font-family: fixedsys; mso-hansi-font-family: fixedsys;">开启的进程数</span><span style="font-size: 9pt; font-family: fixedsys; mso-bidi-font-family: &#23435;&#20307;; mso-font-kerning: 0pt;" lang="EN-US">
+$exec_number = 40 ;
+
+
+
+/***** main ********/
+if($argc==1){
+<span style="mso-spacerun: yes;">&nbsp; </span><span style="mso-spacerun: yes;">&nbsp;</span><span style="mso-spacerun: yes;">&nbsp;&nbsp;</span><span style="mso-spacerun: yes;">&nbsp;</span>echo("argv\n");
+}
+$taskfile = $argv[1];
+
+//tasklist
+$tasklist = file($taskfile);
+
+$tasklist_len = count($tasklist);
+$tasklist_pos = 0;
+
+$handle_list = array();
+
+
+
+while(1)
+{
+
+<span style="mso-spacerun: yes;">&nbsp; </span><span style="mso-spacerun: yes;">&nbsp;</span><span style="mso-spacerun: yes;">&nbsp;&nbsp;</span><span style="mso-spacerun: yes;">&nbsp;</span>//</span><span style="font-size: 9pt; font-family: &#23435;&#20307;; mso-bidi-font-family: &#23435;&#20307;; mso-font-kerning: 0pt; mso-ascii-font-family: fixedsys; mso-hansi-font-family: fixedsys;">子进程列表有空闲</span><span style="font-size: 9pt; font-family: fixedsys; mso-bidi-font-family: &#23435;&#20307;; mso-font-kerning: 0pt;" lang="EN-US">,</span><span style="font-size: 9pt; font-family: &#23435;&#20307;; mso-bidi-font-family: &#23435;&#20307;; mso-font-kerning: 0pt; mso-ascii-font-family: fixedsys; mso-hansi-font-family: fixedsys;">则填充补齐子进程列表</span><span style="font-size: 9pt; font-family: fixedsys; mso-bidi-font-family: &#23435;&#20307;; mso-font-kerning: 0pt;" lang="EN-US">
+<span style="mso-spacerun: yes;">&nbsp; </span><span style="mso-spacerun: yes;">&nbsp;</span><span style="mso-spacerun: yes;">&nbsp;&nbsp;</span><span style="mso-spacerun: yes;">&nbsp;</span>if($exec_number > count($handle_list) &&
+<span style="mso-spacerun: yes;">&nbsp; </span><span style="mso-spacerun: yes;">&nbsp;</span><span style="mso-spacerun: yes;">&nbsp;&nbsp;</span><span style="mso-spacerun: yes;">&nbsp;&nbsp;</span><span style="mso-spacerun: yes;">&nbsp;</span><span style="mso-spacerun: yes;">&nbsp;&nbsp;</span><span style="mso-spacerun: yes;">&nbsp;&nbsp;</span><span style="mso-spacerun: yes;">&nbsp;</span><span style="mso-spacerun: yes;">&nbsp;&nbsp;</span><span style="mso-spacerun: yes;">&nbsp;&nbsp;</span><span style="mso-spacerun: yes;">&nbsp;</span><span style="mso-spacerun: yes;">&nbsp;&nbsp;</span>$tasklist_pos < $tasklist_len)
+<span style="mso-spacerun: yes;">&nbsp; </span><span style="mso-spacerun: yes;">&nbsp;</span><span style="mso-spacerun: yes;">&nbsp;</span><span style="mso-spacerun: yes;">&nbsp;</span><span style="mso-spacerun: yes;">&nbsp;</span>{
+
+<span style="mso-spacerun: yes;">&nbsp; </span><span style="mso-spacerun: yes;">&nbsp;</span><span style="mso-spacerun: yes;">&nbsp;&nbsp;</span><span style="mso-spacerun: yes;">&nbsp;&nbsp;</span><span style="mso-spacerun: yes;">&nbsp;</span><span style="mso-spacerun: yes;">&nbsp;&nbsp;</span><span style="mso-spacerun: yes;">&nbsp;&nbsp;</span><span style="mso-spacerun: yes;">&nbsp;&nbsp;</span>for($i=$tasklist_pos; $i<$tasklist_len; )
+<span style="mso-spacerun: yes;">&nbsp; </span><span style="mso-spacerun: yes;">&nbsp;</span><span style="mso-spacerun: yes;">&nbsp;&nbsp;</span><span style="mso-spacerun: yes;">&nbsp;&nbsp;</span><span style="mso-spacerun: yes;">&nbsp;</span><span style="mso-spacerun: yes;">&nbsp;&nbsp;</span><span style="mso-spacerun: yes;">&nbsp;&nbsp;</span><span style="mso-spacerun: yes;">&nbsp;&nbsp;</span>{
+<span style="mso-spacerun: yes;">&nbsp; </span><span style="mso-spacerun: yes;">&nbsp;</span><span style="mso-spacerun: yes;">&nbsp;&nbsp;</span><span style="mso-spacerun: yes;">&nbsp;&nbsp;</span><span style="mso-spacerun: yes;">&nbsp;</span><span style="mso-spacerun: yes;">&nbsp;&nbsp;</span><span style="mso-spacerun: yes;">&nbsp;&nbsp;</span><span style="mso-spacerun: yes;">&nbsp;</span><span style="mso-spacerun: yes;">&nbsp;&nbsp;</span><span style="mso-spacerun: yes;">&nbsp;&nbsp;</span><span style="mso-spacerun: yes;">&nbsp;</span><span style="mso-spacerun: yes;">&nbsp;&nbsp;</span>$command = $tasklist[$i] ;
+<span style="mso-spacerun: yes;">&nbsp; </span><span style="mso-spacerun: yes;">&nbsp;</span><span style="mso-spacerun: yes;">&nbsp;&nbsp;</span><span style="mso-spacerun: yes;">&nbsp;&nbsp;</span><span style="mso-spacerun: yes;">&nbsp;</span><span style="mso-spacerun: yes;">&nbsp;&nbsp;</span><span style="mso-spacerun: yes;">&nbsp;&nbsp;</span><span style="mso-spacerun: yes;">&nbsp;</span><span style="mso-spacerun: yes;">&nbsp;&nbsp;</span><span style="mso-spacerun: yes;">&nbsp;&nbsp;</span><span style="mso-spacerun: yes;">&nbsp;</span><span style="mso-spacerun: yes;">&nbsp;&nbsp;</span>$handle_list[] = popen($command , "r" );
+<span style="mso-spacerun: yes;">&nbsp; </span><span style="mso-spacerun: yes;">&nbsp;</span><span style="mso-spacerun: yes;">&nbsp;&nbsp;</span><span style="mso-spacerun: yes;">&nbsp;&nbsp;</span><span style="mso-spacerun: yes;">&nbsp;</span><span style="mso-spacerun: yes;">&nbsp;&nbsp;</span><span style="mso-spacerun: yes;">&nbsp;&nbsp;</span><span style="mso-spacerun: yes;">&nbsp;</span><span style="mso-spacerun: yes;">&nbsp;&nbsp;</span><span style="mso-spacerun: yes;">&nbsp;&nbsp;</span><span style="mso-spacerun: yes;">&nbsp;</span><span style="mso-spacerun: yes;">&nbsp;&nbsp;</span>tolog("begin task \t ".$tasklist[$i]);
+<span style="mso-spacerun: yes;">&nbsp; </span><span style="mso-spacerun: yes;">&nbsp;</span><span style="mso-spacerun: yes;">&nbsp;&nbsp;</span><span style="mso-spacerun: yes;">&nbsp;&nbsp;</span><span style="mso-spacerun: yes;">&nbsp;</span><span style="mso-spacerun: yes;">&nbsp;&nbsp;</span><span style="mso-spacerun: yes;">&nbsp;&nbsp;</span><span style="mso-spacerun: yes;">&nbsp;</span><span style="mso-spacerun: yes;">&nbsp;&nbsp;</span><span style="mso-spacerun: yes;">&nbsp;&nbsp;</span><span style="mso-spacerun: yes;">&nbsp;</span><span style="mso-spacerun: yes;">&nbsp;&nbsp;</span>$i++;
+<span style="mso-spacerun: yes;">&nbsp; </span><span style="mso-spacerun: yes;">&nbsp;</span><span style="mso-spacerun: yes;">&nbsp;&nbsp;</span><span style="mso-spacerun: yes;">&nbsp;&nbsp;</span><span style="mso-spacerun: yes;">&nbsp;</span><span style="mso-spacerun: yes;">&nbsp;&nbsp;</span><span style="mso-spacerun: yes;">&nbsp;&nbsp;</span><span style="mso-spacerun: yes;">&nbsp;</span><span style="mso-spacerun: yes;">&nbsp;&nbsp;</span><span style="mso-spacerun: yes;">&nbsp;&nbsp;</span><span style="mso-spacerun: yes;">&nbsp;</span><span style="mso-spacerun: yes;">&nbsp;&nbsp;</span>if($exec_number == count($handle_list)) break;
+<span style="mso-spacerun: yes;">&nbsp; </span><span style="mso-spacerun: yes;">&nbsp;</span><span style="mso-spacerun: yes;">&nbsp;&nbsp;</span><span style="mso-spacerun: yes;">&nbsp;&nbsp;</span><span style="mso-spacerun: yes;">&nbsp;</span><span style="mso-spacerun: yes;">&nbsp;&nbsp;</span><span style="mso-spacerun: yes;">&nbsp;&nbsp;</span><span style="mso-spacerun: yes;">&nbsp;&nbsp;</span>}
+<span style="mso-spacerun: yes;">&nbsp; </span><span style="mso-spacerun: yes;">&nbsp;</span><span style="mso-spacerun: yes;">&nbsp;&nbsp;</span><span style="mso-spacerun: yes;">&nbsp;&nbsp;</span><span style="mso-spacerun: yes;">&nbsp;</span><span style="mso-spacerun: yes;">&nbsp;&nbsp;</span><span style="mso-spacerun: yes;">&nbsp;&nbsp;</span><span style="mso-spacerun: yes;">&nbsp;&nbsp;</span>$tasklist_pos = $i;
+<span style="mso-spacerun: yes;">&nbsp; </span><span style="mso-spacerun: yes;">&nbsp;</span><span style="mso-spacerun: yes;">&nbsp;&nbsp;</span><span style="mso-spacerun: yes;">&nbsp;</span>}
+
+<span style="mso-spacerun: yes;">&nbsp; </span><span style="mso-spacerun: yes;">&nbsp;</span><span style="mso-spacerun: yes;">&nbsp;&nbsp;</span><span style="mso-spacerun: yes;">&nbsp;</span>//</span><span style="font-size: 9pt; font-family: &#23435;&#20307;; mso-bidi-font-family: &#23435;&#20307;; mso-font-kerning: 0pt; mso-ascii-font-family: fixedsys; mso-hansi-font-family: fixedsys;">如果子进程列表空，退出</span><span style="font-size: 9pt; font-family: fixedsys; mso-bidi-font-family: &#23435;&#20307;; mso-font-kerning: 0pt;" lang="EN-US">
+<span style="mso-spacerun: yes;">&nbsp; </span><span style="mso-spacerun: yes;">&nbsp;</span><span style="mso-spacerun: yes;">&nbsp;&nbsp;</span><span style="mso-spacerun: yes;">&nbsp;</span>if(0 == count($handle_list))
+<span style="mso-spacerun: yes;">&nbsp; </span><span style="mso-spacerun: yes;">&nbsp;</span><span style="mso-spacerun: yes;">&nbsp;&nbsp;</span><span style="mso-spacerun: yes;">&nbsp;</span>{
+<span style="mso-spacerun: yes;">&nbsp; </span><span style="mso-spacerun: yes;">&nbsp;</span><span style="mso-spacerun: yes;">&nbsp;&nbsp;</span><span style="mso-spacerun: yes;">&nbsp;&nbsp;</span><span style="mso-spacerun: yes;">&nbsp;</span><span style="mso-spacerun: yes;">&nbsp;&nbsp;</span><span style="mso-spacerun: yes;">&nbsp;&nbsp;</span><span style="mso-spacerun: yes;">&nbsp;&nbsp;</span>break;
+<span style="mso-spacerun: yes;">&nbsp; </span><span style="mso-spacerun: yes;">&nbsp;</span><span style="mso-spacerun: yes;">&nbsp;&nbsp;</span><span style="mso-spacerun: yes;">&nbsp;</span>}
+
+<span style="mso-spacerun: yes;">&nbsp; </span><span style="mso-spacerun: yes;">&nbsp;</span><span style="mso-spacerun: yes;">&nbsp;&nbsp;</span><span style="mso-spacerun: yes;">&nbsp;</span>//</span><span style="font-size: 9pt; font-family: &#23435;&#20307;; mso-bidi-font-family: &#23435;&#20307;; mso-font-kerning: 0pt; mso-ascii-font-family: fixedsys; mso-hansi-font-family: fixedsys;">检查子进程列表的输出，把停掉的子进程关闭并记录下来</span><span style="font-size: 9pt; font-family: fixedsys; mso-bidi-font-family: &#23435;&#20307;; mso-font-kerning: 0pt;" lang="EN-US">
+<span style="mso-spacerun: yes;">&nbsp; </span><span style="mso-spacerun: yes;">&nbsp;</span><span style="mso-spacerun: yes;">&nbsp;&nbsp;</span><span style="mso-spacerun: yes;">&nbsp;</span>$end_handle_keys = array();
+<span style="mso-spacerun: yes;">&nbsp; </span><span style="mso-spacerun: yes;">&nbsp;</span><span style="mso-spacerun: yes;">&nbsp;&nbsp;</span><span style="mso-spacerun: yes;">&nbsp;</span>foreach($handle_list as $key => $handle)
+<span style="mso-spacerun: yes;">&nbsp; </span><span style="mso-spacerun: yes;">&nbsp;</span><span style="mso-spacerun: yes;">&nbsp;&nbsp;</span><span style="mso-spacerun: yes;">&nbsp;</span>{
+<span style="mso-spacerun: yes;">&nbsp; </span><span style="mso-spacerun: yes;">&nbsp;</span><span style="mso-spacerun: yes;">&nbsp;&nbsp;</span><span style="mso-spacerun: yes;">&nbsp;&nbsp;</span><span style="mso-spacerun: yes;">&nbsp;</span><span style="mso-spacerun: yes;">&nbsp;&nbsp;</span><span style="mso-spacerun: yes;">&nbsp;&nbsp;</span><span style="mso-spacerun: yes;">&nbsp;&nbsp;</span>//$str = fgets($handle, 65536);
+<span style="mso-spacerun: yes;">&nbsp; </span><span style="mso-spacerun: yes;">&nbsp;</span><span style="mso-spacerun: yes;">&nbsp;&nbsp;</span><span style="mso-spacerun: yes;">&nbsp;&nbsp;</span><span style="mso-spacerun: yes;">&nbsp;</span><span style="mso-spacerun: yes;">&nbsp;&nbsp;</span><span style="mso-spacerun: yes;">&nbsp;&nbsp;</span><span style="mso-spacerun: yes;">&nbsp;&nbsp;</span>$str = fread($handle, 65536);
+<span style="mso-spacerun: yes;">&nbsp; </span><span style="mso-spacerun: yes;">&nbsp;</span><span style="mso-spacerun: yes;">&nbsp;&nbsp;</span><span style="mso-spacerun: yes;">&nbsp;&nbsp;</span><span style="mso-spacerun: yes;">&nbsp;</span><span style="mso-spacerun: yes;">&nbsp;&nbsp;</span><span style="mso-spacerun: yes;">&nbsp;&nbsp;</span><span style="mso-spacerun: yes;">&nbsp;&nbsp;</span>echo($str);
+
+<span style="mso-spacerun: yes;">&nbsp; </span><span style="mso-spacerun: yes;">&nbsp;</span><span style="mso-spacerun: yes;">&nbsp;&nbsp;</span><span style="mso-spacerun: yes;">&nbsp;&nbsp;</span><span style="mso-spacerun: yes;">&nbsp;</span><span style="mso-spacerun: yes;">&nbsp;&nbsp;</span><span style="mso-spacerun: yes;">&nbsp;&nbsp;</span><span style="mso-spacerun: yes;">&nbsp;&nbsp;</span>if(feof($handle))
+<span style="mso-spacerun: yes;">&nbsp; </span><span style="mso-spacerun: yes;">&nbsp;</span><span style="mso-spacerun: yes;">&nbsp;&nbsp;</span><span style="mso-spacerun: yes;">&nbsp;&nbsp;</span><span style="mso-spacerun: yes;">&nbsp;</span><span style="mso-spacerun: yes;">&nbsp;&nbsp;</span><span style="mso-spacerun: yes;">&nbsp;&nbsp;</span><span style="mso-spacerun: yes;">&nbsp;&nbsp;</span>{
+<span style="mso-spacerun: yes;">&nbsp; </span><span style="mso-spacerun: yes;">&nbsp;</span><span style="mso-spacerun: yes;">&nbsp;&nbsp;</span><span style="mso-spacerun: yes;">&nbsp;&nbsp;</span><span style="mso-spacerun: yes;">&nbsp;</span><span style="mso-spacerun: yes;">&nbsp;&nbsp;</span><span style="mso-spacerun: yes;">&nbsp;&nbsp;</span><span style="mso-spacerun: yes;">&nbsp;</span><span style="mso-spacerun: yes;">&nbsp;&nbsp;</span><span style="mso-spacerun: yes;">&nbsp;&nbsp;</span><span style="mso-spacerun: yes;">&nbsp;</span><span style="mso-spacerun: yes;">&nbsp;&nbsp;</span>$end_handle_keys[] = $key;
+<span style="mso-spacerun: yes;">&nbsp; </span><span style="mso-spacerun: yes;">&nbsp;</span><span style="mso-spacerun: yes;">&nbsp;</span><span style="mso-spacerun: yes;">&nbsp;</span><span style="mso-spacerun: yes;">&nbsp;&nbsp;</span><span style="mso-spacerun: yes;">&nbsp;</span><span style="mso-spacerun: yes;">&nbsp;&nbsp;</span><span style="mso-spacerun: yes;">&nbsp;&nbsp;</span><span style="mso-spacerun: yes;">&nbsp;</span><span style="mso-spacerun: yes;">&nbsp;&nbsp;</span><span style="mso-spacerun: yes;">&nbsp;&nbsp;</span><span style="mso-spacerun: yes;">&nbsp;</span><span style="mso-spacerun: yes;">&nbsp;&nbsp;</span>pclose($handle);
+<span style="mso-spacerun: yes;">&nbsp; </span><span style="mso-spacerun: yes;">&nbsp;</span><span style="mso-spacerun: yes;">&nbsp;&nbsp;</span><span style="mso-spacerun: yes;">&nbsp;&nbsp;</span><span style="mso-spacerun: yes;">&nbsp;</span><span style="mso-spacerun: yes;">&nbsp;&nbsp;</span><span style="mso-spacerun: yes;">&nbsp;&nbsp;</span><span style="mso-spacerun: yes;">&nbsp;&nbsp;</span>}
+<span style="mso-spacerun: yes;">&nbsp; </span><span style="mso-spacerun: yes;">&nbsp;</span><span style="mso-spacerun: yes;">&nbsp;&nbsp;</span><span style="mso-spacerun: yes;">&nbsp;</span>}
+
+<span style="mso-spacerun: yes;">&nbsp; </span><span style="mso-spacerun: yes;">&nbsp;</span><span style="mso-spacerun: yes;">&nbsp;&nbsp;</span><span style="mso-spacerun: yes;">&nbsp;</span>//</span><span style="font-size: 9pt; font-family: &#23435;&#20307;; mso-bidi-font-family: &#23435;&#20307;; mso-font-kerning: 0pt; mso-ascii-font-family: fixedsys; mso-hansi-font-family: fixedsys;">踢出停掉的子进程</span><span style="font-size: 9pt; font-family: fixedsys; mso-bidi-font-family: &#23435;&#20307;; mso-font-kerning: 0pt;" lang="EN-US">
+<span style="mso-spacerun: yes;">&nbsp; </span><span style="mso-spacerun: yes;">&nbsp;</span><span style="mso-spacerun: yes;">&nbsp;&nbsp;</span><span style="mso-spacerun: yes;">&nbsp;</span>foreach($end_handle_keys as $key)
+<span style="mso-spacerun: yes;">&nbsp; </span><span style="mso-spacerun: yes;">&nbsp;</span><span style="mso-spacerun: yes;">&nbsp;&nbsp;</span><span style="mso-spacerun: yes;">&nbsp;</span>{
+<span style="mso-spacerun: yes;">&nbsp; </span><span style="mso-spacerun: yes;">&nbsp;</span><span style="mso-spacerun: yes;">&nbsp;&nbsp;</span><span style="mso-spacerun: yes;">&nbsp;&nbsp;</span><span style="mso-spacerun: yes;">&nbsp;</span><span style="mso-spacerun: yes;">&nbsp;&nbsp;</span><span style="mso-spacerun: yes;">&nbsp;&nbsp;</span><span style="mso-spacerun: yes;">&nbsp;&nbsp;</span>unset($handle_list[$key]);
+<span style="mso-spacerun: yes;">&nbsp; </span><span style="mso-spacerun: yes;">&nbsp;</span><span style="mso-spacerun: yes;">&nbsp;&nbsp;</span><span style="mso-spacerun: yes;">&nbsp;&nbsp;</span><span style="mso-spacerun: yes;">&nbsp;</span><span style="mso-spacerun: yes;">&nbsp;&nbsp;</span><span style="mso-spacerun: yes;">&nbsp;&nbsp;</span><span style="mso-spacerun: yes;">&nbsp;&nbsp;</span>//var_dump($handle_list);
+<span style="mso-spacerun: yes;">&nbsp; </span><span style="mso-spacerun: yes;">&nbsp;</span><span style="mso-spacerun: yes;">&nbsp;&nbsp;</span><span style="mso-spacerun: yes;">&nbsp;&nbsp;</span><span style="mso-spacerun: yes;">&nbsp;</span><span style="mso-spacerun: yes;">&nbsp;&nbsp;</span><span style="mso-spacerun: yes;">&nbsp;&nbsp;</span><span style="mso-spacerun: yes;">&nbsp;&nbsp;</span>//exit;
+<span style="mso-spacerun: yes;">&nbsp; </span><span style="mso-spacerun: yes;">&nbsp;</span><span style="mso-spacerun: yes;">&nbsp;&nbsp;</span><span style="mso-spacerun: yes;">&nbsp;</span>}
+
+
+}
+
+tolog("\n\n*******************end**********************\n\n", "" ,<span style="mso-spacerun: yes;">&nbsp; </span><span style="mso-spacerun: yes;">&nbsp;&nbsp;</span>true);
+
+?></span>
+
+
+
+
+
+
+
+
+<p class="MsoNormal" style="margin: 0cm 0cm 0pt;"><span style="font-size: 9pt; font-family: &#23435;&#20307;; mso-bidi-font-family: &#23435;&#20307;; mso-font-kerning: 0pt;" lang="EN-US">
+<br style="mso-special-character: line-break;" /><br style="mso-special-character: line-break;" /></span>
+
+
+
+

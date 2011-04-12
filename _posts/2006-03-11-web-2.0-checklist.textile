@@ -1,0 +1,114 @@
+---
+layout: post
+title: [zt]Web 2.0 Checklist
+category: note
+---
+
+<div class="ListHeader">
+h1. Web 2.0 Checklist
+
+
+</div>
+<table id="incomplete_items" class="tadalist" border="0" cellspacing="0" cellpadding="0">
+<tbody>
+<tr id="1283685">
+<td class="check"><img src="http://msippey.tadalist.com/images/open-2.gif" alt="bullet" width="12" height="12" />
+<td class="itemtext">Give us your email address, we'll let you know when it's ready!
+|
+
+<tr id="1283683">
+<td class="check"><img src="http://msippey.tadalist.com/images/open-2.gif" alt="bullet" width="12" height="12" />
+<td class="itemtext">Public beta alpha
+|
+
+<tr id="1283686">
+<td class="check"><img src="http://msippey.tadalist.com/images/open-2.gif" alt="bullet" width="12" height="12" />
+<td class="itemtext">Tags
+|
+
+<tr id="1283687">
+<td class="check"><img src="http://msippey.tadalist.com/images/open-2.gif" alt="bullet" width="12" height="12" />
+<td class="itemtext">Feeds for everything
+|
+
+<tr id="1283688">
+<td class="check"><img src="http://msippey.tadalist.com/images/open-2.gif" alt="bullet" width="12" height="12" />
+<td class="itemtext">Built with Rails
+|
+
+<tr id="1283689">
+<td class="check"><img src="http://msippey.tadalist.com/images/open-2.gif" alt="bullet" width="12" height="12" />
+<td class="itemtext">Sprinkled with Ajax
+|
+
+<tr id="1283691">
+<td class="check"><img src="http://msippey.tadalist.com/images/open-2.gif" alt="bullet" width="12" height="12" />
+<td class="itemtext">Yellow fade
+|
+
+<tr id="1283692">
+<td class="check"><img src="http://msippey.tadalist.com/images/open-2.gif" alt="bullet" width="12" height="12" />
+<td class="itemtext">Blue gradients
+|
+
+<tr id="1283694">
+<td class="check"><img src="http://msippey.tadalist.com/images/open-2.gif" alt="bullet" width="12" height="12" />
+<td class="itemtext">Big icons
+|
+
+<tr id="1284614">
+<td class="check"><img src="http://msippey.tadalist.com/images/open-2.gif" alt="bullet" width="12" height="12" />
+<td class="itemtext">Big fonts
+|
+
+<tr id="1283696">
+<td class="check"><img src="http://msippey.tadalist.com/images/open-2.gif" alt="bullet" width="12" height="12" />
+<td class="itemtext">Big input boxes
+|
+
+<tr id="1283700">
+<td class="check"><img src="http://msippey.tadalist.com/images/open-2.gif" alt="bullet" width="12" height="12" />
+<td class="itemtext">REST API
+|
+
+<tr id="1283702">
+<td class="check"><img src="http://msippey.tadalist.com/images/open-2.gif" alt="bullet" width="12" height="12" />
+<td class="itemtext">Google Maps mashup
+|
+
+<tr id="1284607">
+<td class="check"><img src="http://msippey.tadalist.com/images/open-2.gif" alt="bullet" width="12" height="12" />
+<td class="itemtext">Share with a friend
+|
+
+<tr id="1284621">
+<td class="check"><img src="http://msippey.tadalist.com/images/open-2.gif" alt="bullet" width="12" height="12" />
+<td class="itemtext">TypePad blog for a peek inside the team
+|
+
+<tr id="1288911">
+<td class="check"><img src="http://msippey.tadalist.com/images/open-2.gif" alt="bullet" width="12" height="12" />
+<td class="itemtext">Feature screencasts _(thanks, Waxy!)_
+|
+
+<tr id="1284622">
+<td class="check"><img src="http://msippey.tadalist.com/images/open-2.gif" alt="bullet" width="12" height="12" />
+<td class="itemtext">Hackathons for new features
+|
+
+<tr id="1284623">
+<td class="check"><img src="http://msippey.tadalist.com/images/open-2.gif" alt="bullet" width="12" height="12" />
+<td class="itemtext">Development wiki
+|
+
+<tr id="1284877">
+<td class="check"><img src="http://msippey.tadalist.com/images/open-2.gif" alt="bullet" width="12" height="12" />
+<td class="itemtext">Business model optimized for the long tail
+|
+
+<tr id="1285029">
+<td class="check"><img src="http://msippey.tadalist.com/images/open-2.gif" alt="bullet" width="12" height="12" />
+<td class="itemtext">It's Free!/AdSense revenue stream
+|
+
+</tbody>

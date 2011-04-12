@@ -1,0 +1,14 @@
+---
+layout: post
+title: 有空看看javascript2.0
+category: front-end
+---
+
+偶然看到mozilla对javascript2.0的描述－－<a href="http://www.mozilla.org/js/language/js20/index.html">javascript2.0</a> , 第一眼就看到，2.0支持<span style="color: #ff0000;">class</span>和<span style="color: #ff0000;">namespace</span>、<span style="color: #ff0000;">Packages</span>了，真是天大的喜讯啊。我相信基于js的客户端脚本届时一定会有一个更大的突破。可以更好的组织进行OO的设计和编码，可以更好的组织文件、名字空间，让项目的组织更易于管理。
+
+
+
+
+
+我看到，各种语言发展越来越高级了，javascript , php , delphi 。我觉得不能抱怨某某语言&ldquo;越来越像java了&rdquo;或者越来越像其它什么东西了，这样抱怨没有意义。各种语言总是取长补短，然后用来继续巩固和加强自己擅长的领域 ， 无可厚非阿
+

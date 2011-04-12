@@ -1,0 +1,183 @@
+---
+layout: post
+title: xmlhttp存在最大并发数，ajax设计应有所斟酌
+category: front-end
+---
+
+这次认真的测试了三种浏览器（ie/firefox/opera）的xmlhttp并发行为，发现如果用户同时发出很多xmlhttp 异步请求，那么浏览器不是一股脑全把请求发出去，而是存在一个最大并发数。我的机器测试发现，ie和ff里面是2，opera是4。
+
+
+所以说，在设计一个站点时，让ajax页面同时载入数十个xmlhttp请求不是明智的做法。在考虑减少接口耦合的同时，也应该斟酌速度问题。实际上，可以使用某些细化的设计，可以把多种请求绑定到一起发送，从而达到优化的目的。
+
+
+下面是我的测试代码：
+
+
+<span style="color: #000000;"><span style="font-family: 新宋体;">&nbsp;</span><span style="font-family: 新宋体;"><span style="color: #0000bb;"><?php //服务端ajaxserver.php
+
+</span><span style="color: #007700;">function&nbsp;</span><span style="color: #0000bb;">_getmicrotime</span></span><span style="font-family: 新宋体;"><span style="color: #007700;">() 
+{&nbsp; 
+&nbsp;&nbsp;&nbsp;&nbsp;list(</span><span style="color: #0000bb;">$usec</span><span style="color: #007700;">,&nbsp;</span><span style="color: #0000bb;">$sec</span><span style="color: #007700;">)&nbsp;=&nbsp;</span><span style="color: #0000bb;">explode</span><span style="color: #007700;">(</span><span style="color: #dd0000;">"&nbsp;"</span><span style="color: #007700;">,</span><span style="color: #0000bb;">microtime</span></span><span style="font-family: 新宋体;"><span style="color: #007700;">());&nbsp; 
+&nbsp;&nbsp;&nbsp;&nbsp;return&nbsp;((float)</span><span style="color: #0000bb;">$usec&nbsp;</span><span style="color: #007700;">+&nbsp;(float)</span><span style="color: #0000bb;">$sec</span></span><span style="font-family: 新宋体;"><span style="color: #007700;">);&nbsp; 
+} 
+function&nbsp;</span><span style="color: #0000bb;">_exit</span><span style="color: #007700;">(</span><span style="color: #0000bb;">$msg</span></span><span style="font-family: 新宋体;"><span style="color: #007700;">) 
+{ 
+&nbsp;&nbsp;&nbsp;&nbsp;echo(</span><span style="color: #dd0000;">"$msg\n"</span></span><span style="font-family: 新宋体;"><span style="color: #007700;">); 
+&nbsp;&nbsp;&nbsp;&nbsp;exit(); 
+} 
+
+</span><span style="color: #0000bb;">$mode&nbsp;</span><span style="color: #007700;">=&nbsp;</span><span style="color: #0000bb;">$_GET</span><span style="color: #007700;">[</span><span style="color: #dd0000;">"mode"</span></span><span style="font-family: 新宋体;"><span style="color: #007700;">]; 
+
+</span><span style="color: #0000bb;">$f&nbsp;</span><span style="color: #007700;">=&nbsp;</span><span style="color: #0000bb;">fopen</span><span style="color: #007700;">(</span><span style="color: #dd0000;">"$mode.log"</span><span style="color: #007700;">,&nbsp;</span><span style="color: #dd0000;">"a+"</span></span><span style="font-family: 新宋体;"><span style="color: #007700;">); 
+if(!</span><span style="color: #0000bb;">$f</span><span style="color: #007700;">)&nbsp;</span><span style="color: #0000bb;">_exit</span></span><span style="font-family: 新宋体;"><span style="color: #007700;">(); 
+
+</span><span style="color: #0000bb;">$begin&nbsp;</span><span style="color: #007700;">=&nbsp;</span><span style="color: #0000bb;">_getmicrotime</span></span><span style="font-family: 新宋体;"><span style="color: #007700;">(); 
+</span><span style="color: #0000bb;">$str&nbsp;</span><span style="color: #007700;">=&nbsp;</span><span style="color: #dd0000;">"$begin\t"</span><span style="color: #007700;">.&nbsp;</span><span style="color: #0000bb;">$_GET</span><span style="color: #007700;">[</span><span style="color: #dd0000;">"flag"</span><span style="color: #007700;">]&nbsp;.&nbsp;</span><span style="color: #dd0000;">"\t&nbsp;begin&nbsp;\n"</span></span><span style="font-family: 新宋体;"><span style="color: #007700;">; 
+</span><span style="color: #0000bb;">fwrite</span><span style="color: #007700;">(</span><span style="color: #0000bb;">$f</span><span style="color: #007700;">,&nbsp;</span><span style="color: #dd0000;">"$str"</span></span><span style="font-family: 新宋体;"><span style="color: #007700;">); 
+</span><span style="color: #0000bb;">fclose</span><span style="color: #007700;">(</span><span style="color: #0000bb;">$f</span></span><span style="font-family: 新宋体;"><span style="color: #007700;">); 
+echo(</span><span style="color: #0000bb;">$str</span></span><span style="font-family: 新宋体;"><span style="color: #007700;">); 
+
+</span><span style="color: #0000bb;">sleep</span><span style="color: #007700;">(</span><span style="color: #0000bb;">2</span></span><span style="font-family: 新宋体;"><span style="color: #007700;">); 
+
+</span><span style="color: #0000bb;">$f&nbsp;</span><span style="color: #007700;">=&nbsp;</span><span style="color: #0000bb;">fopen</span><span style="color: #007700;">(</span><span style="color: #dd0000;">"$mode.log"</span><span style="color: #007700;">,&nbsp;</span><span style="color: #dd0000;">"a+"</span></span><span style="font-family: 新宋体;"><span style="color: #007700;">); 
+if(!</span><span style="color: #0000bb;">$f</span><span style="color: #007700;">)&nbsp;</span><span style="color: #0000bb;">_exit</span></span><span style="font-family: 新宋体;"><span style="color: #007700;">(); 
+</span><span style="color: #0000bb;">$end&nbsp;</span><span style="color: #007700;">=&nbsp;</span><span style="color: #0000bb;">_getmicrotime</span></span><span style="font-family: 新宋体;"><span style="color: #007700;">(); 
+</span><span style="color: #0000bb;">$str&nbsp;</span><span style="color: #007700;">=&nbsp;</span><span style="color: #dd0000;">"$end\t"</span><span style="color: #007700;">.&nbsp;</span><span style="color: #0000bb;">$_GET</span><span style="color: #007700;">[</span><span style="color: #dd0000;">"flag"</span><span style="color: #007700;">]&nbsp;.&nbsp;</span><span style="color: #dd0000;">"\t&nbsp;end&nbsp;\n"</span></span><span style="font-family: 新宋体;"><span style="color: #007700;">; 
+</span><span style="color: #0000bb;">fwrite</span><span style="color: #007700;">(</span><span style="color: #0000bb;">$f</span><span style="color: #007700;">,&nbsp;</span><span style="color: #dd0000;">"$str"</span></span><span style="font-family: 新宋体;"><span style="color: #007700;">); 
+</span><span style="color: #0000bb;">fclose</span><span style="color: #007700;">(</span><span style="color: #0000bb;">$f</span></span><span style="font-family: 新宋体;"><span style="color: #007700;">); 
+echo(</span><span style="color: #0000bb;">$str</span></span><span style="font-family: 新宋体;"><span style="color: #007700;">); 
+
+</span><span style="color: #0000bb;">?></span> </span></span>
+
+
+<span style="color: #000000;"><span style="font-family: 新宋体;">//这是.html网页代码：</span></span>
+
+
+<span style="color: #000000;"><!doctype html public "-//W3C//DTD HTML 4.0 Transitional//EN">
+<html>
+<head>
+<title> New Document </title>
+<script language="JavaScript">
+<!--
+function $(id)
+{
+&nbsp;return document.getElementById(id);
+}
+function ajax_object() {</span>
+
+
+<span style="color: #000000;">&nbsp;&nbsp;var A;
+&nbsp;&nbsp;try {
+&nbsp;&nbsp;&nbsp;A=new ActiveXObject("Msxml2.XMLHTTP");
+&nbsp;&nbsp;} catch (e) {
+&nbsp;&nbsp;&nbsp;try {
+&nbsp;&nbsp;&nbsp;&nbsp;A=new ActiveXObject("Microsoft.XMLHTTP");
+&nbsp;&nbsp;&nbsp;} catch (oc) {
+&nbsp;&nbsp;&nbsp;&nbsp;A=null;
+&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;}
+&nbsp;&nbsp;if(!A && typeof XMLHttpRequest != "undefined")
+&nbsp;&nbsp;&nbsp;A = new XMLHttpRequest();</span>
+
+
+<span style="color: #000000;">&nbsp;&nbsp;return A;
+&nbsp;}</span>
+
+
+<span style="color: #000000;">function doit(flag)
+{
+&nbsp;var uri = "ajaxserver.php?mode=opera&flag=" + flag ;
+&nbsp;var x = ajax_object();</span>
+
+
+<span style="color: #000000;">&nbsp;x.open("GET", uri, true);
+&nbsp;function callback() 
+&nbsp;{ 
+&nbsp;&nbsp;if (x.readyState != 4) 
+&nbsp;&nbsp;&nbsp;return;
+&nbsp;&nbsp;if (x.status==200)
+&nbsp;&nbsp;{&nbsp;&nbsp; 
+&nbsp;&nbsp;&nbsp;$("result").value +=&nbsp; x.responseText;
+&nbsp;&nbsp;}
+&nbsp;}
+&nbsp;if ("[XMLHttpRequest]"==x.constructor)
+&nbsp;{
+&nbsp;&nbsp;x.onload = callback ;
+&nbsp;}
+&nbsp;else
+&nbsp;{
+&nbsp;&nbsp;x.onreadystatechange = callback ;
+&nbsp;}
+&nbsp;x.send(null);
+}</span>
+
+
+<span style="color: #000000;">function doajax()
+{
+&nbsp;doit(1);
+&nbsp;doit(2);
+&nbsp;doit(3);
+&nbsp;doit(4);
+&nbsp;doit(5);
+}</span>
+
+
+
+
+
+<span style="color: #000000;">//-->
+</script>
+</head></span>
+
+
+<span style="color: #000000;"><body>
+<input type="button" value="doajax" onclick="doajax();">
+<textarea cols="80" rows="60" id="result"></textarea>
+</body>
+</html>
+</span>
+
+
+<span style="color: #000000;">************************************************
+下面是测试结果：
+IE的测试结果：
+1157288179.03&nbsp;2&nbsp; begin 
+1157288179.03&nbsp;1&nbsp; begin 
+1157288181.03&nbsp;1&nbsp; end 
+1157288181.04&nbsp;2&nbsp; end 
+1157288181.05&nbsp;3&nbsp; begin 
+1157288181.06&nbsp;4&nbsp; begin 
+1157288183.05&nbsp;3&nbsp; end 
+1157288183.06&nbsp;5&nbsp; begin 
+1157288183.09&nbsp;4&nbsp; end 
+1157288185.09&nbsp;5&nbsp; end 
+</span><span style="color: #000000;">
+firefox的测试结果
+1157288092.36&nbsp;1&nbsp; begin 
+1157288092.38&nbsp;2&nbsp; begin 
+1157288094.36&nbsp;1&nbsp; end 
+1157288094.38&nbsp;2&nbsp; end 
+1157288094.39&nbsp;3&nbsp; begin 
+1157288094.39&nbsp;4&nbsp; begin 
+1157288096.4&nbsp;4&nbsp; end 
+1157288096.42&nbsp;3&nbsp; end 
+1157288096.42&nbsp;5&nbsp; begin 
+1157288098.43&nbsp;5&nbsp; end 
+</span>
+
+
+<span style="color: #000000;">opera的测试结果：
+1157288410.88&nbsp;1&nbsp; begin 
+1157288410.89&nbsp;4&nbsp; begin 
+1157288410.89&nbsp;2&nbsp; begin 
+1157288410.89&nbsp;3&nbsp; begin 
+1157288412.89&nbsp;1&nbsp; end 
+1157288412.89&nbsp;2&nbsp; end 
+1157288412.92&nbsp;5&nbsp; begin 
+1157288412.92&nbsp;4&nbsp; end 
+1157288412.92&nbsp;5&nbsp; begin 
+1157288412.92&nbsp;3&nbsp; end 
+1157288414.93&nbsp;5&nbsp; end 
+1157288414.95&nbsp;5&nbsp; end 
+</span>
+

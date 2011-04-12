@@ -1,0 +1,39 @@
+---
+layout: post
+title: Mind42 has finished it's beta!
+category: news
+---
+
+Mind42是一个在线做思维导图的网站，初步用了一下，挺不错的。
+转发mind42.com给我的邮件：
+
+
+<h1 style="color: #0088dd; font-size: 20px;">Mind42 has finished it's beta!
+
+
+This is the first newsletter from <a href="http://www.mind42.com/" target="_blank">Mind42</a>, and we've waited for this for a long time to be able to do the following announcement: *Mind42 has finished it's beta!*
+
+
+After we've been in beta for over a year now, the introduction of countless new features, a database crash, a server move, and tons of bug fixes we just thought it was about time. Mind42 is stable enough to remove the beta badge.
+
+
+The most visible change is our revised homepage. We now offer a detailed <a href="http://www.mind42.com/help" target="_blank">help</a> and we also optimized the sign in/up pages as well as the general homepage navigation. We hope this is at everyones fancy.
+
+
+But what does this mean for the users of Mind42? Currently: Nothing changes. We are still working an a paid pro-version of Mind42 - but this doesn't mean that we'll quit the free service of Mind42. More infos will be published when this is getting ready. Also we are still interested in adding new features to Mind42, so please just send any feature requests to <a href="mailto:info@mind42.com" target="_blank">info@mind42.com</a>.
+
+
+Finishing the beta has been an important step on our way to create an easy to use and reliable mind mapping solution for everybody, but definitely not the last one. We still have a long way in front of us containing new features and versions as well as bug fixes. Hence we really appreciate every feedback we can get and will be happy to follow the user wishes and ideas on our way to a better product.
+
+
+<a href="http://www.mind42.com/" target="_blank">http://www.mind42.com</a>
+
+
+<h2 style="color: #000000; font-size: 16px;">Unsubscribe
+
+
+If you no longer wish to receive these emails, please unsubscribe using this <a href="http://www.mind42.com/newsletter?email=64756c616f3540676d61696c2e636f6d" target="_blank">unsubscribe link</a> or turn newsletters of at your <a href="http://www.mind42.com/useraccount" target="_blank">account managament</a> page.
+
+
+
+

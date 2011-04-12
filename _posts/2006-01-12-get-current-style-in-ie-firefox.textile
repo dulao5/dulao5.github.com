@@ -1,0 +1,22 @@
+---
+layout: post
+title: 通用于ie和firefox的函数 GetCurrentStyle (obj, prop)
+category: front-end
+---
+
+<pre>function GetCurrentStyle (obj, prop) {
+	if (obj.currentStyle) {
+		return obj.currentStyle[prop];
+	}
+	else if (window.getComputedStyle) {
+		prop = prop.replace (/([A-Z])/g, "-$1");
+		prop = prop.toLowerCase ();
+		return window.getComputedStyle (obj, "").getPropertyValue(prop);
+	}
+	return null;
+}
+</pre>
+
+代码来自于http://tvweek.com/javascripts/default.js
+
+

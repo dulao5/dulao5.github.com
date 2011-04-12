@@ -1,0 +1,9 @@
+---
+layout: post
+title: 浏览wap网站，firefox也行哈哈
+category: note
+---
+
+说起开发wap/wml，大家一定想到使用opera。是的，opera可以解析wml页面模拟手机上的效果。但是firefox也能做到，安装一个叫做&ldquo;<a href="http://wmlbrowser.mozdev.org/">wmlbrowser</a>&rdquo;的扩展就可以了。
+ 开源软件真是魅力无穷啊，想到了就可以做到了。^_^
+

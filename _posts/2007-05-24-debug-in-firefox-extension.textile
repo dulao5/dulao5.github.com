@@ -1,0 +1,52 @@
+---
+layout: post
+title: firefox extension的javascript运行环境和调试
+category: front-end
+---
+
+继续抓瞎似的摸索。。。
+
+
+** 执行环境*
+
+
+1. 在overlay.js中的全局位置输出alert(this),结果输出：[object ChromeWindow] , 说明ChromeWindow类型的this对象是firefox扩展javascript的全局环境。（如同html中window对象的是普通script脚本的全局环境。）
+
+
+2. 另外，全局环境对象的名字也叫window, （如同html中的javascript），在全局访问this和访问window效果是一样的。
+
+
+3. 从 <a href="http://www.xulplanet.com/references/objref/ChromeWindow.html">http://www.xulplanet.com/references/objref/ChromeWindow.html</a> 查ChromeWindow和window的区别，发现类ChromeWindow仅仅比window多实现一个接口----nsIDOMChromeWindow <<a href="http://www.xulplanet.com/references/xpcomref/ifaces/nsIDOMChromeWindow.html">http://www.xulplanet.com/references/xpcomref/ifaces/nsIDOMChromeWindow.html</a>>
+
+
+4. 从ChromeWindow文档来看，在扩展中的javascript中访问浏览器当前网页的window对象，需要访问window.content, 访问当前网页中的document需要写成window.content.document.
+
+
+** extension中的出错处理*：
+
+
+1. firefox默认的&ldquo;java console&rdquo;不能输出extension中的javascript错误。新版本的&ldquo;Console&rdquo;插件（ <a href="https://addons.mozilla.org/en-US/firefox/addon/1815"><span style="text-decoration: underline;"><span style="color: #0000ff;">https://addons.mozilla.org/en-US/firefox/addon/1815</span></span></a>）弥补了这个缺陷，可以用来检查Chrome错误。
+
+
+2. window.onerror还是可以工作。这个技巧还可以使用：
+
+
+<blockquote style="margin-right: 0px;" dir="ltr">
+window.onerror = function(msg,url,line){
+&nbsp;ACPdebug.onWindowError(msg,url,line);
+}
+
+
+
+3. 我在《<a style="color: #3366ff;" title="从javascript语言本身谈项目实战" href="http://dulao5.blog.hexun.com/2156811_d.html" target="_blank">从javascript语言本身谈项目实战</a>》这篇文章中提到的assert和输出stack tree的调试技巧还可以使用。
+
+
+
+
+
+<hr size="1" />
+非常感谢<a style="color: #0000ff;" title="galaxysong" href="http://galaxysong.anyp.cn" target="_blank">galaxysong</a>对我的耐心指导o(&cap;_&cap;)o...哈哈。
+
+
+
+

@@ -1,0 +1,91 @@
+---
+layout: post
+title: 从javascript语言本身谈项目实战
+category: front-end
+---
+
+<span style="font-size: medium;">*从javascript语言本身谈项目实战
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;*<span style="font-size: 12pt;"> dulao5&nbsp; 2005-1-15</span></span>
+
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 随着ajax的升温，javascript越来越得到人们的重视。重要的是，ajax在一定程度上带来了web软件架构上的变化，人们把越来越多的功能分配到客户端实现，javascript子项目规模越来越大。如何更高效的使用javascript，如何更科学的组织javascript，如何更顺利的保证项目进展？我想就我的经验谈一点浅见。
+
+
+<span style="font-weight: bold; font-size: medium;">一。 开发人员需要认真学习javascript语言本身</span>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 由于javascript是&ldquo;<a href="http://www2.uuzone.com/blog/555080192/18957.htm">世界上最被误解的语言</a>&rdquo;, 大部分人对javascript语法并没有全面了解过，只是凭借看起来很像c或者java的关键字按照自己的理解写javascript代码。其实 javascript是一种很独特的语言，和c++/java有非常大的区别，要想用javascript做大一些的项目，开发人员必须老老实实的学习 javascript的语法。真正掌握了语法后，我们才不会把delete看成释放内存对象，才不会为到底参数传递是值传递还是引用传递而烦恼。真正理解了javascript的基于原型的OO方式，才可能写出具有良好架构的javascript程序。
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 《javascript权威指南》是一本最合适的书，郑重推荐。另外<a href="http://www.ecma-international.org/publications/standards/Ecma-262.htm">ECMA262 </a>文档可以作为参考。网上流行的jscript手册chm版本使用起来比较方便，不过这是微软的jscript实现，和标准的javascript略有区别，使用时应该注意上面的注脚信息。关于javascript的原型和OO,网上已经有很多文章介绍了，在此不再多说。
+
+
+<span style="font-weight: bold; font-size: medium;">二。 良好的代码来源于良好的设计</span>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 只有设计优良，代码才会写的漂亮。现在的javascript子项目已经不是以前web项目中的&ldquo;边角料&rdquo;和散兵游勇了，在较大的ajax项目内， javascript将非常复杂，ajax的异步模型也和以前顺序执行的程序设计有所区别。所以建议做javascript前首先做好设计。推荐使用用例驱动的方式，把用例分析清楚，以便全局考虑所有可能的页面交互过程，绘出页面内一些对象之间的交互图，分析一些数据对象的状态，作出精细的 javascript设计。
+
+
+<span style="font-size: medium;"><span style="font-weight: bold;">三。 使用设计模式，复用其他领域的设计经验</span></span>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 如果javascript非常复杂，可以考虑使用一些模式。我想大部分做javascript的开发者都不是&ldquo;javascript科班&rdquo;出身吧:) 掌握了javascript的语言本质，就可以复用我们在其他领域的经验了。使用javascript框架或者ajax框架，使用单例模式做一个全局的数据缓冲池，或者使用观察者模式把界面对象和数据对象分离，使用命令模式实现用户的操作队列等等。
+
+
+<span style="font-weight: bold; font-size: medium;">四。 调试代码的技巧</span>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; javascript的代码不太好调试，这是由于：
+
+
+<ul>
+<li>一般的开发人员对javascript语言本身不太精通。也就是上面提到的。</li>
+<li>web项目包含较多的因素，复杂性加剧。服务端脚本、模板、html、js等很多环节都可能增加调试难度。</li>
+<li>浏览器存在兼容性问题。有可能在一个细节问题上IE、Mozilla、opera等浏览器都有差异。</li>
+<li>工具的缺乏。虽然mozilla的jsdebugger非常好用（还有bug，比如eval时调试器有些问题），但是其他浏览器环境下调试工具就不怎么样了。ms系统自带的script debug工具调试本地代码还可以，直接调试网站js代码表现欠佳。opera除了javascript控制台外我没有找到其他调试工具。</li>
+</ul>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 在此我推荐几个调试技巧：
+
+
+<ol>
+<li><span style="font-weight: bold;">使用Mozilla firefox的jsdebugger插件</span>。这个我不再多说了，最经典的js调试工具。在线调试远程站点的javascript效果非常棒。</li>
+<li>把问题隔离，建立本地的html文件和js文件，<span style="font-weight: bold;">使用ms script debug调试工具</span>来调试。如果js模块比较独立，可以使用这个工具的。如果写hta的项目，这个工具当然是首选了。</li>
+<li>httpWatch 这是一个ie下的插件，非常好用，能够监视ie中的任何http会话，并能够看到http会话的原文。可以通过这个工具了解你的程序有没有和服务器产生会话，参数＆返回的数据到底是什么。</li>
+<li><span style="font-weight: bold;">在网页内建立用于调试的textarea</span>
+可以在网页内建立一个textarea来接受你想运行的js语句，然后加一个按钮使用js的eval函数执行你输入的代码。
+这种方式非常适合在线调试，网页出错后写代码输出页面内的对象值。建议写一些dump工具函数配合使用，效果更佳。
+我非常喜欢这种方式，可以随时使用开关打开页面内隐藏的textarea进行调试，感觉很像给一台服务器接上了终端，然后使用shell可以做任何事情:) 函数可以在这里重新定义，可以任意操作界面中的任何元素，调用任何对象的任何函数，输出任何你需要的运行时刻值。</li>
+<li><span style="font-weight: bold;">使用异常(exception)和断言(assert)</span>
+使用try{}catch(e){}结构不光可以屏蔽出错信息，让界面更友好。我们的程序可以使用异常、抛出异常来构建一种更好的出错处理机制。
+有这样一个故事，我在使用string.localeCompare函数时随手写了这样的代码：
+var iRe = str1.localeCompare(str2);
+switch(iRe){
+0: return ....
+1: return ....
+-1:return ....
+defalut:throw "error:localeCompare return other value"
+}
+写完就忘了，没想到我的同事在linux下使用firefox时，异常被抛出了，然后我们得知：linux firefox下localeCompare返回的不只是0/1/-1,而是返回一个具体值.
+这个异常抛出有效的检测出了代码的不完美。
+
+firefox下的异常dump后能得到较为详细的调用栈信息，这一点非常好。IE的异常信息没有这么详细。
+
+异常和断言也可以结合成为一个非常有效的调试工具。
+断言(assert)是在其他语言中的一种很有效的调试工具，常常以这种形式出现：
+assert(<条件>);
+在程序处于debug状态，当条件为假时，系统中止运行并报告这个断言。由于断言是我们自己定义的，所以我们可以很容易的判断出出错的地方，进而找到bug所在。
+javascript语言没有提供宏，也没有提供assert，我们可以这样模拟
+if(_is_debug) assert = function(expression , strLable){
+&nbsp;&nbsp;&nbsp; if( !expression ) throw Error(strLable);
+}
+else assert = function(){};//_is_debug是一个全局变量
+这样可以实现在发生"不可能的事情"的时候，让程序在调试模式下抛出异常，在发布版本中不作理会。
+
+<span style="font-family: monospace;"><span style="font-family: 新宋体;">可以这样输出当前栈的调用信息,弥补刚才提到的IE中异常对象没有栈信息的缺陷:
+function callStackInfo(){
+</span></span>var s="",line="";
+var cer=arguments.callee.caller;
+while(cer){
+var sf=cer.toString();
+s+=line+sf.substring(sf.indexOf('function'),sf.indexOf('{'))+"\n";
+line=".."+line;
+cer=cer.caller;
+}
+return s;
+}</li>
+</ol>
+本文只就javascript在web开发，特别是在ajax方面的开发做了一些讨论，主要在于管窥如何更好的使用&ldquo;纯javascript&rdquo;。web开发还有很多其他方面，比如xml和Dom等实际上和javascript息息相关，但是本文没有涉及，还请见谅。欢迎各位朋友就我的讨论多提意见。
+-- 
+-------------------------------------------------------------------
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; dulao5 敬上
+

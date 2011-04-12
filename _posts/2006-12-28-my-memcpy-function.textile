@@ -1,0 +1,113 @@
+---
+layout: post
+title: 我的memcpy还是不如标准库的厉害,洗洗睡吧:)
+category: note
+---
+
+<span style="font-size: 13px;">
+<div class="smalltxt" style="font-weight: bold; margin-left: 2em; margin-right: 2em;">
+<div style="float: left;">CODE:</div>
+<div style="float: right; text-align: right;"><a class="smalltxt" onclick="function onclick(event) {     copycode(findobj(" href="http://bbs.chinaunix.net/viewthread.php?tid=877892&extra=page%3D1"></a></div>
+</div>
+<div id="code0" class="altbg2" style="border: 1px solid #698cc3; margin: 3px 2em 2em; padding: 5px 10px 10px; clear: both; font-family: fixedsys;">#include <stdio.h>
+#include <stdlib.h>
+#include <memory.h>
+
+#ifdef WIN32
+&nbs #include <windows.h>
+#else
+&nbs #include<sys/time.h>
+&nbs #include<unistd.h>
+#endif
+
+double get_time_ms()
+{
+#ifdef WIN32
+&nbs return (double)GetTickCount();
+#else
+&nbs struct timeval tv;
+&nbs struct timezone tz;
+&nbs gettimeofday (&tv , &tz);
+&nbs return tv.tv_sec * 1000 + tv.tv_usec / 1000 ;
+#endif
+}
+
+//这是微软公开的crt src文件夹内的源代码:
+void * memcpy_1 (void * dst, void * src , size_t n)
+{
+&nbs void * ret = dst;
+&nbs while (n--) {
+&nbs&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;*(char *)dst = *(char *)src;
+&nbs&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;dst = (char *)dst + 1;
+&nbs&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;src = (char *)src + 1;
+&nbs }
+&nbs return ret;
+}
+
+
+//这是我写的,按照最近流行的优化方式做的
+void * memcpy_2 (void * dst, void * src , size_t n)
+{
+&nbs void * ret = dst;
+&nbs size_t l = n>>2;
+&nbs while (l--) {
+&nbs&nbsp; &nbsp;&nbsp;&nbsp;*(size_t *)dst = *(size_t *)src;
+&nbs&nbsp; &nbsp;&nbsp;&nbsp;dst = (size_t *)dst + 1;
+&nbs&nbsp; &nbsp;&nbsp;&nbsp;src = (size_t *)src + 1;
+&nbs }
+&nbs l = n & 3;
+&nbs while (l--) {
+&nbs&nbsp; &nbsp;&nbsp;&nbsp;*(char *)dst = *(char *)src;
+&nbs&nbsp; &nbsp;&nbsp;&nbsp;dst = (char *)dst + 1;
+&nbs&nbsp; &nbsp;&nbsp;&nbsp;src = (char *)src + 1;
+&nbs }
+&nbs return ret;
+}
+
+void main(int argc, char ** argv)
+{
+&nbs const int cstMemSize = 0x2FFFFFF;
+
+&nbs if(argc<2)
+&nbs {
+&nbs&nbsp; &nbsp;&nbsp;&nbsp;printf("请输入参数 [ 0 | 1 | 2 | 3] ");
+&nbs&nbsp; &nbsp;&nbsp;&nbsp;return ;
+&nbs }
+
+&nbs char * str&nbsp;&nbsp;= (char*)malloc(cstMemSize);
+&nbs char * str2 = (char*)malloc(cstMemSize+16);
+
+&nbs size_t t1 = get_time_ms();
+
+&nbs switch(argv[1][0])
+&nbs {
+&nbs&nbsp; &nbsp;&nbsp;&nbsp;case '0': memcpy(str, str2, cstMemSize );
+&nbs&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;break;
+&nbs&nbsp; &nbsp;&nbsp;&nbsp;case '1': memcpy_1(str, str2, cstMemSize );
+&nbs&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;break;
+&nbs&nbsp; &nbsp;&nbsp;&nbsp;case '2': memcpy_2(str, str2, cstMemSize );
+&nbs&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;break;
+&nbs&nbsp; &nbsp;&nbsp;&nbsp;case '3': memcpy_2(str, str2+1, cstMemSize );&nbsp;&nbsp;//考虑字节不对齐的情况
+&nbs&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;break;
+&nbs }
+&nbs 
+&nbs 
+&nbs double t2 = get_time_ms();
+&nbs free(str);
+&nbs free(str2);
+&nbs printf("memset_%c %f\n", argv[1][0] ,t2-t1);
+
+}</div>
+在windows xp/vc6环境下:
+
+结果发现memcpy_1是最慢的,当然,这是串操作,当然很慢;
+但是直接调用memcpy函数是最快的,这大概是微软在vc链接程序时做的优化.
+而上面memcpy_2的效果一般般,比memcpy_1快,但是不如直接调用memcpy快.
+
+
+在gcc/freebsd环境下,如果未加优化参数-O2,case '3'的情况速度更慢.我怀疑可能是字节不对齐带来的恶果.
+不过,当开启了-O2后,4个case的测试时间差不多了.但是还是gcc自己的memset函数最快.
+
+我现在怀疑,象(int *)这样的奇技淫巧如果使用不当,带来的效果不明显,还不如不用.现实情况是复杂的,编译器比我考虑的多的多.</span><span style="font-size: small;">&nbsp;</span>
+
+

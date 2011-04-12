@@ -1,0 +1,27 @@
+---
+layout: post
+title: 我回来了
+category: life
+---
+
+这个网志荒废了两年了, 今天我借着元旦, 把数据迁移到了<a href="http://xuming.net/micolog">Micolog</a>上.
+
+目前临时域名是:&nbsp;<a href="http://dulao5.appspot.com/">http://dulao5.appspot.com</a>
+
+准备近期再鼓捣一个域名, 申请一个feed烧制服务, 升级和定制一下模板. 这样, 网志就齐活了. &nbsp;以后保持勤奋的心态, 坚持写blog.
+
+说说近况吧.
+
+来<a href="http://accessport.jp">Accessport</a>快四年了, 头三年做的是<a href="http://woopie.jp">视频搜索</a>的数据抓取(已经号称日本第一了). 最近一年做<a href="http://aima.jp/">SNS联盟</a>, 成败还未定. 时间真快啊, 事情变化的也真快.
+
+开心已经一岁八个月了, 是个活泼有趣的小姑娘了.
+
+2010年过去了, 迎接新年, 希望新的计划能够成功.
+
+
+
+
+祝大家节日快乐.
+
+(完)
+
