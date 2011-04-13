@@ -4,13 +4,13 @@ title: 今天继续鼓捣blog
 category: life
 ---
 
-今天做的事情比较无聊.&nbsp;
+今天做的事情比较无聊. 
 
 
 <ul>
 <li>更新micolog到0.7.4</li>
 <li>安装了一些插件, twitter, pager, random</li>
-<li>然后是*手工,人肉,逐条,*修改了几十篇文章的分类和slug&nbsp;_(够无聊吧, micolog啥时候提供一些分类的批处理功能啊)_</li>
+<li>然后是*手工,人肉,逐条,*修改了几十篇文章的分类和slug _(够无聊吧, micolog啥时候提供一些分类的批处理功能啊)_</li>
 </ul>
 剩下一小半文章没有分类. 以后再说吧.
 

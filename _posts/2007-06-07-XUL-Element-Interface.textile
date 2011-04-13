@@ -4,7 +4,7 @@ title: 惊喜----XUL Element Interface
 category: front-end
 ---
 
-查<a style="color: #3366ff;" href="http://www.xulplanet.com/references/objref/" target="_blank">XUL&nbsp;Object Reference&nbsp;</a> ，只列出了下面几种：
+查<a style="color: #3366ff;" href="http://www.xulplanet.com/references/objref/" target="_blank">XUL Object Reference </a> ，只列出了下面几种：
 
 
 
@@ -79,7 +79,7 @@ category: front-end
 
 <td style="font-size: 8pt;">
 <blockquote dir="ltr">
-<p style="font-size: 10pt;">&nbsp;<menulist&nbsp; id="field-sel" >
+<p style="font-size: 10pt;"> <menulist  id="field-sel" >
 
 
 <p style="font-size: 10pt;"><menupopup>
@@ -114,14 +114,14 @@ category: front-end
 //先找到item的父元素&mdash;&mdash;menupopup：
 
 
-&nbsp;var mups = mlist.getElementsByTagName("menupopup");
-&nbsp;&nbsp;var mup;
-&nbsp;&nbsp;if(!mups.length){
-&nbsp;&nbsp;&nbsp;mup = document.createElement("menupopup");
-&nbsp;&nbsp;&nbsp;mlist.appendChild(mup);
-&nbsp;&nbsp;}
-&nbsp;&nbsp;else{
-&nbsp;&nbsp;&nbsp;mup = mups[0];
+ var mups = mlist.getElementsByTagName("menupopup");
+  var mup;
+  if(!mups.length){
+   mup = document.createElement("menupopup");
+   mlist.appendChild(mup);
+  }
+  else{
+   mup = mups[0];
 
 
 //删除所有item:
@@ -131,10 +131,10 @@ while(mup.hasChildNodes())mup.removeChild(mup.firstChild);
 
 
 //添加一个元素:
-&nbsp;&nbsp;var item = document.createElement("menuitem");
-&nbsp;&nbsp;item.setAttribute("label", "[text]");
-&nbsp;&nbsp;item.setAttribute("value", "text");
-&nbsp;&nbsp;mup.appendChild(item);
+  var item = document.createElement("menuitem");
+  item.setAttribute("label", "[text]");
+  item.setAttribute("value", "text");
+  mup.appendChild(item);
 
 
 
@@ -203,7 +203,7 @@ while(mup.hasChildNodes())mup.removeChild(mup.firstChild);
 看看，这下好了，selectedIndex、appendItem、insertItemAt、removeItemAt，很方便的方法o(&cap;_&cap;)o...哈哈。
 
 
-经过写代码验证，发现这些属性和方法都是有效的。当通过DOM得到一个menulist元素时，都可以使用上面interface中的属性和方法。但是很奇怪，Mozilla提供了这些接口，也将menulist元素实现了这些接口，却没有将公开这个实现类。上面的代码&ldquo;<menulist&nbsp; id="field-sel" >&rdquo;中，我alert(&nbsp; document.getElementById("field-sel"))打印出来的还是&ldquo; [object XULElement]&rdquo;，很奇怪。
+经过写代码验证，发现这些属性和方法都是有效的。当通过DOM得到一个menulist元素时，都可以使用上面interface中的属性和方法。但是很奇怪，Mozilla提供了这些接口，也将menulist元素实现了这些接口，却没有将公开这个实现类。上面的代码&ldquo;<menulist  id="field-sel" >&rdquo;中，我alert(  document.getElementById("field-sel"))打印出来的还是&ldquo; [object XULElement]&rdquo;，很奇怪。
 
 
 当然，这篇《<a class="l" href="http://www.mozilla.org/projects/xul/widgets.html" target="_blank"><span style="text-decoration: underline;"><span style="color: #0000ff;">XUL 1.0</span></span></a>》文档还在建设中，有些接口还没添加进去。比如没有XULTreeElement 接口，发现<a style="color: #3366ff;" href="http://www.mozilla.org/xpfe/xptoolkit/trees.html" target="_blank">这里</a>有XULTreeElement接口的文档：

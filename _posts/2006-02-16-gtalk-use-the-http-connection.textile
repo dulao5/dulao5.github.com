@@ -4,11 +4,11 @@ title: gmail内的google talk通讯机制分析
 category: note
 ---
 
-<div>&nbsp;</div>
-<div>&nbsp;</div>
-<div>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 最近google的gmail内增加了&ldquo;Quick Contacts&rdquo;功能,使用这个功能可以直接在网页里和gtalk里的联系人聊天了，试用了一下感觉效果不错，消息接收和发送是实时的。我对这个聊天程序的通讯机制产生了浓厚的兴趣，于是使用httpWatch对通讯进行截获分析，得出一些结论：</div>
-<div>&nbsp;</div>
-<div dir="ltr">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 在所有后台的http会话中，始终存在一个类似b.mail.google.com/mail/channel/bind?&at==&hellip;&hellip;&hellip;&hellip;的请求，这个请求可能长达200多秒钟，一个请求结束后，客户端会马上发起另一个类似的请求，服务端返回的http会话文本常常如下：</div>
+<div> </div>
+<div> </div>
+<div>        最近google的gmail内增加了&ldquo;Quick Contacts&rdquo;功能,使用这个功能可以直接在网页里和gtalk里的联系人聊天了，试用了一下感觉效果不错，消息接收和发送是实时的。我对这个聊天程序的通讯机制产生了浓厚的兴趣，于是使用httpWatch对通讯进行截获分析，得出一些结论：</div>
+<div> </div>
+<div dir="ltr">        在所有后台的http会话中，始终存在一个类似b.mail.google.com/mail/channel/bind?&at==&hellip;&hellip;&hellip;&hellip;的请求，这个请求可能长达200多秒钟，一个请求结束后，客户端会马上发起另一个类似的请求，服务端返回的http会话文本常常如下：</div>
 <blockquote style="margin-right: 0px;" dir="ltr">
 <blockquote style="margin-right: 0px;" dir="ltr">
 <div>
@@ -31,10 +31,10 @@ b2
 
 
 
-<div>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 通过查找资料以及和一些同事朋友分析，认定这很可能是server push技术。这种技术可以算是比较老的技术了，也是实现聊天室比较常用的技术。关于server-push的介绍，推荐<a href="http://www.it315.org/articles/web/web1.htm">这篇文章</a>。</div>
-<div>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 上面的30\n<script>try {parent.m("")} catch(e) {}</script>\n\n是这个保持连接的网页在服务端有消息时的输出信息。可见这就是gmail服务器时刻监视jabber服务器，一旦需要给客户端发送消息，就立即在这个网页里输出脚本，然后脚本负责考虑是如何处理界面以及如何向服务器提供更详细的查询。</div>
-<div>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 我ping了一下，b.mail.google.com和mail.google.com不是一个主机，看来服务器b.mail.google.com专门负责实时监视用户相关的jabber信息，实时通过上面的网页传递js给客户端。由于保持连接的server push技术需要消耗一定的资源，所以单独拿出一台主机以有利于专门做优化。</div>
-<div>&nbsp;</div>
-<div>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 当然，上面的那个保持连接的网页，应该不是通过xmlHttpRequest的方式实现的，因为它需要一直保持连接，在服务器每次输出信息后立即执行script标签内的代码，所以这个连接应该是个框架窗口。xmlHttpRequest比较擅长在url下载完成后激发事件处理程序，很难实现这种实时的消息。</div>
-<div>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 对了，ie的xmlHttp组件的*onreadystatechange*事件只会在readystate从1变成4的过程中被激发。但是firefox中的xmlHttpRequest的此事件会在url请求开始后，每隔几毫秒不断的被激发，直到readystate变成4为止。所以在Ie中是中断机制，在firefox中是轮询机制。尽管firefox中是轮询机制，还是很难实现服务器实时输出的script被实时执行。所以还是框架窗口的技术最为简单明了。</div>
-<div>&nbsp;</div>
+<div>        通过查找资料以及和一些同事朋友分析，认定这很可能是server push技术。这种技术可以算是比较老的技术了，也是实现聊天室比较常用的技术。关于server-push的介绍，推荐<a href="http://www.it315.org/articles/web/web1.htm">这篇文章</a>。</div>
+<div>        上面的30\n<script>try {parent.m("")} catch(e) {}</script>\n\n是这个保持连接的网页在服务端有消息时的输出信息。可见这就是gmail服务器时刻监视jabber服务器，一旦需要给客户端发送消息，就立即在这个网页里输出脚本，然后脚本负责考虑是如何处理界面以及如何向服务器提供更详细的查询。</div>
+<div>        我ping了一下，b.mail.google.com和mail.google.com不是一个主机，看来服务器b.mail.google.com专门负责实时监视用户相关的jabber信息，实时通过上面的网页传递js给客户端。由于保持连接的server push技术需要消耗一定的资源，所以单独拿出一台主机以有利于专门做优化。</div>
+<div> </div>
+<div>        当然，上面的那个保持连接的网页，应该不是通过xmlHttpRequest的方式实现的，因为它需要一直保持连接，在服务器每次输出信息后立即执行script标签内的代码，所以这个连接应该是个框架窗口。xmlHttpRequest比较擅长在url下载完成后激发事件处理程序，很难实现这种实时的消息。</div>
+<div>         对了，ie的xmlHttp组件的*onreadystatechange*事件只会在readystate从1变成4的过程中被激发。但是firefox中的xmlHttpRequest的此事件会在url请求开始后，每隔几毫秒不断的被激发，直到readystate变成4为止。所以在Ie中是中断机制，在firefox中是轮询机制。尽管firefox中是轮询机制，还是很难实现服务器实时输出的script被实时执行。所以还是框架窗口的技术最为简单明了。</div>
+<div> </div>

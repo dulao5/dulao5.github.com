@@ -5,7 +5,7 @@ category: php
 ---
 
 <blockquote style="margin-right: 0px;" dir="ltr">
-<p style="font-size: 10pt;">&nbsp;
+<p style="font-size: 10pt;"> 
 
 
 
@@ -15,14 +15,14 @@ category: php
 <blockquote dir="ltr">
 <p style="font-size: 10pt;"><span style="font-size: 10pt;">* 以单引号为定界符的php字符串，支持两个转义\'和\\
 * 以双引号为定界符的php字符串，支持下列转义：
-&nbsp;&nbsp;&nbsp; \n 换行（LF 或 ASCII 字符 0x0A（10）） 
-&nbsp;&nbsp;&nbsp; \r 回车（CR 或 ASCII 字符 0x0D（13）） 
-&nbsp;&nbsp;&nbsp; \t 水平制表符（HT 或 ASCII 字符 0x09（9）） 
-&nbsp;&nbsp;&nbsp; \\ 反斜线 
-&nbsp;&nbsp;&nbsp; \$ 美元符号 
-&nbsp;&nbsp;&nbsp; \" 双引号 
-&nbsp;&nbsp;&nbsp; \[0-7]{1,3}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 此正则表达式序列匹配一个用八进制符号表示的字符&nbsp; 
-&nbsp;&nbsp;&nbsp; \x[0-9A-Fa-f]{1,2}&nbsp; 此正则表达式序列匹配一个用十六进制符号表示的字符</span>&nbsp;
+    \n 换行（LF 或 ASCII 字符 0x0A（10）） 
+    \r 回车（CR 或 ASCII 字符 0x0D（13）） 
+    \t 水平制表符（HT 或 ASCII 字符 0x09（9）） 
+    \\ 反斜线 
+    \$ 美元符号 
+    \" 双引号 
+    \[0-7]{1,3}               此正则表达式序列匹配一个用八进制符号表示的字符  
+    \x[0-9A-Fa-f]{1,2}  此正则表达式序列匹配一个用十六进制符号表示的字符</span> 
 
 
 
@@ -45,7 +45,7 @@ echo("\n");
 
 
 <p style="font-size: 10pt;">9
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 102&nbsp;&nbsp;&nbsp;&nbsp; 102&nbsp;&nbsp;&nbsp;&nbsp; 102&nbsp;&nbsp;&nbsp;&nbsp; 102&nbsp;&nbsp;&nbsp;&nbsp;<span style="color: #ff0000;"> 0</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 102&nbsp;&nbsp;&nbsp;&nbsp; 102&nbsp;&nbsp;&nbsp;&nbsp; 102&nbsp;&nbsp;&nbsp;&nbsp; 102
+        102     102     102     102    <span style="color: #ff0000;"> 0</span>       102     102     102     102
 
 
 
@@ -54,7 +54,7 @@ echo("\n");
 
 <blockquote style="margin-right: 0px;" dir="ltr">
 <p style="font-size: 10pt;">$str = *"ffff<span style="color: #ff0000;">\0</span>ffff";*
-$str = str_replace("<span style="color: #ff0000;">\x0</span>", "", $str);&nbsp; 
+$str = str_replace("<span style="color: #ff0000;">\x0</span>", "", $str);  
 //或者用$str = str_replace("<span style="color: #ff0000;">\0</span>", "", $str); 
 //或者用$str = str_replace(<span style="color: #ff0000;">chr(0)</span>, "", $str); 
 echo(strlen($str));
@@ -64,7 +64,7 @@ echo("\n");
 输出结果：
 ----------------------
 8
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 102&nbsp;&nbsp;&nbsp;&nbsp; 102&nbsp;&nbsp;&nbsp;&nbsp; 102&nbsp;&nbsp;&nbsp;&nbsp; 102&nbsp;&nbsp;&nbsp;&nbsp; 102&nbsp;&nbsp;&nbsp;&nbsp; 102&nbsp;&nbsp;&nbsp;&nbsp; 102&nbsp;&nbsp;&nbsp;&nbsp; 102
+        102     102     102     102     102     102     102     102
 
 
 
@@ -74,7 +74,7 @@ echo("\n");
 
 <blockquote style="margin-right: 0px;" dir="ltr">
 <p style="font-size: 10pt;">//注意，符合正则\[0-7]{1,3}的字符串，表示一个八进制的ascii码。
-$str = *"\0\01\02\3\7\10\011<span style="color: #ff0000;">\0</span><span style="color: #ff00ff;">8</span><span style="color: #339966;">\</span><span style="color: #0000ff;">8</span>";*&nbsp; //这里的\8不符合要求，被修正为"<a>\\8</a>" （ascii为92和56）
+$str = *"\0\01\02\3\7\10\011<span style="color: #ff0000;">\0</span><span style="color: #ff00ff;">8</span><span style="color: #339966;">\</span><span style="color: #0000ff;">8</span>";*  //这里的\8不符合要求，被修正为"<a>\\8</a>" （ascii为92和56）
 echo(strlen($str));
 echo("\n");
 for($i=0;$i<strlen($str);$i++)echo("\t".ord($str{$i}));
@@ -82,7 +82,7 @@ echo("\n");
 输出结果：
 ----------------------
 11
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; *0&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 1&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 2&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 3&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 7&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 8&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 9&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <span style="color: #ff0000;">0&nbsp;</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <span style="color: #ff00ff;">56&nbsp;</span>&nbsp;&nbsp;&nbsp;&nbsp; <span style="color: #339966;">92&nbsp;&nbsp;</span>&nbsp;&nbsp;&nbsp; <span style="color: #0000ff;">56</span>*
+        *0       1       2       3       7       8       9       <span style="color: #ff0000;">0 </span>      <span style="color: #ff00ff;">56 </span>     <span style="color: #339966;">92  </span>    <span style="color: #0000ff;">56</span>*
 
 
 
@@ -98,6 +98,6 @@ echo("\n");
 输出结果：
 ----------------------
 10
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 0&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 1&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 2&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 3&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 7&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 8&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 9&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 16&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 17&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 255
+        0       1       2       3       7       8       9       16      17      255
 
 

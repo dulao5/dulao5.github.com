@@ -10,7 +10,7 @@ category: note
 <p class="MsoNormal" style="margin: 0cm 0cm 0pt;"><span lang="EN-US"><!--?xml:namespace prefix = o ns = "urn:schemas-microsoft-com:office:office" /--></span>
 
 
-<span style="font-size: small;">&nbsp;</span>
+<span style="font-size: small;"> </span>
 
 
 
@@ -26,16 +26,16 @@ category: note
 
 
 
-<p class="MsoNormal" style="margin: 0cm 0cm 0pt;"><span lang="EN-US">&nbsp;</span>
+<p class="MsoNormal" style="margin: 0cm 0cm 0pt;"><span lang="EN-US"> </span>
 
 
-<span style="font-size: small;">&nbsp;</span>
+<span style="font-size: small;"> </span>
 
 
 
 
 
-<p class="MsoNormal" style="margin: 0cm 0cm 0pt 21pt; text-indent: -21pt; mso-list: l0 level1 lfo1; tab-stops: list 21.0pt;">*<span style="font-size: 14pt; mso-bidi-font-family: &#23435;&#20307;;" lang="EN-US"><span style="mso-list: Ignore;"><span style="font-size: large;">一．</span><span style="font: 7pt 'Times New Roman';">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span></span></span>**<span style="font-size: 14pt; font-family: &#23435;&#20307;; mso-ascii-font-family: 'Times New Roman'; mso-hansi-font-family: 'Times New Roman';">基本数据类型</span>**<span style="font-size: 14pt;" lang="EN-US">&nbsp;</span>*
+<p class="MsoNormal" style="margin: 0cm 0cm 0pt 21pt; text-indent: -21pt; mso-list: l0 level1 lfo1; tab-stops: list 21.0pt;">*<span style="font-size: 14pt; mso-bidi-font-family: &#23435;&#20307;;" lang="EN-US"><span style="mso-list: Ignore;"><span style="font-size: large;">一．</span><span style="font: 7pt 'Times New Roman';">       </span></span></span>**<span style="font-size: 14pt; font-family: &#23435;&#20307;; mso-ascii-font-family: 'Times New Roman'; mso-hansi-font-family: 'Times New Roman';">基本数据类型</span>**<span style="font-size: 14pt;" lang="EN-US"> </span>*
 
 
 *
@@ -45,7 +45,7 @@ category: note
 
 
 
-<p class="MsoNormal" style="margin: 0cm 0cm 0pt; text-indent: 0cm; mso-list: l0 level2 lfo1; tab-stops: list 18.0pt;">*<span style="font-size: 14pt; mso-fareast-font-family: 'Times New Roman';" lang="EN-US"><span style="mso-list: Ignore;"><span style="font-size: large;">a)</span><span style="font: 7pt 'Times New Roman';">&nbsp;&nbsp;&nbsp; </span></span></span>**<span style="font-size: 14pt; font-family: &#23435;&#20307;; mso-ascii-font-family: 'Times New Roman'; mso-hansi-font-family: 'Times New Roman';">基本数据类型和常量</span>**<span style="font-size: 14pt;" lang="EN-US">&nbsp;</span>*
+<p class="MsoNormal" style="margin: 0cm 0cm 0pt; text-indent: 0cm; mso-list: l0 level2 lfo1; tab-stops: list 18.0pt;">*<span style="font-size: 14pt; mso-fareast-font-family: 'Times New Roman';" lang="EN-US"><span style="mso-list: Ignore;"><span style="font-size: large;">a)</span><span style="font: 7pt 'Times New Roman';">    </span></span></span>**<span style="font-size: 14pt; font-family: &#23435;&#20307;; mso-ascii-font-family: 'Times New Roman'; mso-hansi-font-family: 'Times New Roman';">基本数据类型和常量</span>**<span style="font-size: 14pt;" lang="EN-US"> </span>*
 
 
 *
@@ -60,7 +60,7 @@ category: note
 <tbody>
 <tr style="mso-yfti-irow: 0;">
 <td style="padding-right: 5.4pt; padding-left: 5.4pt; padding-bottom: 0cm; width: 142pt; padding-top: 0cm; background-color: transparent; mso-border-alt: solid windowtext .5pt; border: windowtext 1pt solid;" width="189" valign="top">
-<p class="MsoNormal" style="margin: 0cm 0cm 0pt;"><span style="font-size: 10pt; font-family: &#23435;&#20307;;">基本数据类型<span lang="EN-US">&nbsp;</span></span>
+<p class="MsoNormal" style="margin: 0cm 0cm 0pt;"><span style="font-size: 10pt; font-family: &#23435;&#20307;;">基本数据类型<span lang="EN-US"> </span></span>
 
 
 
@@ -71,7 +71,7 @@ category: note
 
 
 <td style="border-right: windowtext 1pt solid; padding-right: 5.4pt; border-top: windowtext 1pt solid; padding-left: 5.4pt; padding-bottom: 0cm; border-left: #ece9d8; width: 142.05pt; padding-top: 0cm; border-bottom: windowtext 1pt solid; background-color: transparent; mso-border-alt: solid windowtext .5pt; mso-border-left-alt: solid windowtext .5pt;" width="189" valign="top">
-<p class="MsoNormal" style="margin: 0cm 0cm 0pt;"><span style="font-size: 10pt; font-family: &#23435;&#20307;;">常量举例<span lang="EN-US">&nbsp;</span></span>
+<p class="MsoNormal" style="margin: 0cm 0cm 0pt;"><span style="font-size: 10pt; font-family: &#23435;&#20307;;">常量举例<span lang="EN-US"> </span></span>
 
 
 
@@ -118,7 +118,7 @@ category: note
 
 
 <td style="border-right: windowtext 1pt solid; padding-right: 5.4pt; border-top: #ece9d8; padding-left: 5.4pt; padding-bottom: 0cm; border-left: #ece9d8; width: 142.05pt; padding-top: 0cm; border-bottom: windowtext 1pt solid; background-color: transparent; mso-border-alt: solid windowtext .5pt; mso-border-left-alt: solid windowtext .5pt; mso-border-top-alt: solid windowtext .5pt;" width="189" valign="top">
-<p class="MsoNormal" style="margin: 0cm 0cm 0pt;"><span style="font-size: 10pt; font-family: &#23435;&#20307;;" lang="EN-US">%u <span style="font-size: x-small;"><span style="mso-spacerun: yes;">&nbsp;</span>%i</span></span>
+<p class="MsoNormal" style="margin: 0cm 0cm 0pt;"><span style="font-size: 10pt; font-family: &#23435;&#20307;;" lang="EN-US">%u <span style="font-size: x-small;"><span style="mso-spacerun: yes;"> </span>%i</span></span>
 
 
 <span style="font-size: x-small;">
@@ -227,7 +227,7 @@ category: note
 
 
 <td style="border-right: windowtext 1pt solid; padding-right: 5.4pt; border-top: #ece9d8; padding-left: 5.4pt; padding-bottom: 0cm; border-left: #ece9d8; width: 142.05pt; padding-top: 0cm; border-bottom: windowtext 1pt solid; background-color: transparent; mso-border-alt: solid windowtext .5pt; mso-border-left-alt: solid windowtext .5pt; mso-border-top-alt: solid windowtext .5pt;" width="189" valign="top">
-<p class="MsoNormal" style="margin: 0cm 0cm 0pt;"><span style="font-size: 10pt; font-family: &#23435;&#20307;;" lang="EN-US">%hi <span style="font-size: x-small;"><span style="mso-spacerun: yes;">&nbsp;</span>%ho <span style="mso-spacerun: yes;">&nbsp;</span>%hx</span></span>
+<p class="MsoNormal" style="margin: 0cm 0cm 0pt;"><span style="font-size: 10pt; font-family: &#23435;&#20307;;" lang="EN-US">%hi <span style="font-size: x-small;"><span style="mso-spacerun: yes;"> </span>%ho <span style="mso-spacerun: yes;"> </span>%hx</span></span>
 
 
 <span style="font-size: x-small;">
@@ -264,7 +264,7 @@ category: note
 
 
 <td style="border-right: windowtext 1pt solid; padding-right: 5.4pt; border-top: #ece9d8; padding-left: 5.4pt; padding-bottom: 0cm; border-left: #ece9d8; width: 142.05pt; padding-top: 0cm; border-bottom: windowtext 1pt solid; background-color: transparent; mso-border-alt: solid windowtext .5pt; mso-border-left-alt: solid windowtext .5pt; mso-border-top-alt: solid windowtext .5pt;" width="189" valign="top">
-<p class="MsoNormal" style="margin: 0cm 0cm 0pt;"><span style="font-size: 10pt; font-family: &#23435;&#20307;;" lang="EN-US">%hi <span style="font-size: x-small;"><span style="mso-spacerun: yes;">&nbsp;</span>%ho <span style="mso-spacerun: yes;">&nbsp;</span>%hx</span></span>
+<p class="MsoNormal" style="margin: 0cm 0cm 0pt;"><span style="font-size: 10pt; font-family: &#23435;&#20307;;" lang="EN-US">%hi <span style="font-size: x-small;"><span style="mso-spacerun: yes;"> </span>%ho <span style="mso-spacerun: yes;"> </span>%hx</span></span>
 
 
 <span style="font-size: x-small;">
@@ -302,7 +302,7 @@ category: note
 
 
 <td style="border-right: windowtext 1pt solid; padding-right: 5.4pt; border-top: #ece9d8; padding-left: 5.4pt; padding-bottom: 0cm; border-left: #ece9d8; width: 142.05pt; padding-top: 0cm; border-bottom: windowtext 1pt solid; background-color: transparent; mso-border-alt: solid windowtext .5pt; mso-border-left-alt: solid windowtext .5pt; mso-border-top-alt: solid windowtext .5pt;" width="189" valign="top">
-<p class="MsoNormal" style="margin: 0cm 0cm 0pt;"><span style="font-size: 10pt; font-family: &#23435;&#20307;;" lang="EN-US">%i <span style="font-size: x-small;"><span style="mso-spacerun: yes;">&nbsp;</span>%o <span style="mso-spacerun: yes;">&nbsp;</span>%x</span></span>
+<p class="MsoNormal" style="margin: 0cm 0cm 0pt;"><span style="font-size: 10pt; font-family: &#23435;&#20307;;" lang="EN-US">%i <span style="font-size: x-small;"><span style="mso-spacerun: yes;"> </span>%o <span style="mso-spacerun: yes;"> </span>%x</span></span>
 
 
 <span style="font-size: x-small;">
@@ -340,7 +340,7 @@ category: note
 
 
 <td style="border-right: windowtext 1pt solid; padding-right: 5.4pt; border-top: #ece9d8; padding-left: 5.4pt; padding-bottom: 0cm; border-left: #ece9d8; width: 142.05pt; padding-top: 0cm; border-bottom: windowtext 1pt solid; background-color: transparent; mso-border-alt: solid windowtext .5pt; mso-border-left-alt: solid windowtext .5pt; mso-border-top-alt: solid windowtext .5pt;" width="189" valign="top">
-<p class="MsoNormal" style="margin: 0cm 0cm 0pt;"><span style="font-size: 10pt; font-family: &#23435;&#20307;;" lang="EN-US">%u<span style="font-size: x-small;"><span style="mso-spacerun: yes;">&nbsp; </span>%o <span style="mso-spacerun: yes;">&nbsp;</span>%x</span></span>
+<p class="MsoNormal" style="margin: 0cm 0cm 0pt;"><span style="font-size: 10pt; font-family: &#23435;&#20307;;" lang="EN-US">%u<span style="font-size: x-small;"><span style="mso-spacerun: yes;">  </span>%o <span style="mso-spacerun: yes;"> </span>%x</span></span>
 
 
 <span style="font-size: x-small;">
@@ -366,7 +366,7 @@ category: note
 
 
 <td style="border-right: windowtext 1pt solid; padding-right: 5.4pt; border-top: #ece9d8; padding-left: 5.4pt; padding-bottom: 0cm; border-left: #ece9d8; width: 142.05pt; padding-top: 0cm; border-bottom: windowtext 1pt solid; background-color: transparent; mso-border-alt: solid windowtext .5pt; mso-border-left-alt: solid windowtext .5pt; mso-border-top-alt: solid windowtext .5pt;" width="189" valign="top">
-<p class="MsoNormal" style="margin: 0cm 0cm 0pt;"><span style="font-size: 10pt; font-family: &#23435;&#20307;;" lang="EN-US">10<span style="font-size: x-small;"><span style="color: red;">l</span>*<span style="color: green;">(这个字母l还是写成大写L更好看)</span>*,<span style="mso-spacerun: yes;">&nbsp; </span>10<span style="color: red;">L</span></span></span>
+<p class="MsoNormal" style="margin: 0cm 0cm 0pt;"><span style="font-size: 10pt; font-family: &#23435;&#20307;;" lang="EN-US">10<span style="font-size: x-small;"><span style="color: red;">l</span>*<span style="color: green;">(这个字母l还是写成大写L更好看)</span>*,<span style="mso-spacerun: yes;">  </span>10<span style="color: red;">L</span></span></span>
 
 
 <span style="font-size: x-small;">
@@ -376,7 +376,7 @@ category: note
 
 
 
-<p class="MsoNormal" style="margin: 0cm 0cm 0pt;"><span style="font-size: 10pt; color: red; font-family: &#23435;&#20307;;" lang="EN-US">0</span><span style="font-size: 10pt; font-family: &#23435;&#20307;;" lang="EN-US">xff<span style="font-size: x-small;"><span style="color: red;">L</span> , <span style="mso-spacerun: yes;">&nbsp;</span><span style="color: red;">0</span>77777<span style="color: red;">L</span></span></span>
+<p class="MsoNormal" style="margin: 0cm 0cm 0pt;"><span style="font-size: 10pt; color: red; font-family: &#23435;&#20307;;" lang="EN-US">0</span><span style="font-size: 10pt; font-family: &#23435;&#20307;;" lang="EN-US">xff<span style="font-size: x-small;"><span style="color: red;">L</span> , <span style="mso-spacerun: yes;"> </span><span style="color: red;">0</span>77777<span style="color: red;">L</span></span></span>
 
 
 <span style="font-size: x-small;">
@@ -388,7 +388,7 @@ category: note
 
 
 <td style="border-right: windowtext 1pt solid; padding-right: 5.4pt; border-top: #ece9d8; padding-left: 5.4pt; padding-bottom: 0cm; border-left: #ece9d8; width: 142.05pt; padding-top: 0cm; border-bottom: windowtext 1pt solid; background-color: transparent; mso-border-alt: solid windowtext .5pt; mso-border-left-alt: solid windowtext .5pt; mso-border-top-alt: solid windowtext .5pt;" width="189" valign="top">
-<p class="MsoNormal" style="margin: 0cm 0cm 0pt;"><span style="font-size: 10pt; font-family: &#23435;&#20307;;" lang="EN-US">%li <span style="font-size: x-small;"><span style="mso-spacerun: yes;">&nbsp;</span>%lo <span style="mso-spacerun: yes;">&nbsp;</span>%lx</span></span>
+<p class="MsoNormal" style="margin: 0cm 0cm 0pt;"><span style="font-size: 10pt; font-family: &#23435;&#20307;;" lang="EN-US">%li <span style="font-size: x-small;"><span style="mso-spacerun: yes;"> </span>%lo <span style="mso-spacerun: yes;"> </span>%lx</span></span>
 
 
 <span style="font-size: x-small;">
@@ -414,7 +414,7 @@ category: note
 
 
 <td style="border-right: windowtext 1pt solid; padding-right: 5.4pt; border-top: #ece9d8; padding-left: 5.4pt; padding-bottom: 0cm; border-left: #ece9d8; width: 142.05pt; padding-top: 0cm; border-bottom: windowtext 1pt solid; background-color: transparent; mso-border-alt: solid windowtext .5pt; mso-border-left-alt: solid windowtext .5pt; mso-border-top-alt: solid windowtext .5pt;" width="189" valign="top">
-<p class="MsoNormal" style="margin: 0cm 0cm 0pt;"><span style="font-size: 10pt; font-family: &#23435;&#20307;;" lang="EN-US">10<span style="font-size: x-small;"><span style="color: red;">UL</span>,<span style="mso-spacerun: yes;">&nbsp; </span>0xffffff<span style="color: red;">UL</span></span></span>
+<p class="MsoNormal" style="margin: 0cm 0cm 0pt;"><span style="font-size: 10pt; font-family: &#23435;&#20307;;" lang="EN-US">10<span style="font-size: x-small;"><span style="color: red;">UL</span>,<span style="mso-spacerun: yes;">  </span>0xffffff<span style="color: red;">UL</span></span></span>
 
 
 <span style="font-size: x-small;">
@@ -426,7 +426,7 @@ category: note
 
 
 <td style="border-right: windowtext 1pt solid; padding-right: 5.4pt; border-top: #ece9d8; padding-left: 5.4pt; padding-bottom: 0cm; border-left: #ece9d8; width: 142.05pt; padding-top: 0cm; border-bottom: windowtext 1pt solid; background-color: transparent; mso-border-alt: solid windowtext .5pt; mso-border-left-alt: solid windowtext .5pt; mso-border-top-alt: solid windowtext .5pt;" width="189" valign="top">
-<p class="MsoNormal" style="margin: 0cm 0cm 0pt;"><span style="font-size: 10pt; font-family: &#23435;&#20307;;" lang="EN-US">%lu <span style="font-size: x-small;"><span style="mso-spacerun: yes;">&nbsp;</span>%lo <span style="mso-spacerun: yes;">&nbsp;</span>%lx</span></span>
+<p class="MsoNormal" style="margin: 0cm 0cm 0pt;"><span style="font-size: 10pt; font-family: &#23435;&#20307;;" lang="EN-US">%lu <span style="font-size: x-small;"><span style="mso-spacerun: yes;"> </span>%lo <span style="mso-spacerun: yes;"> </span>%lx</span></span>
 
 
 <span style="font-size: x-small;">
@@ -452,7 +452,7 @@ category: note
 
 
 <td style="border-right: windowtext 1pt solid; padding-right: 5.4pt; border-top: #ece9d8; padding-left: 5.4pt; padding-bottom: 0cm; border-left: #ece9d8; width: 142.05pt; padding-top: 0cm; border-bottom: windowtext 1pt solid; background-color: transparent; mso-border-alt: solid windowtext .5pt; mso-border-left-alt: solid windowtext .5pt; mso-border-top-alt: solid windowtext .5pt;" width="189" valign="top">
-<p class="MsoNormal" style="margin: 0cm 0cm 0pt;"><span style="font-size: 10pt; font-family: &#23435;&#20307;;" lang="EN-US">10<span style="font-size: x-small;"><span style="color: red;">LL</span>,<span style="mso-spacerun: yes;">&nbsp; </span>0xffffff<span style="color: red;">LL</span></span></span>
+<p class="MsoNormal" style="margin: 0cm 0cm 0pt;"><span style="font-size: 10pt; font-family: &#23435;&#20307;;" lang="EN-US">10<span style="font-size: x-small;"><span style="color: red;">LL</span>,<span style="mso-spacerun: yes;">  </span>0xffffff<span style="color: red;">LL</span></span></span>
 
 
 <span style="font-size: x-small;">
@@ -464,7 +464,7 @@ category: note
 
 
 <td style="border-right: windowtext 1pt solid; padding-right: 5.4pt; border-top: #ece9d8; padding-left: 5.4pt; padding-bottom: 0cm; border-left: #ece9d8; width: 142.05pt; padding-top: 0cm; border-bottom: windowtext 1pt solid; background-color: transparent; mso-border-alt: solid windowtext .5pt; mso-border-left-alt: solid windowtext .5pt; mso-border-top-alt: solid windowtext .5pt;" width="189" valign="top">
-<p class="MsoNormal" style="margin: 0cm 0cm 0pt;"><span style="font-size: 10pt; font-family: &#23435;&#20307;;" lang="EN-US">%lli <span style="font-size: x-small;"><span style="mso-spacerun: yes;">&nbsp;</span>%llo <span style="mso-spacerun: yes;">&nbsp;</span>%llx</span></span>
+<p class="MsoNormal" style="margin: 0cm 0cm 0pt;"><span style="font-size: 10pt; font-family: &#23435;&#20307;;" lang="EN-US">%lli <span style="font-size: x-small;"><span style="mso-spacerun: yes;"> </span>%llo <span style="mso-spacerun: yes;"> </span>%llx</span></span>
 
 
 <span style="font-size: x-small;">
@@ -502,7 +502,7 @@ category: note
 
 
 <td style="border-right: windowtext 1pt solid; padding-right: 5.4pt; border-top: #ece9d8; padding-left: 5.4pt; padding-bottom: 0cm; border-left: #ece9d8; width: 142.05pt; padding-top: 0cm; border-bottom: windowtext 1pt solid; background-color: transparent; mso-border-alt: solid windowtext .5pt; mso-border-left-alt: solid windowtext .5pt; mso-border-top-alt: solid windowtext .5pt;" width="189" valign="top">
-<p class="MsoNormal" style="margin: 0cm 0cm 0pt;"><span style="font-size: 10pt; font-family: &#23435;&#20307;;" lang="EN-US">%llu <span style="font-size: x-small;"><span style="mso-spacerun: yes;">&nbsp;</span>%llo <span style="mso-spacerun: yes;">&nbsp;</span>%llx</span></span>
+<p class="MsoNormal" style="margin: 0cm 0cm 0pt;"><span style="font-size: 10pt; font-family: &#23435;&#20307;;" lang="EN-US">%llu <span style="font-size: x-small;"><span style="mso-spacerun: yes;"> </span>%llo <span style="mso-spacerun: yes;"> </span>%llx</span></span>
 
 
 <span style="font-size: x-small;">
@@ -528,7 +528,7 @@ category: note
 
 
 <td style="border-right: windowtext 1pt solid; padding-right: 5.4pt; border-top: #ece9d8; padding-left: 5.4pt; padding-bottom: 0cm; border-left: #ece9d8; width: 142.05pt; padding-top: 0cm; border-bottom: windowtext 1pt solid; background-color: transparent; mso-border-alt: solid windowtext .5pt; mso-border-left-alt: solid windowtext .5pt; mso-border-top-alt: solid windowtext .5pt;" width="189" valign="top">
-<p class="MsoNormal" style="margin: 0cm 0cm 0pt;"><span style="font-size: 10pt; font-family: &#23435;&#20307;;" lang="EN-US">10.00<span style="font-size: x-small;"><span style="color: red;">f</span><span style="mso-spacerun: yes;">&nbsp; </span>3.14<span style="color: red;">e</span>-7<span style="color: red;">f</span> , 0x10.0<span style="color: red;">p</span>20 </span></span>
+<p class="MsoNormal" style="margin: 0cm 0cm 0pt;"><span style="font-size: 10pt; font-family: &#23435;&#20307;;" lang="EN-US">10.00<span style="font-size: x-small;"><span style="color: red;">f</span><span style="mso-spacerun: yes;">  </span>3.14<span style="color: red;">e</span>-7<span style="color: red;">f</span> , 0x10.0<span style="color: red;">p</span>20 </span></span>
 
 
 <span style="font-size: x-small;">
@@ -540,7 +540,7 @@ category: note
 
 
 <td style="border-right: windowtext 1pt solid; padding-right: 5.4pt; border-top: #ece9d8; padding-left: 5.4pt; padding-bottom: 0cm; border-left: #ece9d8; width: 142.05pt; padding-top: 0cm; border-bottom: windowtext 1pt solid; background-color: transparent; mso-border-alt: solid windowtext .5pt; mso-border-left-alt: solid windowtext .5pt; mso-border-top-alt: solid windowtext .5pt;" width="189" valign="top">
-<p class="MsoNormal" style="margin: 0cm 0cm 0pt;"><span style="font-size: 10pt; font-family: &#23435;&#20307;;" lang="EN-US">%f <span style="font-size: x-small;"><span style="mso-spacerun: yes;">&nbsp;</span>%e <span style="mso-spacerun: yes;">&nbsp;</span>%g <span style="mso-spacerun: yes;">&nbsp;</span>%a</span></span>
+<p class="MsoNormal" style="margin: 0cm 0cm 0pt;"><span style="font-size: 10pt; font-family: &#23435;&#20307;;" lang="EN-US">%f <span style="font-size: x-small;"><span style="mso-spacerun: yes;"> </span>%e <span style="mso-spacerun: yes;"> </span>%g <span style="mso-spacerun: yes;"> </span>%a</span></span>
 
 
 <span style="font-size: x-small;">
@@ -566,7 +566,7 @@ category: note
 
 
 <td style="border-right: windowtext 1pt solid; padding-right: 5.4pt; border-top: #ece9d8; padding-left: 5.4pt; padding-bottom: 0cm; border-left: #ece9d8; width: 142.05pt; padding-top: 0cm; border-bottom: windowtext 1pt solid; background-color: transparent; mso-border-alt: solid windowtext .5pt; mso-border-left-alt: solid windowtext .5pt; mso-border-top-alt: solid windowtext .5pt;" width="189" valign="top">
-<p class="MsoNormal" style="margin: 0cm 0cm 0pt;"><span style="font-size: 10pt; font-family: &#23435;&#20307;;" lang="EN-US">10.00,<span style="font-size: x-small;"><span style="mso-spacerun: yes;">&nbsp; </span>3.14<span style="color: red;">e</span>-7 , 0x10.0<span style="color: red;">p</span>20</span></span>
+<p class="MsoNormal" style="margin: 0cm 0cm 0pt;"><span style="font-size: 10pt; font-family: &#23435;&#20307;;" lang="EN-US">10.00,<span style="font-size: x-small;"><span style="mso-spacerun: yes;">  </span>3.14<span style="color: red;">e</span>-7 , 0x10.0<span style="color: red;">p</span>20</span></span>
 
 
 <span style="font-size: x-small;">
@@ -578,7 +578,7 @@ category: note
 
 
 <td style="border-right: windowtext 1pt solid; padding-right: 5.4pt; border-top: #ece9d8; padding-left: 5.4pt; padding-bottom: 0cm; border-left: #ece9d8; width: 142.05pt; padding-top: 0cm; border-bottom: windowtext 1pt solid; background-color: transparent; mso-border-alt: solid windowtext .5pt; mso-border-left-alt: solid windowtext .5pt; mso-border-top-alt: solid windowtext .5pt;" width="189" valign="top">
-<p class="MsoNormal" style="margin: 0cm 0cm 0pt;"><span style="font-size: 10pt; font-family: &#23435;&#20307;;" lang="EN-US">%f<span style="font-size: x-small;"><span style="mso-spacerun: yes;">&nbsp; </span>%e<span style="mso-spacerun: yes;">&nbsp; </span>%g<span style="mso-spacerun: yes;">&nbsp; </span>%a</span></span>
+<p class="MsoNormal" style="margin: 0cm 0cm 0pt;"><span style="font-size: 10pt; font-family: &#23435;&#20307;;" lang="EN-US">%f<span style="font-size: x-small;"><span style="mso-spacerun: yes;">  </span>%e<span style="mso-spacerun: yes;">  </span>%g<span style="mso-spacerun: yes;">  </span>%a</span></span>
 
 
 <span style="font-size: x-small;">
@@ -616,7 +616,7 @@ category: note
 
 
 <td style="border-right: windowtext 1pt solid; padding-right: 5.4pt; border-top: #ece9d8; padding-left: 5.4pt; padding-bottom: 0cm; border-left: #ece9d8; width: 142.05pt; padding-top: 0cm; border-bottom: windowtext 1pt solid; background-color: transparent; mso-border-alt: solid windowtext .5pt; mso-border-left-alt: solid windowtext .5pt; mso-border-top-alt: solid windowtext .5pt;" width="189" valign="top">
-<p class="MsoNormal" style="margin: 0cm 0cm 0pt;"><span style="font-size: 10pt; font-family: &#23435;&#20307;;" lang="EN-US">%Lf<span style="font-size: x-small;"><span style="mso-spacerun: yes;">&nbsp; </span>%Le<span style="mso-spacerun: yes;">&nbsp; </span>%Lg </span></span>
+<p class="MsoNormal" style="margin: 0cm 0cm 0pt;"><span style="font-size: 10pt; font-family: &#23435;&#20307;;" lang="EN-US">%Lf<span style="font-size: x-small;"><span style="mso-spacerun: yes;">  </span>%Le<span style="mso-spacerun: yes;">  </span>%Lg </span></span>
 
 
 <span style="font-size: x-small;">
@@ -642,7 +642,7 @@ category: note
 
 
 <td style="border-right: windowtext 1pt solid; padding-right: 5.4pt; border-top: #ece9d8; padding-left: 5.4pt; padding-bottom: 0cm; border-left: #ece9d8; width: 284.1pt; padding-top: 0cm; border-bottom: windowtext 1pt solid; background-color: transparent; mso-border-alt: solid windowtext .5pt; mso-border-left-alt: solid windowtext .5pt; mso-border-top-alt: solid windowtext .5pt;" colspan="2" rowspan="4" width="379">
-<p class="MsoNormal" style="margin: 0cm 0cm 0pt; text-align: center;"><span style="font-size: 10pt; font-family: &#23435;&#20307;;">编译器自己实现<span lang="EN-US">&nbsp;</span></span>
+<p class="MsoNormal" style="margin: 0cm 0cm 0pt; text-align: center;"><span style="font-size: 10pt; font-family: &#23435;&#20307;;">编译器自己实现<span lang="EN-US"> </span></span>
 
 
 
@@ -699,7 +699,7 @@ category: note
 </tbody>
 
 </div>
-<p class="MsoNormal" style="margin: 0cm 0cm 0pt 21pt;"><span style="font-size: 10pt; font-family: &#23435;&#20307;;" lang="EN-US">&nbsp;</span>
+<p class="MsoNormal" style="margin: 0cm 0cm 0pt 21pt;"><span style="font-size: 10pt; font-family: &#23435;&#20307;;" lang="EN-US"> </span>
 
 
 
@@ -790,7 +790,7 @@ category: note
 
 
 
-<p class="MsoNormal" style="margin: 0cm 0cm 0pt; text-indent: 0cm; mso-list: l0 level2 lfo1; tab-stops: list 18.0pt;">*<span style="font-size: 14pt; mso-fareast-font-family: 'Times New Roman';" lang="EN-US"><span style="mso-list: Ignore;"><span style="font-size: large;">b)</span><span style="font: 7pt 'Times New Roman';">&nbsp;&nbsp;&nbsp; </span></span></span>**<span style="font-size: 14pt; font-family: &#23435;&#20307;; mso-ascii-font-family: 'Times New Roman'; mso-hansi-font-family: 'Times New Roman';">字符常量</span>**<span style="font-size: 14pt;" lang="EN-US">&nbsp;</span>*
+<p class="MsoNormal" style="margin: 0cm 0cm 0pt; text-indent: 0cm; mso-list: l0 level2 lfo1; tab-stops: list 18.0pt;">*<span style="font-size: 14pt; mso-fareast-font-family: 'Times New Roman';" lang="EN-US"><span style="mso-list: Ignore;"><span style="font-size: large;">b)</span><span style="font: 7pt 'Times New Roman';">    </span></span></span>**<span style="font-size: 14pt; font-family: &#23435;&#20307;; mso-ascii-font-family: 'Times New Roman'; mso-hansi-font-family: 'Times New Roman';">字符常量</span>**<span style="font-size: 14pt;" lang="EN-US"> </span>*
 
 
 *
@@ -800,7 +800,7 @@ category: note
 
 
 
-<p class="MsoNormal" style="margin: 0cm 0cm 0pt 8.9pt; text-indent: -8.9pt; mso-list: l0 level3 lfo1; tab-stops: list 18.0pt; mso-text-indent-alt: 0cm; mso-para-margin-left: .85gd;">*<span style="mso-fareast-font-family: 'Times New Roman';" lang="EN-US"><span style="mso-list: Ignore;"><span style="font: 7pt 'Times New Roman';">&nbsp; </span><span style="font-size: small;">i.</span><span style="font: 7pt 'Times New Roman';">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span></span></span>**<span style="font-size: small;"><span style="font-family: &#23435;&#20307;; mso-ascii-font-family: 'Times New Roman'; mso-hansi-font-family: 'Times New Roman';">转义字符</span><span lang="EN-US">:</span></span>*
+<p class="MsoNormal" style="margin: 0cm 0cm 0pt 8.9pt; text-indent: -8.9pt; mso-list: l0 level3 lfo1; tab-stops: list 18.0pt; mso-text-indent-alt: 0cm; mso-para-margin-left: .85gd;">*<span style="mso-fareast-font-family: 'Times New Roman';" lang="EN-US"><span style="mso-list: Ignore;"><span style="font: 7pt 'Times New Roman';">  </span><span style="font-size: small;">i.</span><span style="font: 7pt 'Times New Roman';">      </span></span></span>**<span style="font-size: small;"><span style="font-family: &#23435;&#20307;; mso-ascii-font-family: 'Times New Roman'; mso-hansi-font-family: 'Times New Roman';">转义字符</span><span lang="EN-US">:</span></span>*
 
 
 *<span style="font-size: small;">
@@ -829,7 +829,7 @@ category: note
 
 
 
-<p class="MsoNormal" style="margin: 0cm 0cm 0pt 21pt;">*<span style="font-size: 10pt; font-family: &#23435;&#20307;;" lang="EN-US">\nnn<span style="font-size: x-small;"><span style="mso-spacerun: yes;">&nbsp;&nbsp; </span></span></span>*
+<p class="MsoNormal" style="margin: 0cm 0cm 0pt 21pt;">*<span style="font-size: 10pt; font-family: &#23435;&#20307;;" lang="EN-US">\nnn<span style="font-size: x-small;"><span style="mso-spacerun: yes;">   </span></span></span>*
 
 
 *<span style="font-size: x-small;">
@@ -946,16 +946,16 @@ category: note
 
 
 
-<p class="MsoNormal" style="margin: 0cm 0cm 0pt 21pt; text-indent: 21pt;"><span lang="EN-US">&nbsp;</span>
+<p class="MsoNormal" style="margin: 0cm 0cm 0pt 21pt; text-indent: 21pt;"><span lang="EN-US"> </span>
 
 
-<span style="font-size: small;">&nbsp;</span>
+<span style="font-size: small;"> </span>
 
 
 
 
 
-<p class="MsoNormal" style="margin: 0cm 0cm 0pt 8.9pt; text-indent: -8.9pt; mso-list: l0 level3 lfo1; tab-stops: list 18.0pt; mso-text-indent-alt: 0cm; mso-para-margin-left: .85gd;">*<span style="mso-fareast-font-family: 'Times New Roman';" lang="EN-US"><span style="mso-list: Ignore;"><span style="font-size: small;">ii.</span><span style="font: 7pt 'Times New Roman';">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span></span></span>**<span style="font-size: small;"><span style="font-family: &#23435;&#20307;; mso-ascii-font-family: 'Times New Roman'; mso-hansi-font-family: 'Times New Roman';">多个字符常量</span><span lang="EN-US">&nbsp;</span></span>*
+<p class="MsoNormal" style="margin: 0cm 0cm 0pt 8.9pt; text-indent: -8.9pt; mso-list: l0 level3 lfo1; tab-stops: list 18.0pt; mso-text-indent-alt: 0cm; mso-para-margin-left: .85gd;">*<span style="mso-fareast-font-family: 'Times New Roman';" lang="EN-US"><span style="mso-list: Ignore;"><span style="font-size: small;">ii.</span><span style="font: 7pt 'Times New Roman';">      </span></span></span>**<span style="font-size: small;"><span style="font-family: &#23435;&#20307;; mso-ascii-font-family: 'Times New Roman'; mso-hansi-font-family: 'Times New Roman';">多个字符常量</span><span lang="EN-US"> </span></span>*
 
 
 *<span style="font-size: small;">
@@ -975,7 +975,7 @@ category: note
 
 
 
-<p class="MsoNormal" style="margin: 0cm 0cm 0pt 8.9pt; mso-para-margin-left: .85gd;"><span style="font-size: 10pt; font-family: &#23435;&#20307;;" lang="EN-US"><span style="font-size: x-small;"><span style="mso-tab-count: 1;">&nbsp; </span>long LL = 'abcd';</span></span>
+<p class="MsoNormal" style="margin: 0cm 0cm 0pt 8.9pt; mso-para-margin-left: .85gd;"><span style="font-size: 10pt; font-family: &#23435;&#20307;;" lang="EN-US"><span style="font-size: x-small;"><span style="mso-tab-count: 1;">  </span>long LL = 'abcd';</span></span>
 
 
 <span style="font-size: x-small;">
@@ -985,7 +985,7 @@ category: note
 
 
 
-<p class="MsoNormal" style="margin: 0cm 0cm 0pt 8.9pt; mso-para-margin-left: .85gd;"><span style="font-size: 10pt; font-family: &#23435;&#20307;;" lang="EN-US"><span style="font-size: x-small;"><span style="mso-tab-count: 1;">&nbsp; </span>printf("%c %c %c %c \n",</span></span>
+<p class="MsoNormal" style="margin: 0cm 0cm 0pt 8.9pt; mso-para-margin-left: .85gd;"><span style="font-size: 10pt; font-family: &#23435;&#20307;;" lang="EN-US"><span style="font-size: x-small;"><span style="mso-tab-count: 1;">  </span>printf("%c %c %c %c \n",</span></span>
 
 
 <span style="font-size: x-small;">
@@ -1013,7 +1013,7 @@ category: note
 
 
 
-<p class="MsoNormal" style="margin: 0cm 0cm 0pt 8.9pt; text-indent: -8.9pt; mso-list: l0 level3 lfo1; tab-stops: list 18.0pt; mso-text-indent-alt: 0cm; mso-para-margin-left: .85gd;">*<span style="mso-fareast-font-family: 'Times New Roman';" lang="EN-US"><span style="mso-list: Ignore;"><span style="font-size: small;">iii.</span><span style="font: 7pt 'Times New Roman';">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span></span></span>**<span style="font-size: small;"><span style="font-family: &#23435;&#20307;; mso-ascii-font-family: 'Times New Roman'; mso-hansi-font-family: 'Times New Roman';">宽字符常量</span><span lang="EN-US">&nbsp;</span></span>*
+<p class="MsoNormal" style="margin: 0cm 0cm 0pt 8.9pt; text-indent: -8.9pt; mso-list: l0 level3 lfo1; tab-stops: list 18.0pt; mso-text-indent-alt: 0cm; mso-para-margin-left: .85gd;">*<span style="mso-fareast-font-family: 'Times New Roman';" lang="EN-US"><span style="mso-list: Ignore;"><span style="font-size: small;">iii.</span><span style="font: 7pt 'Times New Roman';">      </span></span></span>**<span style="font-size: small;"><span style="font-family: &#23435;&#20307;; mso-ascii-font-family: 'Times New Roman'; mso-hansi-font-family: 'Times New Roman';">宽字符常量</span><span lang="EN-US"> </span></span>*
 
 
 *<span style="font-size: small;">
@@ -1033,7 +1033,7 @@ category: note
 
 
 
-<p class="MsoNormal" style="margin: 0cm 0cm 0pt 8.9pt; mso-para-margin-left: .85gd;"><span style="font-size: 10pt; font-family: &#23435;&#20307;;" lang="EN-US">vc6这样定义它: typedef unsigned short<span style="font-size: x-small;"><span style="mso-spacerun: yes;">&nbsp;&nbsp; </span>wchar_t;</span></span>
+<p class="MsoNormal" style="margin: 0cm 0cm 0pt 8.9pt; mso-para-margin-left: .85gd;"><span style="font-size: 10pt; font-family: &#23435;&#20307;;" lang="EN-US">vc6这样定义它: typedef unsigned short<span style="font-size: x-small;"><span style="mso-spacerun: yes;">   </span>wchar_t;</span></span>
 
 
 <span style="font-size: x-small;">
@@ -1053,36 +1053,36 @@ category: note
 
 
 
-<p class="MsoNormal" style="margin: 0cm 0cm 0pt 8.9pt; mso-para-margin-left: .85gd;"><span style="font-size: 10pt; font-family: &#23435;&#20307;;">宽字符常量在窄字符常量前加<span lang="EN-US"><span style="font-size: x-small;">L, 如 L&rsquo;a&rsquo;<span style="mso-spacerun: yes;">&nbsp; </span></span><span style="font-size: x-small;">L&rsquo;9&rsquo;</span></span></span>
+<p class="MsoNormal" style="margin: 0cm 0cm 0pt 8.9pt; mso-para-margin-left: .85gd;"><span style="font-size: 10pt; font-family: &#23435;&#20307;;">宽字符常量在窄字符常量前加<span lang="EN-US"><span style="font-size: x-small;">L, 如 L&rsquo;a&rsquo;<span style="mso-spacerun: yes;">  </span></span><span style="font-size: x-small;">L&rsquo;9&rsquo;</span></span></span>
 
 
-<p class="MsoNormal" style="margin: 0cm 0cm 0pt 8.9pt; mso-para-margin-left: .85gd;"><span style="font-size: 10pt; font-family: &#23435;&#20307;;"><span lang="EN-US"><span style="font-size: x-small;">&nbsp;</span></span></span>
+<p class="MsoNormal" style="margin: 0cm 0cm 0pt 8.9pt; mso-para-margin-left: .85gd;"><span style="font-size: 10pt; font-family: &#23435;&#20307;;"><span lang="EN-US"><span style="font-size: x-small;"> </span></span></span>
 
 
-<span style="font-size: x-small;"><span style="font-size: 13px;"><span style="font-size: small;">*&nbsp;*</span></span></span>
+<span style="font-size: x-small;"><span style="font-size: 13px;"><span style="font-size: small;">* *</span></span></span>
 
 
-&nbsp;
+ 
 
 
 
-<p class="MsoNormal" style="margin: 0cm 0cm 0pt 8.9pt; mso-para-margin-left: .85gd;"><span style="font-size: 10pt; font-family: &#23435;&#20307;;"><span lang="EN-US"><span style="font-size: x-small;">&nbsp;</span></span></span>
+<p class="MsoNormal" style="margin: 0cm 0cm 0pt 8.9pt; mso-para-margin-left: .85gd;"><span style="font-size: 10pt; font-family: &#23435;&#20307;;"><span lang="EN-US"><span style="font-size: x-small;"> </span></span></span>
 
 
-<span style="font-size: x-small;"><span style="font-size: 13px;"><span style="font-size: small;">*二．&nbsp;符号数和无符号数类型转换陷阱*</span>
-&nbsp;&nbsp;&nbsp;一般的数据类型转换原则大家都知道, 但是一些特殊的情况是C语言没有定义的.例如把一个无符号数赋值给有符号数,并且超过了有符号数的范围:
-&nbs &nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;char c = 200;&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; //结果 c == -56
-&nbs &nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;int i = 0xFFFFFFFF;&nbsp; &nbsp; &nbsp; &nbsp; //结果 i == -1
-&nbsp;&nbsp;&nbsp;因为这是未定义行为, 原则上不同的编译器会作出不同的处理, 事实上vc6是使用&rdquo;二进制复制&rdquo;来赋值的,即把200 (0xC8) 这个字节复制到字符c中; 把0xFFFFFFFF四个字节复制到整型i中. 
+<span style="font-size: x-small;"><span style="font-size: 13px;"><span style="font-size: small;">*二． 符号数和无符号数类型转换陷阱*</span>
+   一般的数据类型转换原则大家都知道, 但是一些特殊的情况是C语言没有定义的.例如把一个无符号数赋值给有符号数,并且超过了有符号数的范围:
+              char c = 200;                        //结果 c == -56
+              int i = 0xFFFFFFFF;        //结果 i == -1
+   因为这是未定义行为, 原则上不同的编译器会作出不同的处理, 事实上vc6是使用&rdquo;二进制复制&rdquo;来赋值的,即把200 (0xC8) 这个字节复制到字符c中; 把0xFFFFFFFF四个字节复制到整型i中. 
 
-<span style="font-size: small;">*三．&nbsp;数组初始化*</span>
-&nbsp;&nbsp;&nbsp;int iarr[10] = { 0 };&nbsp;&nbsp;//这样显示初始化第一个元素为0, 然后默认把其他元素初始化为0
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; //总体效果: 将所有元素初始化为0
-&nbsp;&nbsp;&nbsp;int iarr[10] = { [5] = 5, [7] = 1}; //C语言可以指定数组的索引下标进行初始化
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbs//注意C++中不能这么用
-&nbs&nbsp; &nbsp;&nbsp;&nbsp;
+<span style="font-size: small;">*三． 数组初始化*</span>
+   int iarr[10] = { 0 };  //这样显示初始化第一个元素为0, 然后默认把其他元素初始化为0
+                       //总体效果: 将所有元素初始化为0
+   int iarr[10] = { [5] = 5, [7] = 1}; //C语言可以指定数组的索引下标进行初始化
+      //注意C++中不能这么用
+      
 <span style="font-size: small;">*四． 变量长度数组*</span>
-&nbsp;&nbsp;&nbsp;&nbsp;&ldquo;变量长度数组&rdquo;是C99新引入的数组. 我测试发现VC6是不支持这个的，但是GCC支持！我写了这样的测试代码，发现程序居然也支持作为i是负数，而且在负数的情况下，GCC的内存分配虽然怪异(0索引元素作为数组物理内存中的最后一个元素,依次向前排列)，但也是保证正确的(数组/下标/元素地址/指针计算不是产生错误)。
+    &ldquo;变量长度数组&rdquo;是C99新引入的数组. 我测试发现VC6是不支持这个的，但是GCC支持！我写了这样的测试代码，发现程序居然也支持作为i是负数，而且在负数的情况下，GCC的内存分配虽然怪异(0索引元素作为数组物理内存中的最后一个元素,依次向前排列)，但也是保证正确的(数组/下标/元素地址/指针计算不是产生错误)。
 
 </span></span>
 
@@ -1098,27 +1098,27 @@ category: note
 
 void fun(int i)
 {
-&nbs char kk = 'B';
-&nbs char buf[ i ];
-&nbs char mm = 'E';
+  char kk = 'B';
+  char buf[ i ];
+  char mm = 'E';
 
-&nbs printf("size :: %d %x -- %x\n", sizeof(buf), (size_t)buf, (size_t)&buf[i-1]);
-&nbs buf[i-1] = 'a';
-&nbs printf("\t\t\t buf[i-1]:%c\t %x:%c \t %x:%c \n", buf[i-1], (size_t)&kk, kk, (size_t)&mm, mm);
+  printf("size :: %d %x -- %x\n", sizeof(buf), (size_t)buf, (size_t)&buf[i-1]);
+  buf[i-1] = 'a';
+  printf("\t\t\t buf[i-1]:%c\t %x:%c \t %x:%c \n", buf[i-1], (size_t)&kk, kk, (size_t)&mm, mm);
 }
 
 int main(int argc, char * argv[], char * envp[])
 {
-&nbs fun(2);
-&nbs fun(3);
-&nbs fun(4);
-&nbs fun(1);
-&nbs fun(0);
-&nbs fun(-1);
-&nbs fun(-10);
+  fun(2);
+  fun(3);
+  fun(4);
+  fun(1);
+  fun(0);
+  fun(-1);
+  fun(-10);
 }</div>
 <p class="MsoNormal" style="margin: 0cm 0cm 0pt 8.9pt; mso-para-margin-left: .85gd;">GCC安全的为负数长度的数组分配了空间，保证了这种数组的安全使用, 不会影响栈上的其他变量空间。
-&nbs&nbsp; &nbsp;&nbsp;&nbsp;下面是输出：
+      下面是输出：
 
 
 
@@ -1126,42 +1126,42 @@ int main(int argc, char * argv[], char * envp[])
 <div style="float: left;">CODE:</div>
 </div>
 <div id="code2" class="altbg2" style="clear: both; padding-right: 10px; padding-left: 10px; padding-bottom: 10px; margin: 3px 2em 2em; padding-top: 5px; font-family: fixedsys; border: #698cc3 1px solid;">size :: 2 bfbfec50 -- bfbfec51
-&nbs&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp; buf[i-1]:a&nbsp; &nbsp;&nbsp; &nbsp;bfbfec7f:B&nbsp; &nbsp;&nbsp; &nbsp;bfbfec7e:E
+                       buf[i-1]:a      bfbfec7f:B      bfbfec7e:E
 size :: 3 bfbfec50 -- bfbfec52
-&nbs&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp; buf[i-1]:a&nbsp; &nbsp;&nbsp; &nbsp;bfbfec7f:B&nbsp; &nbsp;&nbsp; &nbsp;bfbfec7e:E
+                       buf[i-1]:a      bfbfec7f:B      bfbfec7e:E
 size :: 4 bfbfec50 -- bfbfec53
-&nbs&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp; buf[i-1]:a&nbsp; &nbsp;&nbsp; &nbsp;bfbfec7f:B&nbsp; &nbsp;&nbsp; &nbsp;bfbfec7e:E
+                       buf[i-1]:a      bfbfec7f:B      bfbfec7e:E
 size :: 1 bfbfec60 -- bfbfec60
-&nbs&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp; buf[i-1]:a&nbsp; &nbsp;&nbsp; &nbsp;bfbfec7f:B&nbsp; &nbsp;&nbsp; &nbsp;bfbfec7e:E
+                       buf[i-1]:a      bfbfec7f:B      bfbfec7e:E
 size :: 0 bfbfec60 -- bfbfec5f
-&nbs&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp; buf[i-1]:a&nbsp; &nbsp;&nbsp; &nbsp;bfbfec7f:B&nbsp; &nbsp;&nbsp; &nbsp;bfbfec7e:E
+                       buf[i-1]:a      bfbfec7f:B      bfbfec7e:E
 size :: -1 bfbfec60 -- bfbfec5e
-&nbs&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp; buf[i-1]:a&nbsp; &nbsp;&nbsp; &nbsp;bfbfec7f:B&nbsp; &nbsp;&nbsp; &nbsp;bfbfec7e:E
+                       buf[i-1]:a      bfbfec7f:B      bfbfec7e:E
 size :: -10 bfbfec60 -- bfbfec55
-&nbs&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp; buf[i-1]:&nbsp; &nbsp;&nbsp; &nbsp; bfbfec7f:B&nbsp; &nbsp;&nbsp; &nbsp;bfbfec7e:E</div>
+                       buf[i-1]:       bfbfec7f:B      bfbfec7e:E</div>
 <p class="MsoNormal" style="margin: 0cm 0cm 0pt 8.9pt; mso-para-margin-left: .85gd;">我估计这种不通用的东西产品里应该很少用。尽量避免使用，以增强移植性。
 
-&nbs&nbsp; &nbsp;&nbsp;&nbsp;至于数组长度是负数的情况，我是这么想的：
-&nbs&nbsp; &nbsp;&nbsp;&nbsp;GCC就像数学家发现自然数后又发现了负数那样，GCC为人们实现了负数数组长度，并告诉我们数组长度也可以是负数。至于负数有什么物理意义，数学家先不管了；数组长度负数有什么实际意义，Gcc就不管了,它只是保证了正确的实现。 
+      至于数组长度是负数的情况，我是这么想的：
+      GCC就像数学家发现自然数后又发现了负数那样，GCC为人们实现了负数数组长度，并告诉我们数组长度也可以是负数。至于负数有什么物理意义，数学家先不管了；数组长度负数有什么实际意义，Gcc就不管了,它只是保证了正确的实现。 
 
-<span style="font-size: small;">*五．&nbsp;结构的初始化*</span>
-&nbsp;&nbsp;&nbsp;结构的初始化尽管可以这样:
+<span style="font-size: small;">*五． 结构的初始化*</span>
+   结构的初始化尽管可以这样:
 
 
 
 <div class="smalltxt" style="font-weight: bold; margin-left: 2em; margin-right: 2em;">
 <div style="float: left;">CODE:</div>
 </div>
-<div id="code3" class="altbg2" style="clear: both; padding-right: 10px; padding-left: 10px; padding-bottom: 10px; margin: 3px 2em 2em; padding-top: 5px; font-family: fixedsys; border: #698cc3 1px solid;">&nbs &nbsp; &nbsp; typedef struct 
-&nbs &nbsp; &nbsp; {
-&nbs &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; int a;
-&nbs &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; char buf[10];
-&nbs &nbsp; &nbsp; } Recode;
+<div id="code3" class="altbg2" style="clear: both; padding-right: 10px; padding-left: 10px; padding-bottom: 10px; margin: 3px 2em 2em; padding-top: 5px; font-family: fixedsys; border: #698cc3 1px solid;">      typedef struct 
+      {
+              int a;
+              char buf[10];
+      } Recode;
 
-&nbs &nbsp; &nbsp; Recode rr = {
-&nbs &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; 10, 
-&nbs &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; {'0','1','2','3','4'} 
-&nbs &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; };</div>
+      Recode rr = {
+              10, 
+              {'0','1','2','3','4'} 
+              };</div>
 <p class="MsoNormal" style="margin: 0cm 0cm 0pt 8.9pt; mso-para-margin-left: .85gd;">但是这样的隐患是初始化时必须牢记结构成员的顺序, 而且不利于结构声明以后的修改. 如果编译器支持,最好使用下面的形式:
 
 
@@ -1169,17 +1169,17 @@ size :: -10 bfbfec60 -- bfbfec55
 <div class="smalltxt" style="font-weight: bold; margin-left: 2em; margin-right: 2em;">
 <div style="float: left;">CODE:</div>
 </div>
-<div id="code4" class="altbg2" style="clear: both; padding-right: 10px; padding-left: 10px; padding-bottom: 10px; margin: 3px 2em 2em; padding-top: 5px; font-family: fixedsys; border: #698cc3 1px solid;">&nbs &nbsp; &nbsp; Recode rr = {
-&nbs &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; .a = 10, 
-&nbs &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; .buf = {'0','1','2','3','4'} 
-&nbs &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; };</div>
-<p class="MsoNormal" style="margin: 0cm 0cm 0pt 8.9pt; mso-para-margin-left: .85gd;"><span style="font-size: small;">*六．&nbsp;0长度数组*</span>
+<div id="code4" class="altbg2" style="clear: both; padding-right: 10px; padding-left: 10px; padding-bottom: 10px; margin: 3px 2em 2em; padding-top: 5px; font-family: fixedsys; border: #698cc3 1px solid;">      Recode rr = {
+              .a = 10, 
+              .buf = {'0','1','2','3','4'} 
+              };</div>
+<p class="MsoNormal" style="margin: 0cm 0cm 0pt 8.9pt; mso-para-margin-left: .85gd;"><span style="font-size: small;">*六． 0长度数组*</span>
 
-&nbsp;&nbsp;&nbsp;0长度数组是个奇怪的东西, 下面的代码(两种形式之一)是可以通过编译的. 
-&nbs &nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;char buf[];
-&nbsp;&nbsp;&nbsp;或者
-&nbs &nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;char buf[0];
-&nbsp;&nbsp;&nbsp;有什么用处呢? 大家知道数组名其实是数组所在内存的首地址, *<span style="color: red;">那么0长度数组的名字,其实是在内存某个地方中作了一个标记, 在适合的时候将这个标记后面的一段内存作为这个数组的内容.</span>* 貌似数组下标溢出了,但是善于利用这点可以实现一个&rdquo;变长&rdquo;结构体.
+   0长度数组是个奇怪的东西, 下面的代码(两种形式之一)是可以通过编译的. 
+              char buf[];
+   或者
+              char buf[0];
+   有什么用处呢? 大家知道数组名其实是数组所在内存的首地址, *<span style="color: red;">那么0长度数组的名字,其实是在内存某个地方中作了一个标记, 在适合的时候将这个标记后面的一段内存作为这个数组的内容.</span>* 貌似数组下标溢出了,但是善于利用这点可以实现一个&rdquo;变长&rdquo;结构体.
 
 *例如下面的代码:*
 
@@ -1195,66 +1195,66 @@ size :: -10 bfbfec60 -- bfbfec55
 static const size_t def_name_len = 32 ;
 typedef struct __Name
 {
-&nbs &nbsp; &nbsp; size_t index;
-&nbs &nbsp; &nbsp; size_t len;
-&nbs &nbsp; &nbsp; char buf[0];
+      size_t index;
+      size_t len;
+      char buf[0];
 } Name, *PName ;
 
 Name * createName(size_t index, const char * strname)
 {
-&nbs &nbsp; &nbsp; size_t len;&nbsp; &nbsp; &nbsp; &nbsp; 
-&nbs &nbsp; &nbsp; PName pname = NULL;
-&nbs &nbsp; &nbsp; 
-&nbs &nbsp; &nbsp; if (strname == NULL)
-&nbs &nbsp; &nbsp; {
-&nbs &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; len = def_name_len;
-&nbs &nbsp; &nbsp; }&nbsp; &nbsp; &nbsp; &nbsp; 
-&nbs &nbsp; &nbsp; else
-&nbs &nbsp; &nbsp; {
-&nbs &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; len = strlen(strname);
-&nbs &nbsp; &nbsp; }
-&nbs &nbsp; &nbsp; 
-&nbs &nbsp; &nbsp; pname = (PName) malloc( sizeof(Name) + len + 1);&nbsp;&nbsp;
-&nbs &nbsp; &nbsp; 
-&nbs &nbsp; &nbsp; if(pname == NULL) return NULL;
+      size_t len;        
+      PName pname = NULL;
+      
+      if (strname == NULL)
+      {
+              len = def_name_len;
+      }        
+      else
+      {
+              len = strlen(strname);
+      }
+      
+      pname = (PName) malloc( sizeof(Name) + len + 1);  
+      
+      if(pname == NULL) return NULL;
 
-&nbs &nbsp; &nbsp; pname->index = index;
-&nbs &nbsp; &nbsp; pname->len = len;
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; pname->buf[0] = '\0';
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (strname)&nbsp; strncpy(pname->buf, strname, len+1);
-&nbs &nbsp; &nbsp; return pname;
+      pname->index = index;
+      pname->len = len;
+        pname->buf[0] = '\0';
+        if (strname)  strncpy(pname->buf, strname, len+1);
+      return pname;
 }
 
 void freeName(PName pname)
 {
-&nbs &nbsp; &nbsp; if(pname == NULL) return;
-&nbs &nbsp; &nbsp; free(pname);
-&nbs &nbsp; &nbsp; pname = NULL;
+      if(pname == NULL) return;
+      free(pname);
+      pname = NULL;
 }
 
 int main()
 {
-&nbs &nbsp; &nbsp; int i;
+      int i;
 
-&nbs &nbsp; &nbsp; PName namelist[4] = {
-&nbs &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; createName(1, "name1"),
-&nbs &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; createName(2, "name2"),
-&nbs &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; createName(3, "name3"),
-&nbs &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; createName(4, "name4"),
-&nbs &nbsp; &nbsp; };
-&nbs &nbsp; &nbsp; 
-&nbs &nbsp; &nbsp; for(i=0; i<4; ++i)
-&nbs &nbsp; &nbsp; {
-&nbs &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; if(namelist[i])
-&nbs &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; printf("index %u \t name: %s \n", namelist[i]->index, namelist[i]->buf);
-&nbs &nbsp; &nbsp; }
-&nbs &nbsp; &nbsp; for(i=0; i<4; ++i)
-&nbs &nbsp; &nbsp; {
-&nbs &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; freeName(namelist[i]);
-&nbs &nbsp; &nbsp; }
-&nbs &nbsp; &nbsp; return 0;
+      PName namelist[4] = {
+              createName(1, "name1"),
+              createName(2, "name2"),
+              createName(3, "name3"),
+              createName(4, "name4"),
+      };
+      
+      for(i=0; i<4; ++i)
+      {
+              if(namelist[i])
+                      printf("index %u \t name: %s \n", namelist[i]->index, namelist[i]->buf);
+      }
+      for(i=0; i<4; ++i)
+      {
+              freeName(namelist[i]);
+      }
+      return 0;
 }</div>
-<p class="MsoNormal" style="margin: 0cm 0cm 0pt 8.9pt; mso-para-margin-left: .85gd;">struct __Name有三个成员size_t index; size_t len; char buf[0]; 但是sizeof(Name)的结果是8, 为什么呢?因为上面说了,&rdquo; *_0长度数组的名字,其实是在内存某个地方中作了一个标记_*&rdquo;, 所以不占空间, 上面代码中的pname = (PName) malloc( sizeof(Name) + len + 1);&nbsp;&nbsp;一行,申请了一个Name结构体变量,然后这块内存后面紧跟了一块长len+1的内存,所以我们就可以用buf[0..len]来访问这段内存了. 图示如下:
+<p class="MsoNormal" style="margin: 0cm 0cm 0pt 8.9pt; mso-para-margin-left: .85gd;">struct __Name有三个成员size_t index; size_t len; char buf[0]; 但是sizeof(Name)的结果是8, 为什么呢?因为上面说了,&rdquo; *_0长度数组的名字,其实是在内存某个地方中作了一个标记_*&rdquo;, 所以不占空间, 上面代码中的pname = (PName) malloc( sizeof(Name) + len + 1);  一行,申请了一个Name结构体变量,然后这块内存后面紧跟了一块长len+1的内存,所以我们就可以用buf[0..len]来访问这段内存了. 图示如下:
 
 
 
@@ -1262,14 +1262,14 @@ int main()
 <div style="float: left;">CODE:</div>
 </div>
 <div id="code6" class="altbg2" style="clear: both; padding-right: 10px; padding-left: 10px; padding-bottom: 10px; margin: 3px 2em 2em; padding-top: 5px; font-family: fixedsys; border: #698cc3 1px solid;">-------------------------------------------------------------------------
-|&nbsp;&nbsp;index (4byte) | len (4byte)&nbsp;&nbsp;|<------- len+1 byte -------->|
+|  index (4byte) | len (4byte)  |<------- len+1 byte -------->|
 -------------------------------------------------------------------------
-| <----------Name-------------->|&nbs&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;
-&nbs&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;|<-----buf[len+1] ------------|</div>
-<p class="MsoNormal" style="margin: 0cm 0cm 0pt 8.9pt; mso-para-margin-left: .85gd;">&nbsp;&nbsp;&nbsp; 可见, 原理用一句话来总结,就是*利用数组下标&rdquo;故意&rdquo;溢出来访问数组首地址后的内存*.
+| <----------Name-------------->|                   
+                              |<-----buf[len+1] ------------|</div>
+<p class="MsoNormal" style="margin: 0cm 0cm 0pt 8.9pt; mso-para-margin-left: .85gd;">    可见, 原理用一句话来总结,就是*利用数组下标&rdquo;故意&rdquo;溢出来访问数组首地址后的内存*.
 
 *再找一个实际应用的例子:*
-&nbsp;&nbsp;&nbsp;在MS GDIPlus 提供的类库中,有这样一个结构体来表示调色板数据
+   在MS GDIPlus 提供的类库中,有这样一个结构体来表示调色板数据
 
 
 
@@ -1277,9 +1277,9 @@ int main()
 <div style="float: left;">CODE:</div>
 </div>
 <div id="code7" class="altbg2" style="clear: both; padding-right: 10px; padding-left: 10px; padding-bottom: 10px; margin: 3px 2em 2em; padding-top: 5px; font-family: fixedsys; border: #698cc3 1px solid;">typedef struct {
-&nbs UINT Flags;
-&nbs UINT Count; //下面数组Entries的实际元素数
-&nbs ARGB Entries[1]; //只包含一个元素的数组,用法类似0长度数组
+  UINT Flags;
+  UINT Count; //下面数组Entries的实际元素数
+  ARGB Entries[1]; //只包含一个元素的数组,用法类似0长度数组
 } ColorPalette;</div>
 <p class="MsoNormal" style="margin: 0cm 0cm 0pt 8.9pt; mso-para-margin-left: .85gd;">下面的代码使用GetPalette函数得到一个ColorPalette结构体
 
@@ -1288,31 +1288,31 @@ int main()
 <div class="smalltxt" style="font-weight: bold; margin-left: 2em; margin-right: 2em;">
 <div style="float: left;">CODE:</div>
 </div>
-<div id="code8" class="altbg2" style="clear: both; padding-right: 10px; padding-left: 10px; padding-bottom: 10px; margin: 3px 2em 2em; padding-top: 5px; font-family: fixedsys; border: #698cc3 1px solid;">&nbsUINT size = image->GetPaletteSize();//ColorPalette结构体的实际长度.
-&nbsprintf("The size of the palette is %d bytes.\n", size);
-&nbsColorPalette* palette = (ColorPalette*)malloc(size); //一块内存
-&nbsimage->GetPalette(palette, size); 
-&nbsif(size > 0)
-&nbs{
-&nbs&nbsp; &nbsp;printf("There are %u colors in the palette.\n", palette->Count);
-&nbs&nbsp; &nbsp;printf("The first five colors in the palette are as follows:\n");
-&nbs&nbsp; &nbsp;for(INT j = 0; j < palette->Count; ++j)
-&nbs&nbsp; &nbsp;&nbsp; &nbsp;printf("%x\n", palette->Entries[j]);
-&nbs}</div>
+<div id="code8" class="altbg2" style="clear: both; padding-right: 10px; padding-left: 10px; padding-bottom: 10px; margin: 3px 2em 2em; padding-top: 5px; font-family: fixedsys; border: #698cc3 1px solid;"> UINT size = image->GetPaletteSize();//ColorPalette结构体的实际长度.
+ rintf("The size of the palette is %d bytes.\n", size);
+ ColorPalette* palette = (ColorPalette*)malloc(size); //一块内存
+ image->GetPalette(palette, size); 
+ if(size > 0)
+ {
+    printf("There are %u colors in the palette.\n", palette->Count);
+    printf("The first five colors in the palette are as follows:\n");
+    for(INT j = 0; j < palette->Count; ++j)
+       printf("%x\n", palette->Entries[j]);
+ }</div>
 <p class="MsoNormal" style="margin: 0cm 0cm 0pt 8.9pt; mso-para-margin-left: .85gd;">未完待续, 书上还画了很多地方,看来明天还要继续总结了...
 
 
-<p class="MsoNormal" style="margin: 0cm 0cm 0pt 42pt;"><span lang="EN-US">&nbsp;</span>
+<p class="MsoNormal" style="margin: 0cm 0cm 0pt 42pt;"><span lang="EN-US"> </span>
 
 
-<span style="font-size: small;">&nbsp;</span>
+<span style="font-size: small;"> </span>
 
 
-&nbsp;
+ 
 
 
 
-<p class="MsoNormal" style="margin: 0cm 0cm 0pt 42pt;"><span lang="EN-US">&nbsp;</span>
+<p class="MsoNormal" style="margin: 0cm 0cm 0pt 42pt;"><span lang="EN-US"> </span>
 
 
 

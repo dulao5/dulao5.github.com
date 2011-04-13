@@ -30,7 +30,7 @@ dom level 1: http://www.w3.org/TR/2000/WD-DOM-Level-1-20000929/level-one-html.ht
 //向table追加一个空行：
  var otr = otable.insertRow(-1);
  var otd = document.createElement("td");
- otd.innerHTML = "&nbsp;"; 
+ otd.innerHTML = " "; 
  otd.className = "XXXX"; 
  otr.appendChild(otd); 
 

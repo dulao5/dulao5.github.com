@@ -14,88 +14,88 @@ category: note
 #include <memory.h>
 
 #ifdef WIN32
-&nbs #include <windows.h>
+  #include <windows.h>
 #else
-&nbs #include<sys/time.h>
-&nbs #include<unistd.h>
+  #include<sys/time.h>
+  #include<unistd.h>
 #endif
 
 double get_time_ms()
 {
 #ifdef WIN32
-&nbs return (double)GetTickCount();
+  return (double)GetTickCount();
 #else
-&nbs struct timeval tv;
-&nbs struct timezone tz;
-&nbs gettimeofday (&tv , &tz);
-&nbs return tv.tv_sec * 1000 + tv.tv_usec / 1000 ;
+  struct timeval tv;
+  struct timezone tz;
+  gettimeofday (&tv , &tz);
+  return tv.tv_sec * 1000 + tv.tv_usec / 1000 ;
 #endif
 }
 
 //这是微软公开的crt src文件夹内的源代码:
 void * memcpy_1 (void * dst, void * src , size_t n)
 {
-&nbs void * ret = dst;
-&nbs while (n--) {
-&nbs&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;*(char *)dst = *(char *)src;
-&nbs&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;dst = (char *)dst + 1;
-&nbs&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;src = (char *)src + 1;
-&nbs }
-&nbs return ret;
+  void * ret = dst;
+  while (n--) {
+          *(char *)dst = *(char *)src;
+          dst = (char *)dst + 1;
+          src = (char *)src + 1;
+  }
+  return ret;
 }
 
 
 //这是我写的,按照最近流行的优化方式做的
 void * memcpy_2 (void * dst, void * src , size_t n)
 {
-&nbs void * ret = dst;
-&nbs size_t l = n>>2;
-&nbs while (l--) {
-&nbs&nbsp; &nbsp;&nbsp;&nbsp;*(size_t *)dst = *(size_t *)src;
-&nbs&nbsp; &nbsp;&nbsp;&nbsp;dst = (size_t *)dst + 1;
-&nbs&nbsp; &nbsp;&nbsp;&nbsp;src = (size_t *)src + 1;
-&nbs }
-&nbs l = n & 3;
-&nbs while (l--) {
-&nbs&nbsp; &nbsp;&nbsp;&nbsp;*(char *)dst = *(char *)src;
-&nbs&nbsp; &nbsp;&nbsp;&nbsp;dst = (char *)dst + 1;
-&nbs&nbsp; &nbsp;&nbsp;&nbsp;src = (char *)src + 1;
-&nbs }
-&nbs return ret;
+  void * ret = dst;
+  size_t l = n>>2;
+  while (l--) {
+      *(size_t *)dst = *(size_t *)src;
+      dst = (size_t *)dst + 1;
+      src = (size_t *)src + 1;
+  }
+  l = n & 3;
+  while (l--) {
+      *(char *)dst = *(char *)src;
+      dst = (char *)dst + 1;
+      src = (char *)src + 1;
+  }
+  return ret;
 }
 
 void main(int argc, char ** argv)
 {
-&nbs const int cstMemSize = 0x2FFFFFF;
+  const int cstMemSize = 0x2FFFFFF;
 
-&nbs if(argc<2)
-&nbs {
-&nbs&nbsp; &nbsp;&nbsp;&nbsp;printf("请输入参数 [ 0 | 1 | 2 | 3] ");
-&nbs&nbsp; &nbsp;&nbsp;&nbsp;return ;
-&nbs }
+  if(argc<2)
+  {
+      printf("请输入参数 [ 0 | 1 | 2 | 3] ");
+      return ;
+  }
 
-&nbs char * str&nbsp;&nbsp;= (char*)malloc(cstMemSize);
-&nbs char * str2 = (char*)malloc(cstMemSize+16);
+  char * str  = (char*)malloc(cstMemSize);
+  char * str2 = (char*)malloc(cstMemSize+16);
 
-&nbs size_t t1 = get_time_ms();
+  size_t t1 = get_time_ms();
 
-&nbs switch(argv[1][0])
-&nbs {
-&nbs&nbsp; &nbsp;&nbsp;&nbsp;case '0': memcpy(str, str2, cstMemSize );
-&nbs&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;break;
-&nbs&nbsp; &nbsp;&nbsp;&nbsp;case '1': memcpy_1(str, str2, cstMemSize );
-&nbs&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;break;
-&nbs&nbsp; &nbsp;&nbsp;&nbsp;case '2': memcpy_2(str, str2, cstMemSize );
-&nbs&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;break;
-&nbs&nbsp; &nbsp;&nbsp;&nbsp;case '3': memcpy_2(str, str2+1, cstMemSize );&nbsp;&nbsp;//考虑字节不对齐的情况
-&nbs&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;break;
-&nbs }
-&nbs 
-&nbs 
-&nbs double t2 = get_time_ms();
-&nbs free(str);
-&nbs free(str2);
-&nbs printf("memset_%c %f\n", argv[1][0] ,t2-t1);
+  switch(argv[1][0])
+  {
+      case '0': memcpy(str, str2, cstMemSize );
+          break;
+      case '1': memcpy_1(str, str2, cstMemSize );
+          break;
+      case '2': memcpy_2(str, str2, cstMemSize );
+          break;
+      case '3': memcpy_2(str, str2+1, cstMemSize );  //考虑字节不对齐的情况
+          break;
+  }
+  
+  
+  double t2 = get_time_ms();
+  free(str);
+  free(str2);
+  printf("memset_%c %f\n", argv[1][0] ,t2-t1);
 
 }</div>
 在windows xp/vc6环境下:
@@ -108,6 +108,6 @@ void main(int argc, char ** argv)
 在gcc/freebsd环境下,如果未加优化参数-O2,case '3'的情况速度更慢.我怀疑可能是字节不对齐带来的恶果.
 不过,当开启了-O2后,4个case的测试时间差不多了.但是还是gcc自己的memset函数最快.
 
-我现在怀疑,象(int *)这样的奇技淫巧如果使用不当,带来的效果不明显,还不如不用.现实情况是复杂的,编译器比我考虑的多的多.</span><span style="font-size: small;">&nbsp;</span>
+我现在怀疑,象(int *)这样的奇技淫巧如果使用不当,带来的效果不明显,还不如不用.现实情况是复杂的,编译器比我考虑的多的多.</span><span style="font-size: small;"> </span>
 
 

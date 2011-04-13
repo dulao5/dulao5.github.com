@@ -8,26 +8,26 @@ category: php
 
 
 <?php
-&nbsp;ob_start();
-&nbsp;?>
-&nbsp;<html>
-&nbsp;<body>
-&nbsp;<p>It's like comparing apples to oranges.</p>
-&nbsp;<?
-&nbsp;ob_start();
-&nbsp;print("{{{{{{{{}}}}}}}}}}");
-&nbsp;$str2 = ob_get_contents();
-&nbsp;ob_end_clean();
+ ob_start();
+ ?>
+ <html>
+ <body>
+ <p>It's like comparing apples to oranges.</p>
+ <?
+ ob_start();
+ print("{{{{{{{{}}}}}}}}}}");
+ $str2 = ob_get_contents();
+ ob_end_clean();
 
 
 ?>
 
 
 </body>
-&nbsp;</html>
-&nbsp;<?php
-&nbsp;$str1 = ob_get_contents();
-&nbsp;ob_end_clean();
+ </html>
+ <?php
+ $str1 = ob_get_contents();
+ ob_end_clean();
 
 
 var_dump($str1);

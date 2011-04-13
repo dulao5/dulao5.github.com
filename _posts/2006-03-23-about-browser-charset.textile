@@ -4,7 +4,7 @@ title: 进一步确认一点，浏览器提交的字符编码由客户端的char
 category: front-end
 ---
 
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 可以用下面的代码测试，在文本框中输入&ldquo;汉字&rdquo;，在浏览器选择不同的当前字符集，然后提交，可以看到：
+         可以用下面的代码测试，在文本框中输入&ldquo;汉字&rdquo;，在浏览器选择不同的当前字符集，然后提交，可以看到：
 
 
 <blockquote style="margin-right: 0px;" dir="ltr">
@@ -35,7 +35,7 @@ category: front-end
 <table style="width: 320px; border-collapse: collapse;" border="1" cellspacing="0" cellpadding="3">
 <tbody>
 
-|<!--startfragment -->&nbsp;text
+|<!--startfragment --> text
 186,186,215,214,
 |
 
@@ -57,7 +57,7 @@ category: front-end
 <p style="margin-right: 0px;" dir="ltr"><!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
 <html>
 <head>
-<title>&nbsp; </title>
+<title>  </title>
 </head>
 
 
@@ -66,13 +66,13 @@ category: front-end
 <?php
 if(count($_POST))
 {
-&nbsp;&nbsp;&nbsp; foreach($_POST as $key=>$item)
-&nbsp;&nbsp;&nbsp; {
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; echo($key."\n");
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; for($i = 0 ; $i<strlen($item); $i++)
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; echo(ord($item{$i}).",");
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; echo("\n");
-&nbsp;&nbsp;&nbsp; }
+    foreach($_POST as $key=>$item)
+    {
+        echo($key."\n");
+        for($i = 0 ; $i<strlen($item); $i++)
+            echo(ord($item{$i}).",");
+        echo("\n");
+    }
 }
 
 

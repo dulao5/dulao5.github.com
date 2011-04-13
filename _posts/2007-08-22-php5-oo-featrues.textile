@@ -10,7 +10,7 @@ category: php
 
 
 <ul dir="ltr">
-<li><span style="font-size: 14pt;">*This&nbsp;伪变量。* </span></li>
+<li><span style="font-size: 14pt;">*This 伪变量。* </span></li>
 </ul>
 <blockquote dir="ltr">
 从PHP手册中看到这样一句话，一开始有些不理解。
@@ -44,38 +44,38 @@ $this 是一个到调用对象（通常是方法所属于的对象，但也可�
 <tbody>
 
 |@<span style="color: #000000;"><span style="color: #0000bb;"><?php
-&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="color: #007700;">class&nbsp;</span><span style="color: #0000bb;">ClassB</span><span style="color: #007700;">{
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;const&nbsp;</span><span style="color: #0000bb;">NAME&nbsp;</span><span style="color: #007700;">=&nbsp;</span><span style="color: #dd0000;">"Class&nbsp;B"</span><span style="color: #007700;">;
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;public&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="color: #0000bb;">$a&nbsp;</span><span style="color: #007700;">=&nbsp;</span><span style="color: #0000bb;">ClassB</span><span style="color: #007700;">::</span><span style="color: #0000bb;">NAME</span><span style="color: #007700;">;
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;public&nbsp;function&nbsp;</span><span style="color: #0000bb;">foo</span><span style="color: #007700;">(){
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;echo&nbsp;</span><span style="color: #0000bb;">$this</span><span style="color: #007700;">-></span><span style="color: #0000bb;">a</span><span style="color: #007700;">.</span><span style="color: #dd0000;">"::&nbsp;foo&nbsp;call\n"</span><span style="color: #007700;">;
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;echo&nbsp;</span><span style="color: #dd0000;">"'this'&nbsp;is&nbsp;a&nbsp;{$this->a}&nbsp;object\n"</span><span style="color: #007700;">;
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
-&nbsp;&nbsp;&nbsp;&nbsp;};
-&nbsp;&nbsp;&nbsp;&nbsp;
-&nbsp;&nbsp;&nbsp;&nbsp;class&nbsp;</span><span style="color: #0000bb;">ClassA</span><span style="color: #007700;">{
-&nbsp;&nbsp;&nbsp;&nbsp;
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;const&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="color: #0000bb;">NAME&nbsp;</span><span style="color: #007700;">=&nbsp;</span><span style="color: #dd0000;">"class&nbsp;A"</span><span style="color: #007700;">;
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;public&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="color: #0000bb;">$a&nbsp;</span><span style="color: #007700;">=&nbsp;</span><span style="color: #0000bb;">ClassA</span><span style="color: #007700;">::</span><span style="color: #0000bb;">NAME</span><span style="color: #007700;">;
+    </span><span style="color: #007700;">class </span><span style="color: #0000bb;">ClassB</span><span style="color: #007700;">{
+        const </span><span style="color: #0000bb;">NAME </span><span style="color: #007700;">= </span><span style="color: #dd0000;">"Class B"</span><span style="color: #007700;">;
+        public    </span><span style="color: #0000bb;">$a </span><span style="color: #007700;">= </span><span style="color: #0000bb;">ClassB</span><span style="color: #007700;">::</span><span style="color: #0000bb;">NAME</span><span style="color: #007700;">;
+        public function </span><span style="color: #0000bb;">foo</span><span style="color: #007700;">(){
+            echo </span><span style="color: #0000bb;">$this</span><span style="color: #007700;">-></span><span style="color: #0000bb;">a</span><span style="color: #007700;">.</span><span style="color: #dd0000;">":: foo call\n"</span><span style="color: #007700;">;
+            echo </span><span style="color: #dd0000;">"'this' is a {$this->a} object\n"</span><span style="color: #007700;">;
+        }
+    };
+    
+    class </span><span style="color: #0000bb;">ClassA</span><span style="color: #007700;">{
+    
+        const    </span><span style="color: #0000bb;">NAME </span><span style="color: #007700;">= </span><span style="color: #dd0000;">"class A"</span><span style="color: #007700;">;
+        public    </span><span style="color: #0000bb;">$a </span><span style="color: #007700;">= </span><span style="color: #0000bb;">ClassA</span><span style="color: #007700;">::</span><span style="color: #0000bb;">NAME</span><span style="color: #007700;">;
 
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;public&nbsp;function&nbsp;</span><span style="color: #0000bb;">createB</span><span style="color: #007700;">(){
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;return&nbsp;new&nbsp;</span><span style="color: #0000bb;">ClassB</span><span style="color: #007700;">();
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;public&nbsp;&nbsp;function&nbsp;</span><span style="color: #0000bb;">foo</span><span style="color: #007700;">(){
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;echo&nbsp;</span><span style="color: #0000bb;">$this</span><span style="color: #007700;">-></span><span style="color: #0000bb;">a</span><span style="color: #007700;">.</span><span style="color: #dd0000;">"::&nbsp;foo&nbsp;call\n"</span><span style="color: #007700;">;
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;echo&nbsp;</span><span style="color: #dd0000;">"\n\nCall&nbsp;a&nbsp;object&nbsp;function\n"</span><span style="color: #007700;">;
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="color: #0000bb;">$this</span><span style="color: #007700;">-></span><span style="color: #0000bb;">createB</span><span style="color: #007700;">()-></span><span style="color: #0000bb;">foo</span><span style="color: #007700;">();
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;echo&nbsp;</span><span style="color: #dd0000;">"\n\n&nbsp;function&nbsp;called&nbsp;statically&nbsp;\n"</span><span style="color: #007700;">;
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="color: #0000bb;">ClassB</span><span style="color: #007700;">::</span><span style="color: #0000bb;">foo</span><span style="color: #007700;">();
+        public function </span><span style="color: #0000bb;">createB</span><span style="color: #007700;">(){
+            return new </span><span style="color: #0000bb;">ClassB</span><span style="color: #007700;">();
+        }
+        
+        public  function </span><span style="color: #0000bb;">foo</span><span style="color: #007700;">(){
+            echo </span><span style="color: #0000bb;">$this</span><span style="color: #007700;">-></span><span style="color: #0000bb;">a</span><span style="color: #007700;">.</span><span style="color: #dd0000;">":: foo call\n"</span><span style="color: #007700;">;
+            
+            echo </span><span style="color: #dd0000;">"\n\nCall a object function\n"</span><span style="color: #007700;">;
+            </span><span style="color: #0000bb;">$this</span><span style="color: #007700;">-></span><span style="color: #0000bb;">createB</span><span style="color: #007700;">()-></span><span style="color: #0000bb;">foo</span><span style="color: #007700;">();
+            
+            echo </span><span style="color: #dd0000;">"\n\n function called statically \n"</span><span style="color: #007700;">;
+            </span><span style="color: #0000bb;">ClassB</span><span style="color: #007700;">::</span><span style="color: #0000bb;">foo</span><span style="color: #007700;">();
 
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
-&nbsp;&nbsp;&nbsp;&nbsp;}
+        }
+    }
 
-&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="color: #0000bb;">$A&nbsp;</span><span style="color: #007700;">=&nbsp;new&nbsp;</span><span style="color: #0000bb;">ClassA</span><span style="color: #007700;">();
-&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="color: #0000bb;">$A</span><span style="color: #007700;">-></span><span style="color: #0000bb;">foo</span><span style="color: #007700;">();
+    </span><span style="color: #0000bb;">$A </span><span style="color: #007700;">= new </span><span style="color: #0000bb;">ClassA</span><span style="color: #007700;">();
+    </span><span style="color: #0000bb;">$A</span><span style="color: #007700;">-></span><span style="color: #0000bb;">foo</span><span style="color: #007700;">();
 
 </span><span style="color: #0000bb;">?>
 </span></span>@
@@ -100,7 +100,7 @@ $this 是一个到调用对象（通常是方法所属于的对象，但也可�
 </li>
 </ul>
 <blockquote style="margin-right: 0px;" dir="ltr">
-上面的特性--&nbsp;*<span style="text-decoration: underline;">在方法被静态调用的上下文环境中，this是调用者的引用</span>*，这个特性可以应用到多级继承时，提供子类访问基类的途径：
+上面的特性-- *<span style="text-decoration: underline;">在方法被静态调用的上下文环境中，this是调用者的引用</span>*，这个特性可以应用到多级继承时，提供子类访问基类的途径：
 
 
 
@@ -112,48 +112,48 @@ $this 是一个到调用对象（通常是方法所属于的对象，但也可�
 |
 @<span style="color: #000000;"><span style="color: #0000bb;"><?php
 
-&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="color: #007700;">class&nbsp;</span><span style="color: #0000bb;">BaseClass&nbsp;
-&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="color: #007700;">{
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="color: #ff8000;">//&nbsp;Redefine&nbsp;the&nbsp;parent&nbsp;method
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="color: #007700;">public&nbsp;final&nbsp;</span><span style="color: #0000bb;">$abc&nbsp;</span><span style="color: #007700;">=&nbsp;</span><span style="color: #dd0000;">"Base"</span><span style="color: #007700;">;
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;function&nbsp;</span><span style="color: #0000bb;">displayVar</span><span style="color: #007700;">()
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;echo&nbsp;</span><span style="color: #dd0000;">"this->abc:"</span><span style="color: #007700;">.</span><span style="color: #0000bb;">$this</span><span style="color: #007700;">-></span><span style="color: #0000bb;">abc</span><span style="color: #007700;">.</span><span style="color: #dd0000;">"\n"</span><span style="color: #007700;">;
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;echo&nbsp;</span><span style="color: #dd0000;">"Base&nbsp;class\n"</span><span style="color: #007700;">;
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="color: #0000bb;">parent</span><span style="color: #007700;">::</span><span style="color: #0000bb;">displayVar</span><span style="color: #007700;">();
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
-&nbsp;&nbsp;&nbsp;&nbsp;}
+    </span><span style="color: #007700;">class </span><span style="color: #0000bb;">BaseClass 
+    </span><span style="color: #007700;">{
+        </span><span style="color: #ff8000;">// Redefine the parent method
+        </span><span style="color: #007700;">public final </span><span style="color: #0000bb;">$abc </span><span style="color: #007700;">= </span><span style="color: #dd0000;">"Base"</span><span style="color: #007700;">;
+        function </span><span style="color: #0000bb;">displayVar</span><span style="color: #007700;">()
+        {
+            echo </span><span style="color: #dd0000;">"this->abc:"</span><span style="color: #007700;">.</span><span style="color: #0000bb;">$this</span><span style="color: #007700;">-></span><span style="color: #0000bb;">abc</span><span style="color: #007700;">.</span><span style="color: #dd0000;">"\n"</span><span style="color: #007700;">;
+            echo </span><span style="color: #dd0000;">"Base class\n"</span><span style="color: #007700;">;
+            </span><span style="color: #0000bb;">parent</span><span style="color: #007700;">::</span><span style="color: #0000bb;">displayVar</span><span style="color: #007700;">();
+        }
+    }
 
-&nbsp;&nbsp;&nbsp;&nbsp;class&nbsp;</span><span style="color: #0000bb;">SimpleClass&nbsp;</span><span style="color: #007700;">extends&nbsp;</span><span style="color: #0000bb;">BaseClass
-&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="color: #007700;">{
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;public&nbsp;</span><span style="color: #0000bb;">$abc&nbsp;</span><span style="color: #007700;">=&nbsp;</span><span style="color: #dd0000;">"SimpleClass"</span><span style="color: #007700;">;
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="color: #ff8000;">//&nbsp;Redefine&nbsp;the&nbsp;parent&nbsp;method
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="color: #007700;">function&nbsp;</span><span style="color: #0000bb;">displayVar</span><span style="color: #007700;">()
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;echo&nbsp;</span><span style="color: #dd0000;">"this->abc:"</span><span style="color: #007700;">.</span><span style="color: #0000bb;">$this</span><span style="color: #007700;">-></span><span style="color: #0000bb;">abc</span><span style="color: #007700;">.</span><span style="color: #dd0000;">"\n"</span><span style="color: #007700;">;
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;echo&nbsp;</span><span style="color: #dd0000;">"SimpleClass&nbsp;class\n"</span><span style="color: #007700;">;
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
-&nbsp;&nbsp;&nbsp;&nbsp;}
+    class </span><span style="color: #0000bb;">SimpleClass </span><span style="color: #007700;">extends </span><span style="color: #0000bb;">BaseClass
+    </span><span style="color: #007700;">{
+        public </span><span style="color: #0000bb;">$abc </span><span style="color: #007700;">= </span><span style="color: #dd0000;">"SimpleClass"</span><span style="color: #007700;">;
+        </span><span style="color: #ff8000;">// Redefine the parent method
+        </span><span style="color: #007700;">function </span><span style="color: #0000bb;">displayVar</span><span style="color: #007700;">()
+        {
+            echo </span><span style="color: #dd0000;">"this->abc:"</span><span style="color: #007700;">.</span><span style="color: #0000bb;">$this</span><span style="color: #007700;">-></span><span style="color: #0000bb;">abc</span><span style="color: #007700;">.</span><span style="color: #dd0000;">"\n"</span><span style="color: #007700;">;
+            echo </span><span style="color: #dd0000;">"SimpleClass class\n"</span><span style="color: #007700;">;
+        }
+    }
 
-&nbsp;&nbsp;&nbsp;&nbsp;class&nbsp;</span><span style="color: #0000bb;">ExtendClass&nbsp;</span><span style="color: #007700;">extends&nbsp;</span><span style="color: #0000bb;">SimpleClass
-&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="color: #007700;">{
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;public&nbsp;</span><span style="color: #0000bb;">$abc&nbsp;</span><span style="color: #007700;">=&nbsp;</span><span style="color: #dd0000;">"ExtendClass"</span><span style="color: #007700;">;
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="color: #ff8000;">//&nbsp;Redefine&nbsp;the&nbsp;parent&nbsp;method
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="color: #007700;">function&nbsp;</span><span style="color: #0000bb;">displayVar</span><span style="color: #007700;">()
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;echo&nbsp;</span><span style="color: #dd0000;">"this->abc:"</span><span style="color: #007700;">.</span><span style="color: #0000bb;">$this</span><span style="color: #007700;">-></span><span style="color: #0000bb;">abc</span><span style="color: #007700;">.</span><span style="color: #dd0000;">"\n"</span><span style="color: #007700;">;
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;echo&nbsp;</span><span style="color: #dd0000;">"Extending&nbsp;class\n"</span><span style="color: #007700;">;
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="color: #0000bb;">parent</span><span style="color: #007700;">::</span><span style="color: #0000bb;">displayVar</span><span style="color: #007700;">();
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="color: #0000bb;">BaseClass</span><span style="color: #007700;">::</span><span style="color: #0000bb;">displayVar</span><span style="color: #007700;">();
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
-&nbsp;&nbsp;&nbsp;&nbsp;}
+    class </span><span style="color: #0000bb;">ExtendClass </span><span style="color: #007700;">extends </span><span style="color: #0000bb;">SimpleClass
+    </span><span style="color: #007700;">{
+        public </span><span style="color: #0000bb;">$abc </span><span style="color: #007700;">= </span><span style="color: #dd0000;">"ExtendClass"</span><span style="color: #007700;">;
+        </span><span style="color: #ff8000;">// Redefine the parent method
+        </span><span style="color: #007700;">function </span><span style="color: #0000bb;">displayVar</span><span style="color: #007700;">()
+        {
+            echo </span><span style="color: #dd0000;">"this->abc:"</span><span style="color: #007700;">.</span><span style="color: #0000bb;">$this</span><span style="color: #007700;">-></span><span style="color: #0000bb;">abc</span><span style="color: #007700;">.</span><span style="color: #dd0000;">"\n"</span><span style="color: #007700;">;
+            echo </span><span style="color: #dd0000;">"Extending class\n"</span><span style="color: #007700;">;
+            </span><span style="color: #0000bb;">parent</span><span style="color: #007700;">::</span><span style="color: #0000bb;">displayVar</span><span style="color: #007700;">();
+            </span><span style="color: #0000bb;">BaseClass</span><span style="color: #007700;">::</span><span style="color: #0000bb;">displayVar</span><span style="color: #007700;">();
+        }
+    }
 
-&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="color: #0000bb;">$extended&nbsp;</span><span style="color: #007700;">=&nbsp;new&nbsp;</span><span style="color: #0000bb;">ExtendClass</span><span style="color: #007700;">();
-&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="color: #0000bb;">$extended</span><span style="color: #007700;">-></span><span style="color: #0000bb;">displayVar</span><span style="color: #007700;">();
-</span><span style="color: #0000bb;">?></span>&nbsp;
+    </span><span style="color: #0000bb;">$extended </span><span style="color: #007700;">= new </span><span style="color: #0000bb;">ExtendClass</span><span style="color: #007700;">();
+    </span><span style="color: #0000bb;">$extended</span><span style="color: #007700;">-></span><span style="color: #0000bb;">displayVar</span><span style="color: #007700;">();
+</span><span style="color: #0000bb;">?></span> 
 
 
-输出：</span>@@<span style="color: #000000;">&nbsp;</span>@
+输出：</span>@@<span style="color: #000000;"> </span>@
 
 
 <p style="font-size: 10pt; margin: 0in; font-family: SimSun; mso-outline-level: 1;">./test_extends.php
@@ -202,14 +202,14 @@ PHP的__construct不是太严格，甚至允许$obj->__construct , 当然这也�
 <tbody>
 
 <td style="width: 318px; height: 26px;">@<span style="color: #000000;"><span style="color: #0000bb;"><?php
-&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="color: #007700;">class&nbsp;</span><span style="color: #0000bb;">ClassAAA</span><span style="color: #007700;">{
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;function&nbsp;</span><span style="color: #0000bb;">__construct</span><span style="color: #007700;">()
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;echo&nbsp;</span><span style="color: #dd0000;">"ClassA::__construct\n"</span><span style="color: #007700;">;
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
-&nbsp;&nbsp;&nbsp;&nbsp;};
-&nbsp;&nbsp;&nbsp;&nbsp;
-&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="color: #0000bb;">ClassAAA</span><span style="color: #007700;">::</span><span style="color: #0000bb;">__construct</span><span style="color: #007700;">();
+    </span><span style="color: #007700;">class </span><span style="color: #0000bb;">ClassAAA</span><span style="color: #007700;">{
+        function </span><span style="color: #0000bb;">__construct</span><span style="color: #007700;">()
+        {
+            echo </span><span style="color: #dd0000;">"ClassA::__construct\n"</span><span style="color: #007700;">;
+        }
+    };
+    
+    </span><span style="color: #0000bb;">ClassAAA</span><span style="color: #007700;">::</span><span style="color: #0000bb;">__construct</span><span style="color: #007700;">();
 </span><span style="color: #0000bb;">?>
 </span></span>@
 |
@@ -234,7 +234,7 @@ php -v
 
 <ul dir="ltr">
 <li>
-<div>*<span style="font-size: 14pt;">&nbsp;destruct</span>*</div>
+<div>*<span style="font-size: 14pt;"> destruct</span>*</div>
 </li>
 </ul>
 <blockquote style="margin-right: 0px;" dir="ltr">
@@ -247,11 +247,11 @@ php -v
 <table style="width: 559px; border-collapse: collapse; height: 79px;" border="1" cellspacing="0" cellpadding="3">
 <tbody>
 
-|&nbsp;
+| 
 <p style="font-size: 10pt; margin: 0in; font-family: SimSun; mso-outline-level: 1;"><span style="font-weight: bold;">注意: </span>试图在析构函数中抛出一个异常会导致致命错误。
 
 
-<p style="font-size: 10pt; margin: 0in; font-family: SimSun; mso-outline-level: 1;">&nbsp;
+<p style="font-size: 10pt; margin: 0in; font-family: SimSun; mso-outline-level: 1;"> 
 
 
 <p style="font-size: 8pt; margin: 0in; color: #666666; font-family: &#23435;&#20307;; mso-outline-level: 1;">源文档 <<a href="http://php.chinaunix.net/manual/zh/language.oop5.decon.php"><span style="text-decoration: underline;"><span style="color: #0000ff;">http://php.chinaunix.net/manual/zh/language.oop5.decon.php</span></span></a>>
@@ -265,10 +265,10 @@ php -v
 <span style="font-family: SimSun;" lang="ZH-CN">这是因为对象的析构时机依赖</span><span style="font-family: Verdana;" lang="EN-US">php</span><span style="font-family: SimSun;" lang="ZH-CN">的实际实现，可能在php销毁对象的时候，代码块已经不在我们的try catch控制中了。</span>
 
 
-<span style="font-family: SimSun;" lang="ZH-CN">&nbsp;</span><span style="font-family: SimSun;" lang="ZH-CN">对于我下面测试的这个版本，</span><span style="font-family: Verdana;" lang="EN-US">php</span><span style="font-family: SimSun;" lang="ZH-CN">在一个对象的引用计数为</span><span style="font-family: Verdana;" lang="EN-US">0</span><span style="font-family: SimSun;" lang="ZH-CN">时，立即调用析构函数进行销毁，所以有幸能捕获到析构函数内的异常。</span>
+<span style="font-family: SimSun;" lang="ZH-CN"> </span><span style="font-family: SimSun;" lang="ZH-CN">对于我下面测试的这个版本，</span><span style="font-family: Verdana;" lang="EN-US">php</span><span style="font-family: SimSun;" lang="ZH-CN">在一个对象的引用计数为</span><span style="font-family: Verdana;" lang="EN-US">0</span><span style="font-family: SimSun;" lang="ZH-CN">时，立即调用析构函数进行销毁，所以有幸能捕获到析构函数内的异常。</span>
 
 
-<span style="font-family: SimSun;" lang="ZH-CN">&nbsp;</span><span style="font-family: SimSun;" lang="ZH-CN">但是手册里面的这个&ldquo;注意&rdquo;是对的，因为</span><span style="font-family: Verdana;" lang="EN-US">php</span><span style="font-family: SimSun;" lang="ZH-CN">没有明确定义析构函数执行的时机，所以我们不应该在析构函数中抛出异常。</span>
+<span style="font-family: SimSun;" lang="ZH-CN"> </span><span style="font-family: SimSun;" lang="ZH-CN">但是手册里面的这个&ldquo;注意&rdquo;是对的，因为</span><span style="font-family: Verdana;" lang="EN-US">php</span><span style="font-family: SimSun;" lang="ZH-CN">没有明确定义析构函数执行的时机，所以我们不应该在析构函数中抛出异常。</span>
 
 
 <table style="width: 873px; border-collapse: collapse; height: 24px;" border="1" cellspacing="0" cellpadding="3">
@@ -276,48 +276,48 @@ php -v
 
 |@<span style="color: #000000;"><span style="color: #0000bb;"><?php
 
-&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="color: #007700;">class&nbsp;</span><span style="color: #0000bb;">MyDestructableClass&nbsp;</span><span style="color: #007700;">{
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;function&nbsp;</span><span style="color: #0000bb;">__construct</span><span style="color: #007700;">()&nbsp;{
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;print&nbsp;</span><span style="color: #dd0000;">"In&nbsp;constructor\n"</span><span style="color: #007700;">;
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="color: #0000bb;">$this</span><span style="color: #007700;">-></span><span style="color: #0000bb;">name&nbsp;</span><span style="color: #007700;">=&nbsp;</span><span style="color: #dd0000;">"MyDestructableClass"</span><span style="color: #007700;">;
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+    </span><span style="color: #007700;">class </span><span style="color: #0000bb;">MyDestructableClass </span><span style="color: #007700;">{
+        function </span><span style="color: #0000bb;">__construct</span><span style="color: #007700;">() {
+            print </span><span style="color: #dd0000;">"In constructor\n"</span><span style="color: #007700;">;
+            </span><span style="color: #0000bb;">$this</span><span style="color: #007700;">-></span><span style="color: #0000bb;">name </span><span style="color: #007700;">= </span><span style="color: #dd0000;">"MyDestructableClass"</span><span style="color: #007700;">;
+        }
 
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;function&nbsp;</span><span style="color: #0000bb;">__destruct</span><span style="color: #007700;">()&nbsp;{
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;print&nbsp;</span><span style="color: #dd0000;">"Destroying&nbsp;"&nbsp;</span><span style="color: #007700;">.&nbsp;</span><span style="color: #0000bb;">$this</span><span style="color: #007700;">-></span><span style="color: #0000bb;">name&nbsp;</span><span style="color: #007700;">.&nbsp;</span><span style="color: #dd0000;">"\n"</span><span style="color: #007700;">;
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;throw&nbsp;new&nbsp;</span><span style="color: #0000bb;">Exception</span><span style="color: #007700;">(</span><span style="color: #dd0000;">"my&nbsp;error"</span><span style="color: #007700;">);
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
-&nbsp;&nbsp;&nbsp;&nbsp;}
+        function </span><span style="color: #0000bb;">__destruct</span><span style="color: #007700;">() {
+            print </span><span style="color: #dd0000;">"Destroying " </span><span style="color: #007700;">. </span><span style="color: #0000bb;">$this</span><span style="color: #007700;">-></span><span style="color: #0000bb;">name </span><span style="color: #007700;">. </span><span style="color: #dd0000;">"\n"</span><span style="color: #007700;">;
+            throw new </span><span style="color: #0000bb;">Exception</span><span style="color: #007700;">(</span><span style="color: #dd0000;">"my error"</span><span style="color: #007700;">);
+        }
+    }
 
 
-&nbsp;&nbsp;&nbsp;&nbsp;function&nbsp;</span><span style="color: #0000bb;">abc</span><span style="color: #007700;">(){
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;try{
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;try{
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="color: #0000bb;">$obj&nbsp;</span><span style="color: #007700;">=&nbsp;new&nbsp;</span><span style="color: #0000bb;">MyDestructableClass</span><span style="color: #007700;">();
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="color: #ff8000;">//return&nbsp;$obj;
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="color: #007700;">}
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;catch(</span><span style="color: #0000bb;">Exception&nbsp;$e</span><span style="color: #007700;">){
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;echo&nbsp;</span><span style="color: #dd0000;">"abc::"</span><span style="color: #007700;">.</span><span style="color: #0000bb;">$e</span><span style="color: #007700;">-></span><span style="color: #0000bb;">getMessage</span><span style="color: #007700;">();
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;catch(</span><span style="color: #0000bb;">Exception&nbsp;$e</span><span style="color: #007700;">){echo&nbsp;</span><span style="color: #dd0000;">"abc::"</span><span style="color: #007700;">.</span><span style="color: #0000bb;">$e</span><span style="color: #007700;">-></span><span style="color: #0000bb;">getMessage</span><span style="color: #007700;">();}
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="color: #ff8000;">//echo("abc&nbsp;fun&nbsp;run\n");
-&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="color: #007700;">}
+    function </span><span style="color: #0000bb;">abc</span><span style="color: #007700;">(){
+        try{
+        try{
+            </span><span style="color: #0000bb;">$obj </span><span style="color: #007700;">= new </span><span style="color: #0000bb;">MyDestructableClass</span><span style="color: #007700;">();
+            </span><span style="color: #ff8000;">//return $obj;
+        </span><span style="color: #007700;">}
+        catch(</span><span style="color: #0000bb;">Exception $e</span><span style="color: #007700;">){
+            echo </span><span style="color: #dd0000;">"abc::"</span><span style="color: #007700;">.</span><span style="color: #0000bb;">$e</span><span style="color: #007700;">-></span><span style="color: #0000bb;">getMessage</span><span style="color: #007700;">();
+        }
+        }
+        catch(</span><span style="color: #0000bb;">Exception $e</span><span style="color: #007700;">){echo </span><span style="color: #dd0000;">"abc::"</span><span style="color: #007700;">.</span><span style="color: #0000bb;">$e</span><span style="color: #007700;">-></span><span style="color: #0000bb;">getMessage</span><span style="color: #007700;">();}
+        </span><span style="color: #ff8000;">//echo("abc fun run\n");
+    </span><span style="color: #007700;">}
 
-&nbsp;&nbsp;&nbsp;&nbsp;try{
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="color: #0000bb;">abc</span><span style="color: #007700;">();
-&nbsp;&nbsp;&nbsp;&nbsp;}
-&nbsp;&nbsp;&nbsp;&nbsp;catch(</span><span style="color: #0000bb;">Exception&nbsp;$e</span><span style="color: #007700;">){
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;echo&nbsp;</span><span style="color: #dd0000;">"main::"</span><span style="color: #007700;">.</span><span style="color: #0000bb;">$e</span><span style="color: #007700;">-></span><span style="color: #0000bb;">getMessage</span><span style="color: #007700;">();
-&nbsp;&nbsp;&nbsp;&nbsp;}
-&nbsp;&nbsp;&nbsp;&nbsp;
-&nbsp;&nbsp;&nbsp;&nbsp;
-&nbsp;&nbsp;&nbsp;&nbsp;try{
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;unset(</span><span style="color: #0000bb;">$r</span><span style="color: #007700;">);
-&nbsp;&nbsp;&nbsp;&nbsp;}
-&nbsp;&nbsp;&nbsp;&nbsp;catch(</span><span style="color: #0000bb;">Exception&nbsp;$e</span><span style="color: #007700;">){
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;echo&nbsp;</span><span style="color: #dd0000;">"main&nbsp;2::"</span><span style="color: #007700;">.</span><span style="color: #0000bb;">$e</span><span style="color: #007700;">-></span><span style="color: #0000bb;">getMessage</span><span style="color: #007700;">();
-&nbsp;&nbsp;&nbsp;&nbsp;}
-&nbsp;&nbsp;&nbsp;&nbsp;
+    try{
+        </span><span style="color: #0000bb;">abc</span><span style="color: #007700;">();
+    }
+    catch(</span><span style="color: #0000bb;">Exception $e</span><span style="color: #007700;">){
+        echo </span><span style="color: #dd0000;">"main::"</span><span style="color: #007700;">.</span><span style="color: #0000bb;">$e</span><span style="color: #007700;">-></span><span style="color: #0000bb;">getMessage</span><span style="color: #007700;">();
+    }
+    
+    
+    try{
+        unset(</span><span style="color: #0000bb;">$r</span><span style="color: #007700;">);
+    }
+    catch(</span><span style="color: #0000bb;">Exception $e</span><span style="color: #007700;">){
+        echo </span><span style="color: #dd0000;">"main 2::"</span><span style="color: #007700;">.</span><span style="color: #0000bb;">$e</span><span style="color: #007700;">-></span><span style="color: #0000bb;">getMessage</span><span style="color: #007700;">();
+    }
+    
 
 </span><span style="color: #0000bb;">?>
 </span></span>@

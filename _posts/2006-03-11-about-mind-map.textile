@@ -7,7 +7,7 @@ category: thinking
 最近对个人知识管理很感兴趣，有很多关于知识管理的想法。
 
 
-首先想到的当然是blog，但是我感觉blog操作不够简便，而且写blog时有种&ldquo;写文章&rdquo;的感觉，也许我不是真正的blogger.&nbsp;
+首先想到的当然是blog，但是我感觉blog操作不够简便，而且写blog时有种&ldquo;写文章&rdquo;的感觉，也许我不是真正的blogger. 
 
 
 网摘，嗯，也算是知识管理的工具。现在的<a style="color: #ff0000;" href="http://link.eyou.com" target="_blank">eyou网摘</a>和<a href="http://365key.com">365Key</a>、<a href="http://del.icio.us">delicious</a>等都提供了插件，可以很方便的增加网摘。tag让我和别人共享网摘，这种社会化的交流功能也非常好。但是对于&ldquo;个人知识管理&rdquo;来讲，tag这种平行的组织形式还是不太合适。因为个人知识管理需要的是一种树或者图的形式，所以tag方式不是很利于个人对自己的知识进行组织。当然，<a href="http://del.icio.us/">delicious</a>提供了tag分类功能，这种状况在一定程度上得到了改善。

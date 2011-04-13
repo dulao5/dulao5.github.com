@@ -18,13 +18,13 @@ category: front-end
 <hr id="null">p. 作用：制作大纲形式的HTML文档
 --技术实现：------------------------------------------------------
 
-1.&nbsp; 树型文档内容依靠div标签组织，
-&nbsp;div的id属性值是用字母d后面的数字来表示树型节点的深度，
-&nbsp;两个编号为一个层次，例如"d0105"表示第1节点的第5子节点。
+1.  树型文档内容依靠div标签组织，
+ div的id属性值是用字母d后面的数字来表示树型节点的深度，
+ 两个编号为一个层次，例如"d0105"表示第1节点的第5子节点。
 
-2.&nbsp; 大量使用innerHTML属性访问数据
+2.  大量使用innerHTML属性访问数据
 
-3.&nbsp; 使用createElement方法和innerHTML属性动态增加标签
+3.  使用createElement方法和innerHTML属性动态增加标签
 
-4.&nbsp; 使用body.innerHTML保存最终的网页文档
+4.  使用body.innerHTML保存最终的网页文档
 

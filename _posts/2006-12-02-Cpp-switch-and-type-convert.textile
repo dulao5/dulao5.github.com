@@ -13,8 +13,8 @@ C++的switch只支持整型表达式、以及可以转化成整型的表达式�
 这是说，switch不支持字符串、数组、浮点数。
 
 
-支持整型，包括short / unsigned short / int / unsigned int/ long / unsigned long&nbsp;
-此外,还有long long和unsigned long&nbsp;(如果编译器支持long long的话)&nbsp;&nbsp;。
+支持整型，包括short / unsigned short / int / unsigned int/ long / unsigned long 
+此外,还有long long和unsigned long (如果编译器支持long long的话)  。
 
 
 <p dir="ltr">除了整型，如果一个变量或表达式可以转化成整型，那么switch也支持，例如：
@@ -25,32 +25,32 @@ C++的switch只支持整型表达式、以及可以转化成整型的表达式�
 
 class A{
 public:
-&nbsp;A() : _i(0), _c('a'), _l(2L) {}
-&nbsp;operator int () { return _i; } //从class A到int的类型转换操作符
+ A() : _i(0), _c('a'), _l(2L) {}
+ operator int () { return _i; } //从class A到int的类型转换操作符
 private:
-&nbsp;int&nbsp; _i;
-&nbsp;char _c;
-&nbsp;long _l;
+ int  _i;
+ char _c;
+ long _l;
 };
 
 
 int main()
 {
-&nbsp;A a;
+ A a;
 
 
 switch(a) //a转换成int类型，返回i
-&nbsp;{
-&nbsp;case 0:
-&nbsp;&nbsp;printf("0\n");
-&nbsp;&nbsp;break;
-&nbsp;case 'a':
-&nbsp;&nbsp;printf("a\n");
-&nbsp;&nbsp;break;
-&nbsp;case 5L:
-&nbsp;&nbsp;printf("5L\n");
-&nbsp;&nbsp;break;
-&nbsp;}
+ {
+ case 0:
+  printf("0\n");
+  break;
+ case 'a':
+  printf("a\n");
+  break;
+ case 5L:
+  printf("5L\n");
+  break;
+ }
 
 
 return 0;
@@ -65,34 +65,34 @@ return 0;
 
 class A{
 public:
-&nbsp;A() : _i(0), _c('a'), _l(2L) {}
-&nbsp;operator int () { return _i; } 
-&nbsp;operator char() { return _c; } 
-&nbsp;operator long() { return _l; } 
+ A() : _i(0), _c('a'), _l(2L) {}
+ operator int () { return _i; } 
+ operator char() { return _c; } 
+ operator long() { return _l; } 
 private:
-&nbsp;int&nbsp; _i;
-&nbsp;char _c;
-&nbsp;long _l;
+ int  _i;
+ char _c;
+ long _l;
 };
 
 
 int main()
 {
-&nbsp;A a;
+ A a;
 
 
-switch(a)&nbsp;// error C2450: switch expression of type 'class A' is illegal
-{&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; //Ambiguous user-defined-conversion //二义性错误
-&nbsp;case 0:
-&nbsp;&nbsp;printf("0\n");
-&nbsp;&nbsp;break;
-&nbsp;case 'a':
-&nbsp;&nbsp;printf("a\n");
-&nbsp;&nbsp;break;
-&nbsp;case 5L:
-&nbsp;&nbsp;printf("5L\n");
-&nbsp;&nbsp;break;
-&nbsp;}
+switch(a) // error C2450: switch expression of type 'class A' is illegal
+{                       //Ambiguous user-defined-conversion //二义性错误
+ case 0:
+  printf("0\n");
+  break;
+ case 'a':
+  printf("a\n");
+  break;
+ case 5L:
+  printf("5L\n");
+  break;
+ }
 
 
 return 0;

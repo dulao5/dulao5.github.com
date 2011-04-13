@@ -51,7 +51,7 @@ category: front-end
 
 
 
-<p class="MsoNormal" style="margin: 0cm 0cm 0pt; text-align: left;"><span style="font-size: 8.5pt; font-family: 'Courier New';" lang="EN-US">Date: Thu, </span><span style="font-size: 8.5pt; font-family: 'Courier New';" lang="EN-US">01 Dec 2005</span><span style="font-size: 8.5pt; font-family: 'Courier New';" lang="EN-US">&nbsp;</span><span style="font-size: 8.5pt; font-family: 'Courier New';" lang="EN-US">02:00:24 GMT</span><span style="font-size: 8.5pt; font-family: 'Courier New';" lang="EN-US">&nbsp;</span>
+<p class="MsoNormal" style="margin: 0cm 0cm 0pt; text-align: left;"><span style="font-size: 8.5pt; font-family: 'Courier New';" lang="EN-US">Date: Thu, </span><span style="font-size: 8.5pt; font-family: 'Courier New';" lang="EN-US">01 Dec 2005</span><span style="font-size: 8.5pt; font-family: 'Courier New';" lang="EN-US"> </span><span style="font-size: 8.5pt; font-family: 'Courier New';" lang="EN-US">02:00:24 GMT</span><span style="font-size: 8.5pt; font-family: 'Courier New';" lang="EN-US"> </span>
 
 
 
@@ -78,7 +78,7 @@ category: front-end
 
 
 
-<p class="MsoNormal" style="margin: 0cm 0cm 0pt;"><span style="font-size: 8.5pt; font-family: 'Courier New';" lang="EN-US">Location: testpost.php</span><span lang="EN-US">&nbsp;</span>
+<p class="MsoNormal" style="margin: 0cm 0cm 0pt;"><span style="font-size: 8.5pt; font-family: 'Courier New';" lang="EN-US">Location: testpost.php</span><span lang="EN-US"> </span>
 
 
 
@@ -138,13 +138,13 @@ category: front-end
 <tbody>
 <tr style="height: 15pt;">
 <td style="padding: 0cm 5.4pt; width: 351pt; height: 15pt; background-color: transparent;" width="468" valign="top">
-<p class="MsoNormal" style="margin: 0cm 0cm 0pt;"><span lang="EN-US">&nbsp;</span>
+<p class="MsoNormal" style="margin: 0cm 0cm 0pt;"><span lang="EN-US"> </span>
 
 
 
 
 
-&nbsp;
+ 
 
 
 
@@ -154,37 +154,37 @@ category: front-end
 <p class="MsoNormal" style="margin: 0cm 0cm 0pt;"><span lang="EN-US">x.open("GET","testjump.php",true);</span>
 
 
-<p class="MsoNormal" style="margin: 0cm 0cm 0pt;"><span lang="EN-US">function _callback() { <span>&nbsp;</span><span>&nbsp;</span>if (x.readyState != 4)return;</span>
+<p class="MsoNormal" style="margin: 0cm 0cm 0pt;"><span lang="EN-US">function _callback() { <span> </span><span> </span>if (x.readyState != 4)return;</span>
 
 
-<p class="MsoNormal" style="margin: 0cm 0cm 0pt;"><span lang="EN-US"><span>&nbsp;</span>sajax_debug("<pre>received " </span>
+<p class="MsoNormal" style="margin: 0cm 0cm 0pt;"><span lang="EN-US"><span> </span>sajax_debug("<pre>received " </span>
 
 
-<p class="MsoNormal" style="margin: 0cm 0cm 0pt;"><span lang="EN-US"><span>&nbsp;</span>+ x.responseText </span>
+<p class="MsoNormal" style="margin: 0cm 0cm 0pt;"><span lang="EN-US"><span> </span>+ x.responseText </span>
 
 
-<p class="MsoNormal" style="margin: 0cm 0cm 0pt;"><span lang="EN-US"><span>&nbsp;</span>+"\nstatus:"</span>
+<p class="MsoNormal" style="margin: 0cm 0cm 0pt;"><span lang="EN-US"><span> </span>+"\nstatus:"</span>
 
 
-<p class="MsoNormal" style="margin: 0cm 0cm 0pt;"><span lang="EN-US"><span>&nbsp;</span>+x.status+"</pre>");</span>
+<p class="MsoNormal" style="margin: 0cm 0cm 0pt;"><span lang="EN-US"><span> </span>+x.status+"</pre>");</span>
 
 
-<p class="MsoNormal" style="margin: 0cm 0cm 0pt;"><span lang="EN-US"><span>&nbsp;</span>alert("</span><span style="font-family: &#23435;&#20307;;">调用结束</span><span lang="EN-US">");</span>
+<p class="MsoNormal" style="margin: 0cm 0cm 0pt;"><span lang="EN-US"><span> </span>alert("</span><span style="font-family: &#23435;&#20307;;">调用结束</span><span lang="EN-US">");</span>
 
 
 <p class="MsoNormal" style="margin: 0cm 0cm 0pt;"><span lang="EN-US">}</span>
 
 
-<p class="MsoNormal" style="margin: 0cm 0cm 0pt;"><span lang="EN-US">if ("[XMLHttpRequest]"==x.constructor){<span>&nbsp;</span>x.onload = _callback ;}</span>
+<p class="MsoNormal" style="margin: 0cm 0cm 0pt;"><span lang="EN-US">if ("[XMLHttpRequest]"==x.constructor){<span> </span>x.onload = _callback ;}</span>
 
 
-<p class="MsoNormal" style="margin: 0cm 0cm 0pt;"><span lang="EN-US">else{<span>&nbsp;</span>x.onreadystatechange = _callback ;}</span>
+<p class="MsoNormal" style="margin: 0cm 0cm 0pt;"><span lang="EN-US">else{<span> </span>x.onreadystatechange = _callback ;}</span>
 
 
 <p class="MsoNormal" style="margin: 0cm 0cm 0pt;"><span lang="EN-US">x.send("");</span>
 
 
-<p class="MsoNormal" style="margin: 0cm 0cm 0pt;"><span lang="EN-US">&nbsp;</span>
+<p class="MsoNormal" style="margin: 0cm 0cm 0pt;"><span lang="EN-US"> </span>
 
 
 
@@ -198,7 +198,7 @@ category: front-end
 
 </tbody>
 
-<p class="MsoNormal" style="margin-top: 0cm; margin-bottom: 0pt; text-indent: 21pt; margin-right: 0cm;"><span style="font-size: 12pt; font-family: &#23435;&#20307;;" lang="EN-US">&nbsp;</span>
+<p class="MsoNormal" style="margin-top: 0cm; margin-bottom: 0pt; text-indent: 21pt; margin-right: 0cm;"><span style="font-size: 12pt; font-family: &#23435;&#20307;;" lang="EN-US"> </span>
 
 
 
@@ -207,10 +207,10 @@ category: front-end
 
 
 
-<p class="MsoNormal" style="margin-top: 0cm; margin-bottom: 0pt; text-indent: 21pt; margin-right: 0cm;"><span style="font-size: 12pt; font-family: &#23435;&#20307;;">&nbsp;</span>&nbsp;
+<p class="MsoNormal" style="margin-top: 0cm; margin-bottom: 0pt; text-indent: 21pt; margin-right: 0cm;"><span style="font-size: 12pt; font-family: &#23435;&#20307;;"> </span> 
 
 
-<p class="MsoNormal" style="margin-top: 0cm; margin-bottom: 0pt; text-indent: 21pt; margin-right: 0cm;"><span style="font-size: 12pt; font-family: &#23435;&#20307;;">所以我们可以得出结论：<span lang="EN-US">&nbsp;</span></span>
+<p class="MsoNormal" style="margin-top: 0cm; margin-bottom: 0pt; text-indent: 21pt; margin-right: 0cm;"><span style="font-size: 12pt; font-family: &#23435;&#20307;;">所以我们可以得出结论：<span lang="EN-US"> </span></span>
 
 
 
@@ -255,7 +255,7 @@ category: front-end
 
 
 
-<p class="MsoNormal" style="margin-top: 0cm; margin-bottom: 0pt; text-indent: 21pt; margin-right: 0cm;"><span style="font-size: 12pt; font-family: &#23435;&#20307;;" lang="EN-US">&nbsp;</span>
+<p class="MsoNormal" style="margin-top: 0cm; margin-bottom: 0pt; text-indent: 21pt; margin-right: 0cm;"><span style="font-size: 12pt; font-family: &#23435;&#20307;;" lang="EN-US"> </span>
 
 
 
@@ -283,7 +283,7 @@ category: front-end
 
 
 
-<p class="MsoNormal" style="margin-top: 0cm; margin-bottom: 0pt; text-indent: 21pt; margin-right: 0cm;"><span style="font-size: 12pt; font-family: &#23435;&#20307;;" lang="EN-US">&nbsp;</span>
+<p class="MsoNormal" style="margin-top: 0cm; margin-bottom: 0pt; text-indent: 21pt; margin-right: 0cm;"><span style="font-size: 12pt; font-family: &#23435;&#20307;;" lang="EN-US"> </span>
 
 
 

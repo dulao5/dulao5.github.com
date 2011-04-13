@@ -4,87 +4,87 @@ title: 提取utf-8里面的宽字符，转换成unicode原始编码
 category: note
 ---
 
-<span style="color: #000000;"><span style="font-family: 新宋体;"><span style="color: #0000bb;">&nbsp;&nbsp;&nbsp; 本来用mb_substr就可以的，但是我试着写了替代方案：</span></span></span>
+<span style="color: #000000;"><span style="font-family: 新宋体;"><span style="color: #0000bb;">    本来用mb_substr就可以的，但是我试着写了替代方案：</span></span></span>
 
 
 <span style="color: #000000;"><span style="font-family: 新宋体;"><span style="color: #0000bb;"><?php
 
-&nbsp;&nbsp;&nbsp;&nbsp;$a</span><span style="color: #007700;">=</span><span style="color: #dd0000;">"五零零＋　さす　ねむめほ　ミムモノサセキゥィァヰン　ㄆㄊㄍㄔㄧㄛㄟㄣㄠㄜㄨㄘ"</span></span><span style="color: #007700;"><span style="font-family: 新宋体;">;
-</span></span><span style="font-family: 新宋体;"><span style="color: #ff8000;">&nbsp;&nbsp;
+    $a</span><span style="color: #007700;">=</span><span style="color: #dd0000;">"五零零＋　さす　ねむめほ　ミムモノサセキゥィァヰン　ㄆㄊㄍㄔㄧㄛㄟㄣㄠㄜㄨㄘ"</span></span><span style="color: #007700;"><span style="font-family: 新宋体;">;
+</span></span><span style="font-family: 新宋体;"><span style="color: #ff8000;">  
 
-&nbsp;&nbsp;&nbsp;&nbsp;//utf-8&nbsp;string&nbsp;convent&nbsp;to&nbsp;unicode&nbsp;number&nbsp;array
-&nbsp;&nbsp;&nbsp;&nbsp;//提取utf-8里面的宽字符，转换成unicode原始编码</span></span></span><span style="color: #000000;"><span style="font-family: 新宋体;"><span style="color: #ff8000;">
-&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="color: #007700;">function&nbsp;</span><span style="color: #0000bb;">utf8_to_int</span><span style="color: #007700;">(</span><span style="color: #0000bb;">$str</span></span><span style="font-family: 新宋体;"><span style="color: #007700;">)
-&nbsp;&nbsp;&nbsp;&nbsp;{
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="color: #0000bb;">$len&nbsp;</span><span style="color: #007700;">=&nbsp;</span><span style="color: #0000bb;">strlen</span><span style="color: #007700;">(</span><span style="color: #0000bb;">$str</span></span><span style="font-family: 新宋体;"><span style="color: #007700;">);
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="color: #0000bb;">$result&nbsp;</span><span style="color: #007700;">=&nbsp;array();&nbsp;&nbsp;</span></span><span style="font-family: 新宋体;"><span style="color: #ff8000;">//unicode&nbsp;number&nbsp;array
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="color: #0000bb;">$code&nbsp;</span><span style="color: #007700;">=&nbsp;</span><span style="color: #0000bb;">0</span><span style="color: #007700;">;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span></span><span style="font-family: 新宋体;"><span style="color: #ff8000;">//unicode&nbsp;number
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="color: #0000bb;">$code_n&nbsp;</span><span style="color: #007700;">=&nbsp;</span><span style="color: #0000bb;">0</span><span style="color: #007700;">;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span></span><span style="font-family: 新宋体;"><span style="color: #ff8000;">//utf8&nbsp;byte&nbsp;number
+    //utf-8 string convent to unicode number array
+    //提取utf-8里面的宽字符，转换成unicode原始编码</span></span></span><span style="color: #000000;"><span style="font-family: 新宋体;"><span style="color: #ff8000;">
+    </span><span style="color: #007700;">function </span><span style="color: #0000bb;">utf8_to_int</span><span style="color: #007700;">(</span><span style="color: #0000bb;">$str</span></span><span style="font-family: 新宋体;"><span style="color: #007700;">)
+    {
+        </span><span style="color: #0000bb;">$len </span><span style="color: #007700;">= </span><span style="color: #0000bb;">strlen</span><span style="color: #007700;">(</span><span style="color: #0000bb;">$str</span></span><span style="font-family: 新宋体;"><span style="color: #007700;">);
+        </span><span style="color: #0000bb;">$result </span><span style="color: #007700;">= array();  </span></span><span style="font-family: 新宋体;"><span style="color: #ff8000;">//unicode number array
+        
+        </span><span style="color: #0000bb;">$code </span><span style="color: #007700;">= </span><span style="color: #0000bb;">0</span><span style="color: #007700;">;            </span></span><span style="font-family: 新宋体;"><span style="color: #ff8000;">//unicode number
+        </span><span style="color: #0000bb;">$code_n </span><span style="color: #007700;">= </span><span style="color: #0000bb;">0</span><span style="color: #007700;">;        </span></span><span style="font-family: 新宋体;"><span style="color: #ff8000;">//utf8 byte number
 
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;//01111111&nbsp;00011111&nbsp;00001111&nbsp;00000111&nbsp;00000011&nbsp;00000001&nbsp;
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="color: #007700;">static&nbsp;</span><span style="color: #0000bb;">$head_mask&nbsp;</span><span style="color: #007700;">=&nbsp;array(</span><span style="color: #0000bb;">0x7f</span><span style="color: #007700;">,&nbsp;</span><span style="color: #0000bb;">0x1f</span><span style="color: #007700;">,&nbsp;</span><span style="color: #0000bb;">0x0f</span><span style="color: #007700;">,&nbsp;</span><span style="color: #0000bb;">0x07</span><span style="color: #007700;">,&nbsp;</span><span style="color: #0000bb;">0x03</span><span style="color: #007700;">,&nbsp;</span><span style="color: #0000bb;">0x01</span></span><span style="font-family: 新宋体;"><span style="color: #007700;">);
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;for(</span><span style="color: #0000bb;">$i&nbsp;</span><span style="color: #007700;">=&nbsp;</span><span style="color: #0000bb;">0</span><span style="color: #007700;">;&nbsp;</span><span style="color: #0000bb;">$i&nbsp;</span><span style="color: #007700;"><&nbsp;</span><span style="color: #0000bb;">$len</span><span style="color: #007700;">;&nbsp;</span><span style="color: #0000bb;">$i</span></span><span style="font-family: 新宋体;"><span style="color: #007700;">++)
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="color: #0000bb;">$byte&nbsp;</span><span style="color: #007700;">=&nbsp;</span><span style="color: #0000bb;">ord</span><span style="color: #007700;">(&nbsp;</span><span style="color: #0000bb;">$str</span><span style="color: #007700;">[</span><span style="color: #0000bb;">$i</span></span><span style="color: #007700;"><span style="font-family: 新宋体;">]&nbsp;);
+        //01111111 00011111 00001111 00000111 00000011 00000001 
+        </span><span style="color: #007700;">static </span><span style="color: #0000bb;">$head_mask </span><span style="color: #007700;">= array(</span><span style="color: #0000bb;">0x7f</span><span style="color: #007700;">, </span><span style="color: #0000bb;">0x1f</span><span style="color: #007700;">, </span><span style="color: #0000bb;">0x0f</span><span style="color: #007700;">, </span><span style="color: #0000bb;">0x07</span><span style="color: #007700;">, </span><span style="color: #0000bb;">0x03</span><span style="color: #007700;">, </span><span style="color: #0000bb;">0x01</span></span><span style="font-family: 新宋体;"><span style="color: #007700;">);
+        
+        
+        for(</span><span style="color: #0000bb;">$i </span><span style="color: #007700;">= </span><span style="color: #0000bb;">0</span><span style="color: #007700;">; </span><span style="color: #0000bb;">$i </span><span style="color: #007700;">< </span><span style="color: #0000bb;">$len</span><span style="color: #007700;">; </span><span style="color: #0000bb;">$i</span></span><span style="font-family: 新宋体;"><span style="color: #007700;">++)
+        {
+            </span><span style="color: #0000bb;">$byte </span><span style="color: #007700;">= </span><span style="color: #0000bb;">ord</span><span style="color: #007700;">( </span><span style="color: #0000bb;">$str</span><span style="color: #007700;">[</span><span style="color: #0000bb;">$i</span></span><span style="color: #007700;"><span style="font-family: 新宋体;">] );
 
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span></span><span style="font-family: 新宋体;"><span style="color: #ff8000;">/*&nbsp;utf8&nbsp;byte&nbsp;*/&nbsp;
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="color: #007700;">if(&nbsp;(</span><span style="color: #0000bb;">$byte&nbsp;</span><span style="color: #007700;">&&nbsp;~</span><span style="color: #0000bb;">$head_mask</span><span style="color: #007700;">[</span><span style="color: #0000bb;">5</span><span style="color: #007700;">]&nbsp;)&nbsp;==&nbsp;</span><span style="color: #0000bb;">0xfc&nbsp;</span><span style="color: #007700;">)&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span></span><span style="color: #ff8000;"><span style="font-family: 新宋体;">//6&nbsp;byte&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;'1111110x&nbsp;10xxxxxx&nbsp;...'
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span></span><span style="font-family: 新宋体;"><span style="color: #007700;">{
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="color: #0000bb;">$code_n&nbsp;</span><span style="color: #007700;">=&nbsp;</span><span style="color: #0000bb;">6</span></span><span style="font-family: 新宋体;"><span style="color: #007700;">;
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;elseif(&nbsp;(</span><span style="color: #0000bb;">$byte&nbsp;</span><span style="color: #007700;">&&nbsp;~</span><span style="color: #0000bb;">$head_mask</span><span style="color: #007700;">[</span><span style="color: #0000bb;">4</span><span style="color: #007700;">]&nbsp;)&nbsp;==&nbsp;</span><span style="color: #0000bb;">0xf8&nbsp;</span><span style="color: #007700;">)&nbsp;&nbsp;&nbsp;&nbsp;</span></span><span style="color: #ff8000;"><span style="font-family: 新宋体;">//5&nbsp;byte&nbsp;&nbsp;&nbsp;&nbsp;'111110xx&nbsp;10xxxxxx&nbsp;...'
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span></span><span style="font-family: 新宋体;"><span style="color: #007700;">{
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="color: #0000bb;">$code_n&nbsp;</span><span style="color: #007700;">=&nbsp;</span><span style="color: #0000bb;">5</span></span><span style="font-family: 新宋体;"><span style="color: #007700;">;
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;elseif(&nbsp;(</span><span style="color: #0000bb;">$byte&nbsp;</span><span style="color: #007700;">&&nbsp;~</span><span style="color: #0000bb;">$head_mask</span><span style="color: #007700;">[</span><span style="color: #0000bb;">3</span><span style="color: #007700;">]&nbsp;)&nbsp;==&nbsp;</span><span style="color: #0000bb;">0xf0&nbsp;</span><span style="color: #007700;">)&nbsp;&nbsp;&nbsp;&nbsp;</span></span><span style="color: #ff8000;"><span style="font-family: 新宋体;">//4&nbsp;byte&nbsp;&nbsp;&nbsp;&nbsp;'11110xxx&nbsp;10xxxxxx&nbsp;...'
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span></span><span style="font-family: 新宋体;"><span style="color: #007700;">{
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="color: #0000bb;">$code_n&nbsp;</span><span style="color: #007700;">=&nbsp;</span><span style="color: #0000bb;">4</span></span><span style="font-family: 新宋体;"><span style="color: #007700;">;
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;elseif(&nbsp;(</span><span style="color: #0000bb;">$byte&nbsp;</span><span style="color: #007700;">&&nbsp;~</span><span style="color: #0000bb;">$head_mask</span><span style="color: #007700;">[</span><span style="color: #0000bb;">2</span><span style="color: #007700;">]&nbsp;)&nbsp;==&nbsp;</span><span style="color: #0000bb;">0xe0&nbsp;</span><span style="color: #007700;">)&nbsp;&nbsp;&nbsp;&nbsp;</span></span><span style="color: #ff8000;"><span style="font-family: 新宋体;">//3&nbsp;byte&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;'1110xxxx&nbsp;10xxxxxx&nbsp;...'
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span></span><span style="font-family: 新宋体;"><span style="color: #007700;">{
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="color: #0000bb;">$code_n&nbsp;</span><span style="color: #007700;">=&nbsp;</span><span style="color: #0000bb;">3</span></span><span style="font-family: 新宋体;"><span style="color: #007700;">;
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;elseif(&nbsp;(</span><span style="color: #0000bb;">$byte&nbsp;</span><span style="color: #007700;">&&nbsp;~</span><span style="color: #0000bb;">$head_mask</span><span style="color: #007700;">[</span><span style="color: #0000bb;">1</span><span style="color: #007700;">]&nbsp;)&nbsp;==&nbsp;</span><span style="color: #0000bb;">0xc0&nbsp;</span><span style="color: #007700;">)&nbsp;&nbsp;&nbsp;&nbsp;</span></span><span style="color: #ff8000;"><span style="font-family: 新宋体;">//2&nbsp;byte&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;'110xxxxx&nbsp;10xxxxxx&nbsp;'
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span></span><span style="font-family: 新宋体;"><span style="color: #007700;">{
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="color: #0000bb;">$code_n&nbsp;</span><span style="color: #007700;">=&nbsp;</span><span style="color: #0000bb;">2</span></span><span style="font-family: 新宋体;"><span style="color: #007700;">;
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;elseif(&nbsp;(</span><span style="color: #0000bb;">$byte&nbsp;</span><span style="color: #007700;">&&nbsp;~</span><span style="color: #0000bb;">$head_mask</span><span style="color: #007700;">[</span><span style="color: #0000bb;">0</span><span style="color: #007700;">]&nbsp;)&nbsp;==&nbsp;</span><span style="color: #0000bb;">0x00&nbsp;</span><span style="color: #007700;">)&nbsp;&nbsp;&nbsp;&nbsp;</span></span><span style="color: #ff8000;"><span style="font-family: 新宋体;">//1&nbsp;byte&nbsp;utf8&nbsp;(ansi&nbsp;byte)&nbsp;'0xxxxxxx'
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span></span><span style="font-family: 新宋体;"><span style="color: #007700;">{
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="color: #0000bb;">$code_n&nbsp;</span><span style="color: #007700;">=&nbsp;</span><span style="color: #0000bb;">1</span></span><span style="color: #007700;"><span style="font-family: 新宋体;">;
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;else&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span></span><span style="color: #ff8000;"><span style="font-family: 新宋体;">//other&nbsp;encoding&nbsp;byte&nbsp;(no&nbsp;utf8)
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span></span><span style="color: #007700;"><span style="font-family: 新宋体;">{
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span></span><span style="font-family: 新宋体;"><span style="color: #ff8000;">//error&nbsp;byte
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="color: #0000bb;">printf</span><span style="color: #007700;">(</span><span style="color: #dd0000;">"error($i):0x%02x\n"</span><span style="color: #007700;">,&nbsp;</span><span style="color: #0000bb;">$byte</span></span><span style="color: #007700;"><span style="font-family: 新宋体;">);
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;continue;
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span></span><span style="font-family: 新宋体;"><span style="color: #ff8000;">//echo(&nbsp;"\n$i,$code_n:{".&nbsp;substr($str,&nbsp;$i,&nbsp;$code_n)&nbsp;."}\n"&nbsp;);
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="color: #0000bb;">$code&nbsp;</span><span style="color: #007700;">=&nbsp;</span><span style="color: #0000bb;">$byte&nbsp;</span><span style="color: #007700;">&&nbsp;</span><span style="color: #0000bb;">$head_mask</span><span style="color: #007700;">[</span><span style="color: #0000bb;">$code_n</span><span style="color: #007700;">-</span><span style="color: #0000bb;">1</span></span><span style="color: #007700;"><span style="font-family: 新宋体;">];
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span></span><span style="font-family: 新宋体;"><span style="color: #ff8000;">//$code&nbsp;<<=&nbsp;
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="color: #007700;">for(</span><span style="color: #0000bb;">$j&nbsp;</span><span style="color: #007700;">=&nbsp;</span><span style="color: #0000bb;">0</span><span style="color: #007700;">;&nbsp;</span><span style="color: #0000bb;">$j&nbsp;</span><span style="color: #007700;"><&nbsp;</span><span style="color: #0000bb;">$code_n</span><span style="color: #007700;">-</span><span style="color: #0000bb;">1</span><span style="color: #007700;">;&nbsp;</span><span style="color: #0000bb;">$j</span></span><span style="font-family: 新宋体;"><span style="color: #007700;">++)
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="color: #0000bb;">$code&nbsp;</span><span style="color: #007700;"><<=&nbsp;</span><span style="color: #0000bb;">6</span></span><span style="font-family: 新宋体;"><span style="color: #007700;">;
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="color: #0000bb;">$code&nbsp;</span><span style="color: #007700;">|=&nbsp;</span><span style="color: #0000bb;">ord</span><span style="color: #007700;">(&nbsp;</span><span style="color: #0000bb;">$str</span><span style="color: #007700;">[</span><span style="color: #0000bb;">$i&nbsp;</span><span style="color: #007700;">+&nbsp;</span><span style="color: #0000bb;">$j&nbsp;</span><span style="color: #007700;">+&nbsp;</span><span style="color: #0000bb;">1</span><span style="color: #007700;">]&nbsp;)&nbsp;&&nbsp;</span><span style="color: #0000bb;">0x3f&nbsp;</span></span><span style="font-family: 新宋体;"><span style="color: #007700;">;
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="color: #0000bb;">$i&nbsp;</span><span style="color: #007700;">+=&nbsp;</span><span style="color: #0000bb;">$code_n</span><span style="color: #007700;">-</span><span style="color: #0000bb;">1</span></span><span style="font-family: 新宋体;"><span style="color: #007700;">;
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="color: #0000bb;">$result</span><span style="color: #007700;">[]&nbsp;=&nbsp;</span><span style="color: #0000bb;">$code</span></span><span style="color: #007700;"><span style="font-family: 新宋体;">;
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
-&nbsp;&nbsp;&nbsp;&nbsp;}
+            </span></span><span style="font-family: 新宋体;"><span style="color: #ff8000;">/* utf8 byte */ 
+            </span><span style="color: #007700;">if( (</span><span style="color: #0000bb;">$byte </span><span style="color: #007700;">& ~</span><span style="color: #0000bb;">$head_mask</span><span style="color: #007700;">[</span><span style="color: #0000bb;">5</span><span style="color: #007700;">] ) == </span><span style="color: #0000bb;">0xfc </span><span style="color: #007700;">)        </span></span><span style="color: #ff8000;"><span style="font-family: 新宋体;">//6 byte     '1111110x 10xxxxxx ...'
+            </span></span><span style="font-family: 新宋体;"><span style="color: #007700;">{
+                </span><span style="color: #0000bb;">$code_n </span><span style="color: #007700;">= </span><span style="color: #0000bb;">6</span></span><span style="font-family: 新宋体;"><span style="color: #007700;">;
+            }
+            elseif( (</span><span style="color: #0000bb;">$byte </span><span style="color: #007700;">& ~</span><span style="color: #0000bb;">$head_mask</span><span style="color: #007700;">[</span><span style="color: #0000bb;">4</span><span style="color: #007700;">] ) == </span><span style="color: #0000bb;">0xf8 </span><span style="color: #007700;">)    </span></span><span style="color: #ff8000;"><span style="font-family: 新宋体;">//5 byte    '111110xx 10xxxxxx ...'
+            </span></span><span style="font-family: 新宋体;"><span style="color: #007700;">{
+                </span><span style="color: #0000bb;">$code_n </span><span style="color: #007700;">= </span><span style="color: #0000bb;">5</span></span><span style="font-family: 新宋体;"><span style="color: #007700;">;
+            }
+            elseif( (</span><span style="color: #0000bb;">$byte </span><span style="color: #007700;">& ~</span><span style="color: #0000bb;">$head_mask</span><span style="color: #007700;">[</span><span style="color: #0000bb;">3</span><span style="color: #007700;">] ) == </span><span style="color: #0000bb;">0xf0 </span><span style="color: #007700;">)    </span></span><span style="color: #ff8000;"><span style="font-family: 新宋体;">//4 byte    '11110xxx 10xxxxxx ...'
+            </span></span><span style="font-family: 新宋体;"><span style="color: #007700;">{
+                </span><span style="color: #0000bb;">$code_n </span><span style="color: #007700;">= </span><span style="color: #0000bb;">4</span></span><span style="font-family: 新宋体;"><span style="color: #007700;">;
+            }
+            elseif( (</span><span style="color: #0000bb;">$byte </span><span style="color: #007700;">& ~</span><span style="color: #0000bb;">$head_mask</span><span style="color: #007700;">[</span><span style="color: #0000bb;">2</span><span style="color: #007700;">] ) == </span><span style="color: #0000bb;">0xe0 </span><span style="color: #007700;">)    </span></span><span style="color: #ff8000;"><span style="font-family: 新宋体;">//3 byte     '1110xxxx 10xxxxxx ...'
+            </span></span><span style="font-family: 新宋体;"><span style="color: #007700;">{
+                </span><span style="color: #0000bb;">$code_n </span><span style="color: #007700;">= </span><span style="color: #0000bb;">3</span></span><span style="font-family: 新宋体;"><span style="color: #007700;">;
+            }
+            elseif( (</span><span style="color: #0000bb;">$byte </span><span style="color: #007700;">& ~</span><span style="color: #0000bb;">$head_mask</span><span style="color: #007700;">[</span><span style="color: #0000bb;">1</span><span style="color: #007700;">] ) == </span><span style="color: #0000bb;">0xc0 </span><span style="color: #007700;">)    </span></span><span style="color: #ff8000;"><span style="font-family: 新宋体;">//2 byte     '110xxxxx 10xxxxxx '
+            </span></span><span style="font-family: 新宋体;"><span style="color: #007700;">{
+                </span><span style="color: #0000bb;">$code_n </span><span style="color: #007700;">= </span><span style="color: #0000bb;">2</span></span><span style="font-family: 新宋体;"><span style="color: #007700;">;
+            }
+            elseif( (</span><span style="color: #0000bb;">$byte </span><span style="color: #007700;">& ~</span><span style="color: #0000bb;">$head_mask</span><span style="color: #007700;">[</span><span style="color: #0000bb;">0</span><span style="color: #007700;">] ) == </span><span style="color: #0000bb;">0x00 </span><span style="color: #007700;">)    </span></span><span style="color: #ff8000;"><span style="font-family: 新宋体;">//1 byte utf8 (ansi byte) '0xxxxxxx'
+            </span></span><span style="font-family: 新宋体;"><span style="color: #007700;">{
+                </span><span style="color: #0000bb;">$code_n </span><span style="color: #007700;">= </span><span style="color: #0000bb;">1</span></span><span style="color: #007700;"><span style="font-family: 新宋体;">;
+            }
+            else                                        </span></span><span style="color: #ff8000;"><span style="font-family: 新宋体;">//other encoding byte (no utf8)
+            </span></span><span style="color: #007700;"><span style="font-family: 新宋体;">{
+                </span></span><span style="font-family: 新宋体;"><span style="color: #ff8000;">//error byte
+                </span><span style="color: #0000bb;">printf</span><span style="color: #007700;">(</span><span style="color: #dd0000;">"error($i):0x%02x\n"</span><span style="color: #007700;">, </span><span style="color: #0000bb;">$byte</span></span><span style="color: #007700;"><span style="font-family: 新宋体;">);
+                continue;
+            }
+            
+            </span></span><span style="font-family: 新宋体;"><span style="color: #ff8000;">//echo( "\n$i,$code_n:{". substr($str, $i, $code_n) ."}\n" );
+            
+            </span><span style="color: #0000bb;">$code </span><span style="color: #007700;">= </span><span style="color: #0000bb;">$byte </span><span style="color: #007700;">& </span><span style="color: #0000bb;">$head_mask</span><span style="color: #007700;">[</span><span style="color: #0000bb;">$code_n</span><span style="color: #007700;">-</span><span style="color: #0000bb;">1</span></span><span style="color: #007700;"><span style="font-family: 新宋体;">];
+            </span></span><span style="font-family: 新宋体;"><span style="color: #ff8000;">//$code <<= 
+            </span><span style="color: #007700;">for(</span><span style="color: #0000bb;">$j </span><span style="color: #007700;">= </span><span style="color: #0000bb;">0</span><span style="color: #007700;">; </span><span style="color: #0000bb;">$j </span><span style="color: #007700;">< </span><span style="color: #0000bb;">$code_n</span><span style="color: #007700;">-</span><span style="color: #0000bb;">1</span><span style="color: #007700;">; </span><span style="color: #0000bb;">$j</span></span><span style="font-family: 新宋体;"><span style="color: #007700;">++)
+            {
+                </span><span style="color: #0000bb;">$code </span><span style="color: #007700;"><<= </span><span style="color: #0000bb;">6</span></span><span style="font-family: 新宋体;"><span style="color: #007700;">;
+                </span><span style="color: #0000bb;">$code </span><span style="color: #007700;">|= </span><span style="color: #0000bb;">ord</span><span style="color: #007700;">( </span><span style="color: #0000bb;">$str</span><span style="color: #007700;">[</span><span style="color: #0000bb;">$i </span><span style="color: #007700;">+ </span><span style="color: #0000bb;">$j </span><span style="color: #007700;">+ </span><span style="color: #0000bb;">1</span><span style="color: #007700;">] ) & </span><span style="color: #0000bb;">0x3f </span></span><span style="font-family: 新宋体;"><span style="color: #007700;">;
+            }
+            </span><span style="color: #0000bb;">$i </span><span style="color: #007700;">+= </span><span style="color: #0000bb;">$code_n</span><span style="color: #007700;">-</span><span style="color: #0000bb;">1</span></span><span style="font-family: 新宋体;"><span style="color: #007700;">;
+            </span><span style="color: #0000bb;">$result</span><span style="color: #007700;">[] = </span><span style="color: #0000bb;">$code</span></span><span style="color: #007700;"><span style="font-family: 新宋体;">;
+        }
+    }
 
-&nbsp;&nbsp;&nbsp;&nbsp;
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-&nbsp;&nbsp;&nbsp;&nbsp;
-&nbsp;&nbsp;&nbsp;&nbsp;
-&nbsp;&nbsp;&nbsp;&nbsp;</span></span><span style="font-family: 新宋体;"><span style="color: #ff8000;">//$a&nbsp;=&nbsp;"中国";&nbsp;&nbsp;&nbsp;&nbsp;
-&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="color: #007700;">for(</span><span style="color: #0000bb;">$i</span><span style="color: #007700;">=</span><span style="color: #0000bb;">0</span><span style="color: #007700;">;&nbsp;</span><span style="color: #0000bb;">$i</span><span style="color: #007700;"><</span><span style="color: #0000bb;">strlen</span><span style="color: #007700;">(</span><span style="color: #0000bb;">$a</span><span style="color: #007700;">);&nbsp;</span><span style="color: #0000bb;">$i</span></span><span style="font-family: 新宋体;"><span style="color: #007700;">++)
-&nbsp;&nbsp;&nbsp;&nbsp;{
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="color: #0000bb;">printf</span><span style="color: #007700;">(</span><span style="color: #dd0000;">"%2x&nbsp;"</span><span style="color: #007700;">,&nbsp;</span><span style="color: #0000bb;">ord</span><span style="color: #007700;">(</span><span style="color: #0000bb;">$a</span><span style="color: #007700;">[</span><span style="color: #0000bb;">$i</span></span><span style="font-family: 新宋体;"><span style="color: #007700;">])&nbsp;);
-&nbsp;&nbsp;&nbsp;&nbsp;}
-&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="color: #0000bb;">utf8_to_int</span><span style="color: #007700;">(</span><span style="color: #0000bb;">$a</span></span><span style="font-family: 新宋体;"><span style="color: #007700;">);
+    
+        
+    
+    
+    </span></span><span style="font-family: 新宋体;"><span style="color: #ff8000;">//$a = "中国";    
+    </span><span style="color: #007700;">for(</span><span style="color: #0000bb;">$i</span><span style="color: #007700;">=</span><span style="color: #0000bb;">0</span><span style="color: #007700;">; </span><span style="color: #0000bb;">$i</span><span style="color: #007700;"><</span><span style="color: #0000bb;">strlen</span><span style="color: #007700;">(</span><span style="color: #0000bb;">$a</span><span style="color: #007700;">); </span><span style="color: #0000bb;">$i</span></span><span style="font-family: 新宋体;"><span style="color: #007700;">++)
+    {
+        </span><span style="color: #0000bb;">printf</span><span style="color: #007700;">(</span><span style="color: #dd0000;">"%2x "</span><span style="color: #007700;">, </span><span style="color: #0000bb;">ord</span><span style="color: #007700;">(</span><span style="color: #0000bb;">$a</span><span style="color: #007700;">[</span><span style="color: #0000bb;">$i</span></span><span style="font-family: 新宋体;"><span style="color: #007700;">]) );
+    }
+    </span><span style="color: #0000bb;">utf8_to_int</span><span style="color: #007700;">(</span><span style="color: #0000bb;">$a</span></span><span style="font-family: 新宋体;"><span style="color: #007700;">);
 </span><span style="color: #0000bb;">?></span></span></span>
 

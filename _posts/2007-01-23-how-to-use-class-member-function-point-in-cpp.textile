@@ -1,7 +1,7 @@
 ---
 layout: post
 title: 原来C＋＋支持 类成员函数指针
-category: note
+category: cpp
 ---
 
 <span style="font-size: 13px;">
@@ -12,55 +12,55 @@ category: note
 using namespace std;
 
 class A;
-typedef void (A::*pAFun)(void);&nbsp;&nbsp;//定义类成员函数指针
+typedef void (A::*pAFun)(void);  //定义类成员函数指针
 
 class A{
 
 public:
-&nbs void fun(){
-&nbs&nbsp; &nbsp;&nbsp;&nbsp;cout<<"A::fun run"<<endl;
-&nbs };
+  void fun(){
+      cout<<"A::fun run"<<endl;
+  };
 };
 
 class B
 {
 protected:
-&nbs A *_a;
-&nbs pAFun _callback;
+  A *_a;
+  pAFun _callback;
 
 public:
-&nbs B():_callback(NULL), _a(NULL)
-&nbs {};
-&nbsp;&nbsp;
-&nbs void setOnDo(pAFun _pf_callback, A * pA)
-&nbs {
-&nbs&nbsp; &nbsp;&nbsp;&nbsp;_callback = _pf_callback;
-&nbs&nbsp; &nbsp;&nbsp;&nbsp;_a = pA;
-&nbs }
-&nbs 
-&nbs void Do()
-&nbs {
-&nbs&nbsp; &nbsp;&nbsp;&nbsp;cout << "class B::Do ..." <<endl;
-&nbs&nbsp; &nbsp;&nbsp;&nbsp;cout << "class B::Do callback: ..." <<endl;
-&nbs&nbsp; &nbsp;&nbsp;&nbsp;if(_callback && _a)
-&nbs&nbsp; &nbsp;&nbsp;&nbsp;{
-&nbs&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;(_a->*_callback)();&nbsp;&nbsp;//以一种奇怪的方式进行&ldquo;类成员函数指针&rdquo;的调用
-&nbs&nbsp; &nbsp;&nbsp;&nbsp;}
-&nbs&nbsp; &nbsp;&nbsp;&nbsp;cout << "class B::Do return" <<endl;
-&nbs }
-&nbs 
+  B():_callback(NULL), _a(NULL)
+  {};
+  
+  void setOnDo(pAFun _pf_callback, A * pA)
+  {
+      _callback = _pf_callback;
+      _a = pA;
+  }
+  
+  void Do()
+  {
+      cout << "class B::Do ..." <<endl;
+      cout << "class B::Do callback: ..." <<endl;
+      if(_callback && _a)
+      {
+          (_a->*_callback)();  //以一种奇怪的方式进行&ldquo;类成员函数指针&rdquo;的调用
+      }
+      cout << "class B::Do return" <<endl;
+  }
+  
 };
 
 int main(int argc, char *argv[])
 {
-&nbs A a;
-&nbs B b;
+  A a;
+  B b;
 
-&nbs b.setOnDo(&A::fun, &a);
+  b.setOnDo(&A::fun, &a);
 
-&nbs b.Do();
+  b.Do();
 
-&nbs return 0;
+  return 0;
 }</div>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 刚刚写代码验证的，做个记号。</span><span style="font-size: small;"> </span>
+      刚刚写代码验证的，做个记号。</span><span style="font-size: small;"> </span>
 

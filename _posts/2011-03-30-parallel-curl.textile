@@ -10,7 +10,7 @@ category: opensource
 我看到一些开源的curl-multi封装不够好, 于是闲着没事写了一个.
 
 
-可以利用它搭建一个负责HTTP并发通讯的子程序.&nbsp;
+可以利用它搭建一个负责HTTP并发通讯的子程序. 
 
 
 如果将其中的CurlTaskList作成动态载入的形式(比如向某个urls服务器请求获取任务), 如果将OnFinished扩展成HTML Parser, (比如提取内容并存储, 解析出urls, 提交回urls服务器) 那么一个简陋的蜘蛛就搭起来了.
@@ -19,7 +19,7 @@ category: opensource
 -------------
 
 
-项目主页:&nbsp;<a href="https://github.com/dulao5/parallel-curl">https://github.com/dulao5/parallel-curl</a>
+项目主页: <a href="https://github.com/dulao5/parallel-curl">https://github.com/dulao5/parallel-curl</a>
 
 
 h2. *Parallel Curl*
@@ -33,7 +33,7 @@ h2. *特性*
 
 <ul>
 <li>并发执行(多路复用)</li>
-<li>事件模式:&nbsp; 
+<li>事件模式:  
 <ul>
 <li>每个HTTP访问视为一个"Task"</li>
 <li>主程序是个run()函数. 当Task执行完时, 会通知调用方, 调用方在On Finished事件中处理自己的任务;</li>

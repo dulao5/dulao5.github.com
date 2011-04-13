@@ -7,23 +7,23 @@ category: cpp
 据说有这种面试题：
 class A
 {
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; public :
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; char get_m() const
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; {
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbs&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; return m;
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; }
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; private:
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; char m;
+        public :
+        char get_m() const
+        {
+               return m;
+        }
+        private:
+        char m;
 }
 请在函数get_m中改变m的值。
 
 我想，对于这种流氓问题，只好使用流氓的做法：
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; char get_m() const
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; {
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbs&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; char * p = (char *) &m;
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbs&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; *p = 'C';
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbs&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; return m;
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; }
+        char get_m() const
+        {
+              char * p = (char *) &m;
+              *p = 'C';
+               return m;
+        }
 呵呵，可以做到，因为类内const函数是通过&ldquo;把类内成员都作为const&rdquo;来实现的。
 不过这是我这种&ldquo;流氓程序员&rdquo;的做法。
 

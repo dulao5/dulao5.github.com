@@ -22,7 +22,7 @@ _不过, 拜GFW所赐, 光上面的三个条件是不行滴, google的IP地址�
 
 
 <ul>
-<li>评论功能有点问题, 提交后不能自动跳回 &nbsp;;</li>
+<li>评论功能有点问题, 提交后不能自动跳回  ;</li>
 <li>很多文章没分类问题, 昨天遗留了几十篇文章, 可以通过 "导出" -> "编辑xml" ->"导入" 的思路解决;</li>
 <li>CSS 不太爽, 而且IE6下有bug (我咋还没忘IE6呢) ;</li>
 <li>Feed烧制</li>
@@ -30,5 +30,5 @@ _不过, 拜GFW所赐, 光上面的三个条件是不行滴, google的IP地址�
 *Update : 2011-01-07*
 
 
-换了一个主题: &nbsp;_<a title="WordPress主题5styles" href="http://marslau.com/archives/454.html">5styles</a>&nbsp;主题由&nbsp;<a title="Mars Lau's blog" href="http://marslau.com/" target="_blank">Mars Lau</a>&nbsp;提供, 由&nbsp;<a title="vvonder's blog" href="http://vvonderblog.appspot.com/" target="_blank">vvonder</a>&nbsp;修改&移植_
+换了一个主题:  _<a title="WordPress主题5styles" href="http://marslau.com/archives/454.html">5styles</a> 主题由 <a title="Mars Lau's blog" href="http://marslau.com/" target="_blank">Mars Lau</a> 提供, 由 <a title="vvonder's blog" href="http://vvonderblog.appspot.com/" target="_blank">vvonder</a> 修改&移植_
 

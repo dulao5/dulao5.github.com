@@ -6,9 +6,9 @@ category: life
 
 这个网志荒废了两年了, 今天我借着元旦, 把数据迁移到了<a href="http://xuming.net/micolog">Micolog</a>上.
 
-目前临时域名是:&nbsp;<a href="http://dulao5.appspot.com/">http://dulao5.appspot.com</a>
+目前临时域名是: <a href="http://dulao5.appspot.com/">http://dulao5.appspot.com</a>
 
-准备近期再鼓捣一个域名, 申请一个feed烧制服务, 升级和定制一下模板. 这样, 网志就齐活了. &nbsp;以后保持勤奋的心态, 坚持写blog.
+准备近期再鼓捣一个域名, 申请一个feed烧制服务, 升级和定制一下模板. 这样, 网志就齐活了.  以后保持勤奋的心态, 坚持写blog.
 
 说说近况吧.
 

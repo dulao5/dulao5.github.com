@@ -8,7 +8,7 @@ category: note
 
 
 ssh-keygen -t rsa #输入一个不同于登陆密码的密码
-scp .ssh/id_rsa.pub&nbsp; hostname_B:/home/youruser/.ssh/authorized_keys
+scp .ssh/id_rsa.pub  hostname_B:/home/youruser/.ssh/authorized_keys
 exec /usr/bin/ssh-agent $SHELL
 ssh-add #输入刚才那个密码
 

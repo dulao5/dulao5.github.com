@@ -4,10 +4,10 @@ title: SICP练习题 1.3~1.6
 category: SICP
 ---
 
-重新捧起<a href="http://book.douban.com/subject/1148282/">SICP</a>&nbsp;, 这次准备花半年到一年时间, 认真的读, 认真的做练习题. 并且希望能学会用Scheme 和 Common Lisp&nbsp;.
+重新捧起<a href="http://book.douban.com/subject/1148282/">SICP</a> , 这次准备花半年到一年时间, 认真的读, 认真的做练习题. 并且希望能学会用Scheme 和 Common Lisp .
 
 
-<a href="http://zh.wikipedia.org/wiki/Scheme">Scheme</a> 和 <a href="http://zh.wikipedia.org/wiki/Common_Lisp">Common Lisp</a>&nbsp;是Lisp的两大方言, 说实话我今天才弄清楚这个概念. (参考Wikipedia, 上面说的比较清楚&nbsp;) 在我这个初学者看来, 能感受到的就是Scheme里面数据和函数是在同一个空间, 等同对待; 而Common Lisp的确是分属两个空间, 使用函数变量必须通过#'来标记.
+<a href="http://zh.wikipedia.org/wiki/Scheme">Scheme</a> 和 <a href="http://zh.wikipedia.org/wiki/Common_Lisp">Common Lisp</a> 是Lisp的两大方言, 说实话我今天才弄清楚这个概念. (参考Wikipedia, 上面说的比较清楚 ) 在我这个初学者看来, 能感受到的就是Scheme里面数据和函数是在同一个空间, 等同对待; 而Common Lisp的确是分属两个空间, 使用函数变量必须通过#'来标记.
 
 
 废话少说, 开始解题.

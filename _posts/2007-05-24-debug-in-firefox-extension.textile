@@ -33,7 +33,7 @@ category: front-end
 
 <blockquote style="margin-right: 0px;" dir="ltr">
 window.onerror = function(msg,url,line){
-&nbsp;ACPdebug.onWindowError(msg,url,line);
+ ACPdebug.onWindowError(msg,url,line);
 }
 
 

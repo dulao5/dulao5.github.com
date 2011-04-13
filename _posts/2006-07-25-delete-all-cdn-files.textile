@@ -29,7 +29,7 @@ rem 这个垃圾流氓卸载 需要在安全模式下进行,也可以终止explo
 
 
 <blockquote style="margin-right: 0px;" dir="ltr">
-for /R %d in (*cdn*) do echo "%d"&nbsp;&nbsp;&nbsp;&nbsp; //没有使用del命令是怕删掉别的无辜文件
+for /R %d in (*cdn*) do echo "%d"     //没有使用del命令是怕删掉别的无辜文件
 
 
 
@@ -37,7 +37,7 @@ for /R %d in (*cdn*) do echo "%d"&nbsp;&nbsp;&nbsp;&nbsp; //没有使用del命�
 
 
 <blockquote style="margin-right: 0px;" dir="ltr">
-for /R %d in (*cdn*) do&nbsp;del "%d"&nbsp;&nbsp;&nbsp;&nbsp; //用引号是避免路径中的空格对del命令的干扰
+for /R %d in (*cdn*) do del "%d"     //用引号是避免路径中的空格对del命令的干扰
 
 
 
@@ -53,5 +53,5 @@ rmdir "\program files\cnnic"
 <p dir="ltr">这样，cnnic相关文件就被清除干净了。用同样的办法，我也清除了letscool这个流氓。最后打开regedit,查找所有run的项，删除未知来源的键值。我的电脑终于恢复了宁静和谐，哈哈。
 
 
-<p dir="ltr">&nbsp;
+<p dir="ltr"> 
 

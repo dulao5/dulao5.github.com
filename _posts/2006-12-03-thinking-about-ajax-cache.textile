@@ -7,13 +7,13 @@ category: front-end
 <span class="postbody">从<a title="ajaxcn.org" href="http://ajaxcn.org/"><span style="color: #250dff;">ajaxcn.org</span></a>的<a title="bbs" href="http://ajaxcn.org/forum/forums/show/11.page"><span style="color: #0021f8;">bbs</span></a>中看到这篇《<a href="http://zkj.wisekernel.net/read.php/13.htm">对ajax cache的一些思考</a>》，做了回复，如下：</span>
 
 
-<span class="postbody">－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－&nbsp;</span>
+<span class="postbody">－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－ </span>
 
 
-<span class="postbody">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 去年我做ajax时，使用了cache,&nbsp; cc.eyou.com，ajax部分是我设计的，可惜我后来离开了，没有把它做到尽善尽美。 </span>
+<span class="postbody">       去年我做ajax时，使用了cache,  cc.eyou.com，ajax部分是我设计的，可惜我后来离开了，没有把它做到尽善尽美。 </span>
 
 
-<span class="postbody">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 我使用了观察者模式组织界面：</span>
+<span class="postbody">        我使用了观察者模式组织界面：</span>
 
 
 <ul style="margin-right: 0px;" dir="ltr">
@@ -23,15 +23,15 @@ category: front-end
 <li><span class="postbody">数据集在doc类里面，里面的数据用到了cache ；</span></li>
 </ul>
 <span class="postbody">
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 我用cache实现了这样的效果：
+       我用cache实现了这样的效果：
 
 
 <ul>
 <li>当页面载入时，初始化用到的view,每个view载入各自的javascript template文件后，这个文件就被缓存了，以后的view更新时不必再次请求服务器。 </li>
-<li>页面载入后，载入&ldquo;联系人列表&rdquo;第一页，同时缓存第一页数据，向后翻页继续缓存，并合并缓存。这样当重新访问第一页时，不必请求互联网。&nbsp;</li>
+<li>页面载入后，载入&ldquo;联系人列表&rdquo;第一页，同时缓存第一页数据，向后翻页继续缓存，并合并缓存。这样当重新访问第一页时，不必请求互联网。 </li>
 </ul>
 
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 不过，我与到了很多问题：
+        不过，我与到了很多问题：
 
 
 <blockquote style="margin-right: 0px;" dir="ltr">
@@ -49,22 +49,22 @@ category: front-end
 
 
 
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 总之从目前的浏览器功能来说，没有浏览器的支持， js级别的缓存还是不宜使用太多。使用了缓存，编码复杂度会很复杂，可能会陷入进去难以自拔。&nbsp;
+       总之从目前的浏览器功能来说，没有浏览器的支持， js级别的缓存还是不宜使用太多。使用了缓存，编码复杂度会很复杂，可能会陷入进去难以自拔。 
 
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 另外，js做缓存只能通过变量存储字符串的形式来做。这样做的缺点很明显，不能跨页面，关了窗口就没了。&nbsp;
+        另外，js做缓存只能通过变量存储字符串的形式来做。这样做的缺点很明显，不能跨页面，关了窗口就没了。 
 
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 我考虑过的其他途径，都被否定了。
+        我考虑过的其他途径，都被否定了。
 
 
 <blockquote style="margin-right: 0px;" dir="ltr">
 1。如果依赖浏览器对静态页面的缓存，可能浏览器仍然会发出一个If-Modified-Since之类的http头请求。 
 2。使用本地文本文件？不行，有安全限制。不过，用js开发HTA之类的应用程序，可以这么做。 
-3。使用cookie? 嗯，貌似不错，但是cookie会随着每次http会话一起提交，带来不必要的流量。&nbsp;
+3。使用cookie? 嗯，貌似不错，但是cookie会随着每次http会话一起提交，带来不必要的流量。 
 
 
 
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 忽然想到，最近看到qyb的文章，介绍Set-Cookie 的 secure 属性， 它表示创建的 cookie 只能在 HTTPS 连接中被浏览器传递到服务器端进行会话验证，如果是 HTTP 连接则不会传递该信息。 
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 不知道可不可以通过这个途径使用cookie实现缓存，哈哈。不过，这是奇技淫巧，不能保证始终有效吧。
+       忽然想到，最近看到qyb的文章，介绍Set-Cookie 的 secure 属性， 它表示创建的 cookie 只能在 HTTPS 连接中被浏览器传递到服务器端进行会话验证，如果是 HTTP 连接则不会传递该信息。 
+      不知道可不可以通过这个途径使用cookie实现缓存，哈哈。不过，这是奇技淫巧，不能保证始终有效吧。
 
 
 
@@ -76,4 +76,4 @@ category: front-end
 </span>
 
 
-&nbsp;
+ 

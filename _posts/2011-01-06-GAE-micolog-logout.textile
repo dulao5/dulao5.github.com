@@ -10,7 +10,7 @@ category: note
 <ul>
 <li> 注销的链接:
  @
- http://www.dulao5.com/_ah/logout?continue=https://www.google.com/accounts/Logout%3Fcontinue%3Dhttp://www.dulao5.com/admin/setup%26service%3Dah&nbsp;&nbsp;
+ http://www.dulao5.com/_ah/logout?continue=https://www.google.com/accounts/Logout%3Fcontinue%3Dhttp://www.dulao5.com/admin/setup%26service%3Dah  
 
 
 
@@ -23,7 +23,7 @@ category: note
 </li>
 <li> google的Logout页面:
  @
- https://www.google.com/accounts/Logout?continue=http://www.dulao5.com/admin/setup&service=ah&nbsp;
+ https://www.google.com/accounts/Logout?continue=http://www.dulao5.com/admin/setup&service=ah 
 
 
 
@@ -37,16 +37,16 @@ category: note
 <script type="text/javascript">
 
 
-&nbsp; &nbsp;function doRedirect() {
+   function doRedirect() {
 
 
-&nbsp; &nbsp; &nbsp;location.replace("http://www.dulao5.com/admin/setup");
+     location.replace("http://www.dulao5.com/admin/setup");
 
 
-&nbsp; &nbsp;}
+   }
 
 
-&nbsp;</script>
+ </script>
 
 
 <img src="https://www.google.com/calendar/remotelogout?r=-1311949284758290125" height="0" width="0" alt="退出"> <img src="https://docs.google.com/remotelogout?r=1732054714620515307" height="0" width="0" alt="退出">

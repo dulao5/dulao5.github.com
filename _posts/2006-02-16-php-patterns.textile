@@ -4,10 +4,10 @@ title: phppatterns.com
 category: php
 ---
 
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 偶然从<a href="http://www.7880.com/info/Article-22243c0.html%20">这篇文章</a>中看到phppatterns.com立即信息若狂。以前我看pear的<a href="http://pear.php.net/manual/en/package.database.db.php">DB</a>实现的时候、看pear的<a href="http://pear.php.net/manual/en/package.http.http-request.php">httpRequest</a>的时候，早就想写一些或者看一些php对于设计模式方面的文章了。我还从google搜索过php+OO试图寻找过这样的网站结果一无所获，当时笨的很，没有搜索php+pattern，看来我的搜索功力还不够强啊。
+       偶然从<a href="http://www.7880.com/info/Article-22243c0.html%20">这篇文章</a>中看到phppatterns.com立即信息若狂。以前我看pear的<a href="http://pear.php.net/manual/en/package.database.db.php">DB</a>实现的时候、看pear的<a href="http://pear.php.net/manual/en/package.http.http-request.php">httpRequest</a>的时候，早就想写一些或者看一些php对于设计模式方面的文章了。我还从google搜索过php+OO试图寻找过这样的网站结果一无所获，当时笨的很，没有搜索php+pattern，看来我的搜索功力还不够强啊。
 
 
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 大体浏览了一下，网站不错，里面似乎文章不是很多，但是看起来非常专业。有空好好研究。
+       大体浏览了一下，网站不错，里面似乎文章不是很多，但是看起来非常专业。有空好好研究。
 
 
 

@@ -72,5 +72,5 @@ if ($pid == -1) {
 
 
 </div>
-@<span class="html"><span class="default">&nbsp;</span></span>@<a></a><a href="/admin/function.pcntl-waitpid.html">&nbsp;</a><a href="/admin/function.pcntl-waitpid.html">&nbsp;</a>
+@<span class="html"><span class="default"> </span></span>@<a></a><a href="/admin/function.pcntl-waitpid.html"> </a><a href="/admin/function.pcntl-waitpid.html"> </a>
 
