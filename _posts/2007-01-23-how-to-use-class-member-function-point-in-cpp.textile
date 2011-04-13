@@ -8,7 +8,8 @@ category: cpp
 <div class="smalltxt" style="font-weight: bold; margin-left: 2em; margin-right: 2em;">
 <div style="float: left;">CODE:</div>
 </div>
-<div id="code0" class="altbg2" style="clear: both; padding-right: 10px; padding-left: 10px; padding-bottom: 10px; margin: 3px 2em 2em; padding-top: 5px; font-family: fixedsys; border: #698cc3 1px solid;">#include <iostream>
+{% highlight c++ %}
+#include <iostream>
 using namespace std;
 
 class A;
@@ -61,6 +62,7 @@ int main(int argc, char *argv[])
   b.Do();
 
   return 0;
-}</div>
+}
+{% endhighlight %}
       刚刚写代码验证的，做个记号。</span><span style="font-size: small;"> </span>
 
