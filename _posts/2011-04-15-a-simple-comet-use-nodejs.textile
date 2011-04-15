@@ -110,7 +110,7 @@ console.log('server running at http://127.0.0.1:18124/');
 
 可以看到, 用javascript event的风格写服务器, 简直是明白如话, 散文那样自然.
 我用global.messages对象来存储消息, key是resid(上面说的客户端id), value是个array, 里面存储客户端收到的messages.
-我为GET/PUT两种操作分别实现响应两个函数. 
+我为GET/PUT两种操作分别实现两个函数. 
 PUT函数, 收到请求就将query_string当作message存到对应resid的array中, 然后断开HTTP连接.
 GET函数, 收到请求就启动一个定时器, 轮询global.messages里面自己的消息队列(array). 如果遇到数据则在HTTP response输出http chunked. HTTP连接不主动关闭, 但如果被异常关闭则清除定时器对象.
 
