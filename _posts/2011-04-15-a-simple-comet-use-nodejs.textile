@@ -4,35 +4,25 @@ title: 使用nodejs搭建最简单的comet原型
 category: note
 ---
 
+h3. 什么是Comet
+
 Comet, 据<a href="http://www.ibm.com/developerworks/cn/web/wa-lo-comet/">IBM这篇文章</a>介绍,是<i>基于HTTP长连接的“服务器推”技术</i>. 和AJAX类似, 这是一种改善WEB用户体验的通讯技术. 其实早在CGI盛行的时代, 有种叫做"Server-Push"的技术, 和Comet本质是一回事, 都是基于长连接来实现. Server-Push更具体, 强调使用multipart/x-mixed-replace的Conent-Type技巧, 使得服务器能替换浏览器的内容. Comet包含面更广泛, 只要是有长连接和HTTP chunked的实现, 都算作其中. <a href="http://www.josephj.com/entry.php?id=358">这篇文章</a>详细介绍了Comet的各种形态,值得一读.
 
 Comet虽然能让浏览器达到及时的响应, 但是由于基于长连接实现, 服务器成本很高. 最近这种技术之所以火起来, 主要还是牛人们探索到了各种降低服务器成本的方法. <a href="http://amix.dk/blog/label/25#AJAX-and-comet">这个叫amix的家伙</a>对此有较多的研究.
 
+h3. 什么是NodeJs
+
 <a href="http://nodejs.org/">nodejs</a>号称Evented I/O for V8 JavaScript, 是基于<a href="http://code.google.com/p/v8/">V8</a>的一款神器, 让我们可以使用javascript轻松进行服务器端编程.
+
+h3. 最简单的Comet原型
 
 我用一下午的时间, 使用nodejs搞了一个简单的不能再简单的Comet原型. 在这个demo里面, 我假定使用iframe实现Comet, 但是忽略了iframe的父窗口和客户端js库, 只考虑服务器如何将HTTP chunked push到客户端.
 
-我定义了一种Comet资源: http://{host}/{pathname}?[{query_string}] . 其中{pathname}直接当作客户端id来使用. {query_string}用来做消息内容. 这样, 原型就简化成了两种操作:
+我定义了一种Comet资源: http://{host}/{pathname}?[{query_string}] . 其中{pathname}直接当作客户端id来使用(在程序里面它被叫做resid). {query_string}用来做消息内容. 这样, 原型就简化成了两种操作:
  * HTTP GET : <i>http://{host}/{pathname}</i>   用来模拟iframe长连接, 不断接收到新数据.
  * HTTP PUT : <i>http://{host}/{pathname}?{query_string} </i> 用来模拟业务操作, 直接将{query_string}当作数据投递到上面的长连接里面.
 
-测试方法: 
-我们在第一个终端模拟iframe, 输入命令, 观察收到的数据:
-<pre>
-telnet 127.0.0.1 18124
-GET /mymessages HTTP/1.1
-
-HTTP/1.1 200 OK
-content-type: text/plain
-Connection: keep-alive
-Transfer-Encoding: chunked
-</pre>
-
-我们在第二个终端输入curl -X PUT命令, 模拟各种业务消息:
-<pre>
-curl -X PUT "http://127.0.0.1:18124/mymessages?a=1&b=2&c=3"
-curl -X PUT "http://127.0.0.1:18124/mymessages?a=4&b=5&c=6"
-</pre>
+h3. 具体实现
 
 好, 主角登场, 用nodejs实现最简单的Comet:
 
@@ -108,14 +98,53 @@ require('http').createServer(function (request, response) {
 console.log('server running at http://127.0.0.1:18124/');
 {% endhighlight %}
 
+h3. 测试方法
+
+上面的代码保存到文件, 我们在第一个终端启动这个服务:
+<pre>
+shell> node hello.js
+</pre>
+
+我们在第二个终端模拟iframe的数据流. 输入命令, 观察收到的数据:
+<pre>
+telnet 127.0.0.1 18124
+GET /mymessages HTTP/1.1
+
+HTTP/1.1 200 OK
+content-type: text/plain
+Connection: keep-alive
+Transfer-Encoding: chunked
+</pre>
+
+我们在第三个终端输入curl -X PUT命令, 模拟发送两条消息:
+<pre>
+shell> curl -X PUT "http://127.0.0.1:18124/mymessages?a=1&b=2&c=3"
+ok
+shell> curl -X PUT "http://127.0.0.1:18124/mymessages?a=4&b=5&c=6"
+ok
+</pre>
+
+观察第二个终端, 会发现已经收到两条HTTP chunked. (为了避免测试数据小于MTU, 我实际上多输出了一些空格,但这里省去了.)
+<pre>
+202
+a=1&b=2&c=3
+
+202
+a=4&b=5&c=6
+</pre>
+
+h3. 总结
+
+在这个原型中, 我省掉了Comet iframe方案内无关紧要的东西, 只用HTTP PUT/GET来演示一个最简单的原型. 用NodeJs轻松搭建了它.
+
 可以看到, 用javascript event的风格写服务器, 简直是明白如话, 散文那样自然.
 我用global.messages对象来存储消息, key是resid(上面说的客户端id), value是个array, 里面存储客户端收到的messages.
-我为GET/PUT两种操作分别实现两个函数. 
+我为GET/PUT两种操作分别实现了两个函数. 
 PUT函数, 收到请求就将query_string当作message存到对应resid的array中, 然后断开HTTP连接.
 GET函数, 收到请求就启动一个定时器, 轮询global.messages里面自己的消息队列(array). 如果遇到数据则在HTTP response输出http chunked. HTTP连接不主动关闭, 但如果被异常关闭则清除定时器对象.
 
-就这么一个简单功能, 如果用C和select来开发, 那么一个全局的客户端句柄队列是免不了要实现的, 当io事件到来时, 如何恢复之前中断的上下文,进行正确的io操作, 是一件头疼的事情. 
-而我们看myoutput定时器函数. 局部变量resid/response就在函数的定义环境内, 所以函数被执行时, 很自然就使用这些上下文信息. 相比来说, C里面的客户端句柄队列设计就太突兀了.
+就这么一个简单功能, 如果用C和select来开发, 那么一个全局的客户端句柄队列是免不了要实现的, 当io事件到来时, 如何恢复之前中断的上下文,进行正确的io操作, 也是一件头疼的事情. 
+而我们看这个实现里面的<i>myoutput</i>定时器函数. 由于局部变量<i>resid,response</i>在函数的定义时环境内, 所以函数被执行时, 很自然就使用这些上下文信息. 相比来说, C的实现里面专门为此设计一个客户端句柄队列就太突兀了.
 
-javascript通过函数式的风格, 以及闭包的特性, 轻而易举的完成了一个非阻塞服务器. 如果说libevent是通过库来实现了事件的封装, 那么nodejs所宣称的"Evented I/O for V8 JavaScript", 则是借javascript优雅特性获得自然的收获.
+javascript通过函数式和闭包, 轻而易举的完成了一个非阻塞服务器. 如果说libevent是通过库来实现了事件的封装, 那么nodejs所宣称的"Evented I/O for V8 JavaScript", 则是借语言本身的优雅特性获得自然的收获.
 
