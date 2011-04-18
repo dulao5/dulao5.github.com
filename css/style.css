@@ -78,7 +78,7 @@ div#wrapper {
 	line-height:190%;
 	margin:0 auto 50px;
 	padding:20px;
-	text-shadow:0 1px 0 #FFFFFF;
+	/* text-shadow:0 1px 0 #FFFFFF; dzg*/
 	width:700px;
 }
 
@@ -254,11 +254,11 @@ pre {
 	background-color:#222222;
 	color:#FFFFFF;
 	font-size:13px;
-	margin:0 0 0 -40px;
+/*	margin:0 0 0 -40px; dzg*/
 	padding:20px;
 	text-shadow:0 1px 0 #000000;
 	white-space:pre-wrap;
-	width:740px;
+/*	width:740px; dzg */
 	word-wrap:break-word;
 }
 div.notice {
