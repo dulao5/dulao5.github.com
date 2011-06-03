@@ -1,0 +1,79 @@
+---
+layout: post
+title: 使用nodejs搭建最简单的comet原型
+category: javascript
+---
+
+h2. Javascript Eval Scope
+
+在很多场合, Javascript的代码片段常常需要传递到另一个系统运行. 比如在解析js模板时, 常常将模板字符替换成js代码, 然后调用eval执行它们. 现在, 后端程序也常常遇到这种情况. 最近我遭遇了mongodb的一个问题, 现在问题还没解决, 但涉及到这块, 需要先研究一下.
+
+h3. mongodb的db.eval
+
+mongodb使用javascript做shell, <a href="http://www.mongodb.org/display/DOCS/Server-side+Code+Execution#Server-sideCodeExecution-Using%7B%7Bdb.eval%28%29%7D%7D">mongodb的db.eval</a>可以提供给数据驱动与这种javascript shell类似的js接口. <i>这算是一种<a href="http://www.ics.uci.edu/~fielding/pubs/dissertation/net_arch_styles.htm#sec_3_5">移动代码风格(Mobile Code Sytles)</a>的架构设计吧</i>.  我期望可以利用这个接口, 将一些处理逻辑放在mongodb的节点上运行. 避免在PHP里面多次获取和操作mongodb的数据. (这个需求类似传统数据库的存储过程)
+
+但是测试却发现, 在mongodb里面跑javascript性能不理想. 我写了一段测试代码, 跑10000次循环: 
+{% highlight javascript %}
+function mytest(params) { 
+	var str = "xxxxxxxxxxxxxxxxx0000000000";
+	var data = str + str + str + str;
+	var data = data + data + data + data;
+	var max = 10000;
+	var arr = [];
+
+	for(var i=0; i<max; i++) {
+		arr.push( data + " . " + data);
+	}
+	params.length = arr.length;
+	return params;
+}
+{% endhighlight %}
+结果, 居然浪费58毫秒. 要知道PHP里面才用了8毫秒. 太不可思议了. 我排除了db.eval的nolock因素, 以及使用store js  , 以及直接在javascript shell里面运行, 结果都一样. 于是我猜测:是不是js执行引擎的问题? 我知道mongodb的javascript引擎是SpiderMonkey, 于是在firefox和chrome上对比测试. 结果浏览器运行速度惊人, firefox运行2毫秒, chrome运行0毫秒. 后来用nodejs运行, 结果1毫秒.
+
+分析上面的这些测试结果, 感觉SpiderMonkey不会比V8慢这么多(firefox和chrome顶多差一倍). 难道是mongodb使用js引擎时, 初始化Context开销大? 这个有可能. 仔细看mongodb的源码, 发现<a href="https://github.com/mongodb/mongo/blob/master/db/dbeval.cpp#L40">db.eval的相关部分</a>代码. 流程是: 是先为客户端分配一个Scope, (有个Scope Pool来做缓存) , 客户端代码转换成一个function, 然后执行这个函数.
+
+h3. 分析和测试
+这里有几个问题:
+ * Scope Pool是不是够用, 能否配置?
+ * 客户端代码(String)转换成函数, 再执行的效率如何?
+
+问题1先放下不谈. 还需要后续研究.
+出于对第二个问题的优先兴趣, 我写了一段代码测试chrome和firefox:
+{% highlight javascript %}
+function mytest(params) { 
+	var str = "xxxxxxxxxxxxxxxxx0000000000";
+	var data = str + str + str + str;
+	var data = data + data + data + data;
+	var max = 10000;
+	var arr = [];
+
+	for(var i=0; i<max; i++) {
+		arr.push( data + " . " + data);
+	}
+	params.length = arr.length;
+	return params;
+}
+
+var fun_str = mytest.toString();
+
+function do_test() {
+	var a=new Date();
+	var max = 1000;
+	for(var i=0; i<max; i++) {
+		eval("var fun = " + fun_str + ";");
+		fun({"type":"test"});
+	}
+	var b=new Date(); 
+	console.log(b.valueOf()-a.valueOf());
+}
+
+function begin_test() {
+	console.log(do_test());
+}
+{% endhighlight %}
+
+在chrome上测试, 约1200毫秒; 在firefox上测试, 大约2100毫秒. 看起来符合上面V8比SpiderMonkey快一倍的观测.
+
+h3. 后续
+mongodb Scope Pool的细节不论, 现在起码知道在Scope执行的环节, V8是比SpiderMonkey快一倍的. 接下来, 我要赶紧试试用V8编译mongodb了. 成功后再见.
+
