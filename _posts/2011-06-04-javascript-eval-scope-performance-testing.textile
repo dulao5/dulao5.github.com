@@ -137,3 +137,7 @@ h3. 后续
 mongodb Scope Pool的细节先放在一边, 以后再研究. 现在起码知道在Scope执行的环节, V8的eval执行是慢很多的, 但普通循环V8比SpiderMonkey约快一倍. 这就很矛盾了, 不管怎么说, 接下来, 我要赶紧试试用V8编译mongodb. 在mongodb中实际进行对比测试, 成功后再见.
 
 很遗憾, 这是一篇没有结论的文章.
+
+----
+Update : 今天又仔细看mongodb的源码, 发现客户端传递来的code不是通过js的eval函数进入的js执行环境. 而是调用C++ API: Scope::createFunction( const char * code ) 产生一个ScriptingFunction对象. 所以可能这种方式的性能和js eval没直接关系.
+
