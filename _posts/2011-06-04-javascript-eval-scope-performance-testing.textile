@@ -1,6 +1,6 @@
 ---
 layout: post
-title: Javascript Eval Scope性能测试
+title: 由mongodb引发的Javascript Eval 性能测试
 category: javascript
 ---
 
@@ -36,7 +36,7 @@ function mytest(params) {
 
 分析上面的这些测试结果, 感觉SpiderMonkey不会比V8慢这么多(firefox和chrome顶多差一倍). 难道是mongodb使用js引擎时, 初始化Context开销大? 这个有可能. 仔细看mongodb的源码, 发现<a href="https://github.com/mongodb/mongo/blob/master/db/dbeval.cpp#L40">db.eval的相关部分</a>代码. 流程是: 是先为客户端分配一个Scope, (有个Scope Pool来做缓存) , 客户端代码转换成一个function, 然后执行这个函数.
 
-h3. 分析和测试
+h3. 初步分析和测试
 
 这里有几个问题:
  * Scope Pool是不是够用, 能否配置?
@@ -81,8 +81,59 @@ function begin_test() {
 {% endhighlight %}
 
 在chrome上测试, 约1200毫秒; 在firefox上测试, 大约2100毫秒. 看起来符合上面V8比SpiderMonkey快一倍的观测.
+但是代码内消耗资源的, 除了10000X1000次arr.push之外, 还有1000次eval操作也是大头. 
+于是我将eval次数改成10000, arr.push内循环次数改成1000, 进行比较测试. 结果发现chrome运行了5306毫秒, firefox运行了7014毫秒. 两者相差没那么大了. 看起来普通代码V8比SpiderMonkey快一倍, 但eval这种代码两者相差没那么大.
+
+h3. 使用nodejs和SpiderMonkey的js shell测试eval
+
+为了专门测试eval, 我改变了测试方式, 使用nodejs和SpiderMonkey的js shell来执行测试.
+
+{% highlight javascript %}
+
+function mytest(params) { 
+	if(params.skip = 1) return params;
+
+	var str = "xxxxxxxxxxxxxxxxx0000000000";
+	var data = str + str + str + str;
+	var data = data + data + data + data;
+	var max = 1000;
+	var arr = [];
+
+	for(var i=0; i<max; i++) {
+		arr.push( data + " . " + data);
+	}
+	params.length = arr.length;
+	return params;
+}
+
+
+var fun_str = mytest.toString();
+
+var printfun = (typeof console == 'object' && typeof console.log == 'function') ? console.log : print;
+
+function do_test() {
+	var a=new Date();
+	var max = 10000;
+	for(var i=0; i<max; i++) {
+		eval("var fun = " + fun_str + ";");
+		fun({"skip":1});  //只测试eval, 不测试执行
+	}
+	var b=new Date(); 
+	printfun(b.valueOf()-a.valueOf());
+}
+
+function begin_test() {
+	do_test();
+}
+
+begin_test();
+
+{% endhighlight %}
+
+结果发现, nodejs平均执行1013毫秒, <b>SpiderMonkey js shell平均执行83毫秒, SpiderMonkey完胜</b>.
 
 h3. 后续
 
-mongodb Scope Pool的细节不论, 现在起码知道在Scope执行的环节, V8是比SpiderMonkey快一倍的. 接下来, 我要赶紧试试用V8编译mongodb了. 成功后再见.
+mongodb Scope Pool的细节先放在一边, 以后再研究. 现在起码知道在Scope执行的环节, V8的eval执行是慢很多的, 但普通循环V8比SpiderMonkey约快一倍. 这就很矛盾了, 不管怎么说, 接下来, 我要赶紧试试用V8编译mongodb. 在mongodb中实际进行对比测试, 成功后再见.
 
+很遗憾, 这是一篇没有结论的文章.
