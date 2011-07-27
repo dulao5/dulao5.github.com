@@ -1,0 +1,87 @@
+---
+layout: post
+title: 为什么CoffeeScript这么美?
+category: note
+---
+
+h3. 先说JavaScript
+
+JavaScript让人又爱又恨， 因为它独特， 卓越， 而且不可或缺。 尽管如此， 要说<b>JavaScript很美</b>， 恐怕也有些勉强。 JavaScript现在如日中天， 未来发展更是不可小觑。 但毕竟它的设计非常仓促[1], 有些陷阱[2], 有些晦涩[3]; 要不为啥Douglas Crockford的书名字叫《The Good Parts of JavaScript》呢? (<i>题外话: 中文翻译叫"JavaScript语言精粹", 这实在是春秋笔法, 为圣者讳:D</i>)
+
+所以, 要是中肯的评价JavaScript: "就说不美吧".
+
+h3. JavaScript为什么不美
+
+我觉得amix讲的最清楚[4]:
+
+ * JavaScript是函数式语言;
+ * 是基于prototype实现的面向对象语言;
+ * 是动态语言, 更像Lisp而非C/Java; <b>但却使用了C/Java的语法</b>;
+ * 名字里面叫Java, 其实和Java根本不搭边;
+
+结论就是JavaScript的诞生是个悲剧. 它是函数式+动态语言的优秀内核, 却硬被绑上了C/Java的语法; 如同高分屏生贴了膜, 又如同剑宗人士非摆出气宗架势; 带有这种语法的JavaScript就如同包裹石头的璞玉, 外壳大大限制了内部力量的发挥.
+
+所以最大的别扭, 就在语法上.
+
+h3. CoffeeScript为什么美
+
+h4. 语法从Lisp系重生
+
+<a href="http://jashkenas.github.com/coffee-script/">CoffeeScript</a>打蛇打到七寸了, 它的最大功绩, 就是将JavaScript硬绑的C/Java语法抛弃了; 改为采用类似Ruby/Python的语法. Ruby/Python本来就是深受Lisp影响的, 和JavaScript算是同门师兄, 他们的语法经过了实践考验, 是更适合函数式+动态语言内核的.
+
+h4. Good Parts
+
+CoffeeScript只使用了JavaScript的"精粹", 抛弃了原来JavaScript晦涩的,容易出问题的那部分东西. 比如, 全局变量声明, with 啥的.
+
+h4. 语法糖和ECMAScript
+
+CoffeeScript提供了很多语法糖, 让代码更优雅可读. 去<a href="http://jashkenas.github.com/coffee-script/">主页</a>仔细看看CoffeeScript的语法清单, 就会发现边边角角到处是创新. 这让编程语言真的成了开发者的朋友, 而不是机器的朋友.
+
+CoffeeScript还提供了一个机会, 让你现在就可以使用ECMAScript[5].里面的特性. 将来有个更多新特性, CoffeeScript也有机会在浏览器支持之前实现它们. 程序员面对的是CoffeeScript的优雅接口, 它是程序员和JavaScript之间的中间层, 脏活累活它都干了.
+
+h4. CoffeeScript是DSL
+
+CoffeeScript实际是在DSL(Domain Specific Languages)的高度上<a href="#ref6">[6]</a>. 它面向的是JavaScript的领域, 屏蔽的是复杂的细节, 提供的接口有更好的描述和语义. CSS,JQuery,正则表达式,SQL,XPath都是DSL , 现在你知道它们为什么这么强大了吧. 反之也可做出结论: CoffeeScript也会像他们这么强大.
+
+{% highlight coffeescript %}
+
+# Assignment:
+number   = 42
+opposite = true
+
+# Conditions:
+number = -42 if opposite
+
+# Functions:
+square = (x) -> x * x
+
+# Arrays:
+list = [1, 2, 3, 4, 5]
+
+# Objects:
+math =
+  root:   Math.sqrt
+  square: square
+  cube:   (x) -> x * square x
+
+# Splats:
+race = (winner, runners...) ->
+  print winner, runners
+
+# Existence:
+alert "I knew it!" if elvis?
+
+# Array comprehensions:
+cubes = (math.cube num for num in list)
+
+{% endhighlight %}
+
+
+-----
+1: <a id="fn1" href="http://www.ruanyifeng.com/blog/2011/06/birth_of_javascript.html">Javascript诞生记</a>
+2: <a id="fn2" href="http://www.ruanyifeng.com/blog/2011/06/10_design_defects_in_javascript.html">Javascript的10个设计缺陷</a>
+3: <a id="fn3" href="http://javascript.crockford.com/zh/javascript.html">JavaScript: 世界上最被误解的语言</a>
+4: <a id="fn4" href="http://amix.dk/blog/post/19612">CoffeeScript: The beautiful way to write JavaScript</a>
+5: <a id="fn5" href="http://en.wikipedia.org/wiki/ECMAScript">ECMAScript - WikiPedia</a>
+6: <a id="fn6" href="http://amix.dk/blog/post/19614">Domain Specific Languages in CoffeeScript</a>
+

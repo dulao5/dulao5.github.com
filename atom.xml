@@ -11,7 +11,7 @@ layout: nil
  <id>http://www.dulao5.com/</id>
  <author>
    <name>dulao5</name>
-   <email>healdream@gmail.com</email>
+   <email>dulao5@gmail.com</email>
  </author>
 
  {% for post in site.posts limit:20 %}
