@@ -8,18 +8,18 @@ h3. 先说JavaScript
 
 JavaScript让人又爱又恨， 因为它独特， 卓越， 而且不可或缺。 尽管如此， 要说<b>JavaScript很美</b>， 恐怕也有些勉强。 JavaScript现在如日中天， 未来发展更是不可小觑。 但毕竟它的设计非常仓促[1], 有些陷阱[2], 有些晦涩[3]; 要不为啥Douglas Crockford的书名字叫《The Good Parts of JavaScript》呢? (<i>题外话: 中文翻译叫"JavaScript语言精粹", 这实在是春秋笔法, 为圣者讳:D</i>)
 
-所以, 要是中肯的评价JavaScript: "就说不美吧".
+所以, 要是中肯的评价JavaScript: "就是不美".
 
 h3. JavaScript为什么不美
 
-我觉得amix讲的最清楚[4]:
+我觉得amix讲的很清楚[4]:
 
  * JavaScript是函数式语言;
  * 是基于prototype实现的面向对象语言;
  * 是动态语言, 更像Lisp而非C/Java; <b>但却使用了C/Java的语法</b>;
  * 名字里面叫Java, 其实和Java根本不搭边;
 
-结论就是JavaScript的诞生是个悲剧. 它是函数式+动态语言的优秀内核, 却硬被绑上了C/Java的语法; 如同高分屏生贴了膜, 又如同剑宗人士非摆出气宗架势; 带有这种语法的JavaScript就如同包裹石头的璞玉, 外壳大大限制了内部力量的发挥.
+结论就是JavaScript的诞生是个悲剧. 它是函数式+动态语言的优秀内核, 却硬被绑上了C/Java的语法; 如同高分屏贴膜, 又如同剑宗人士非摆出气宗架势; 带有这种语法的JavaScript就如同包裹石头的璞玉, 外壳和内涵大不相称.
 
 所以最大的别扭, 就在语法上.
 
@@ -37,7 +37,7 @@ h4. 语法糖和ECMAScript
 
 CoffeeScript提供了很多语法糖, 让代码更优雅可读. 去<a href="http://jashkenas.github.com/coffee-script/">主页</a>仔细看看CoffeeScript的语法清单, 就会发现边边角角到处是创新. 这让编程语言真的成了开发者的朋友, 而不是机器的朋友.
 
-CoffeeScript还提供了一个机会, 让你现在就可以使用ECMAScript[5].里面的特性. 将来有个更多新特性, CoffeeScript也有机会在浏览器支持之前实现它们. 程序员面对的是CoffeeScript的优雅接口, 它是程序员和JavaScript之间的中间层, 脏活累活它都干了.
+CoffeeScript还提供了一个机会, 让你现在就可以使用ECMAScript[5]里面的特性. 将来有个更多新特性, CoffeeScript也有机会在浏览器支持之前实现它们. 程序员面对的是CoffeeScript的优雅接口, 它是程序员和JavaScript之间的中间层, 脏活累活它都干了.
 
 h4. CoffeeScript是DSL
 
