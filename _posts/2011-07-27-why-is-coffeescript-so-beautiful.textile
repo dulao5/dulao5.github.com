@@ -19,7 +19,7 @@ h3. JavaScript为什么不美
  * 是动态语言, 更像Lisp而非C/Java; <b>但却使用了C/Java的语法</b>;
  * 名字里面叫Java, 其实和Java根本不搭边;
 
-结论就是JavaScript的诞生是个悲剧. 它是函数式+动态语言的优秀内核, 却硬被绑上了C/Java的语法; 如同高分屏贴膜, 又如同剑宗人士非摆出气宗架势; 带有这种语法的JavaScript就如同包裹石头的璞玉, 外壳和内涵大不相称.
+结论就是JavaScript的诞生是个悲剧. 它是函数式+动态语言的优秀内核, 却硬被绑上了C/Java的语法; 如同高分屏贴膜, 又如同剑宗人士非摆出气宗架势; 带有这种语法的JavaScript就如同包裹石头的璞玉[5], 外壳和内涵大不相称.
 
 所以最大的别扭, 就在语法上.
 
@@ -27,21 +27,25 @@ h3. CoffeeScript为什么美
 
 h4. 语法从Lisp系重生
 
-<a href="http://jashkenas.github.com/coffee-script/">CoffeeScript</a>打蛇打到七寸了, 它的最大功绩, 就是将JavaScript硬绑的C/Java语法抛弃了; 改为采用类似Ruby/Python的语法. Ruby/Python本来就是深受Lisp影响的, 和JavaScript算是同门师兄, 他们的语法经过了实践考验, 是更适合函数式+动态语言内核的.
+<a href="http://jashkenas.github.com/coffee-script/">CoffeeScript</a>打蛇打到七寸了. 它的最大功绩, 就是将JavaScript硬绑的C/Java语法抛弃了; 改为采用类似Ruby/Python的语法. Ruby/Python本来就是深受Lisp影响的, 和JavaScript算是同门师兄, 他们的语法经过了实践考验, 是更适合函数式+动态语言内核的.
 
 h4. Good Parts
 
-CoffeeScript只使用了JavaScript的"精粹", 抛弃了原来JavaScript晦涩的,容易出问题的那部分东西. 比如, 全局变量声明, with 啥的.
+CoffeeScript只使用了JavaScript的"Good Parts(精粹)", 抛弃了原来JavaScript晦涩的,容易出问题的那部分东西. 比如, 全局变量声明, with 啥的.
 
 h4. 语法糖和ECMAScript
 
 CoffeeScript提供了很多语法糖, 让代码更优雅可读. 去<a href="http://jashkenas.github.com/coffee-script/">主页</a>仔细看看CoffeeScript的语法清单, 就会发现边边角角到处是创新. 这让编程语言真的成了开发者的朋友, 而不是机器的朋友.
 
-CoffeeScript还提供了一个机会, 让你现在就可以使用ECMAScript[5]里面的特性. 将来有个更多新特性, CoffeeScript也有机会在浏览器支持之前实现它们. 程序员面对的是CoffeeScript的优雅接口, 它是程序员和JavaScript之间的中间层, 脏活累活它都干了.
+CoffeeScript还提供了一个机会, 让你现在就可以使用ECMAScript[6]里面的特性. 将来有个更多新特性, CoffeeScript也有机会在浏览器支持之前实现它们. 程序员面对的是CoffeeScript的优雅接口, 它是程序员和JavaScript之间的中间层, 脏活累活它都干了.
 
-h4. CoffeeScript是DSL
+h3. 八卦一下未来
 
-CoffeeScript实际是在DSL(Domain Specific Languages)的高度上<a href="#ref6">[6]</a>. 它面向的是JavaScript的领域, 屏蔽的是复杂的细节, 提供的接口有更好的描述和语义. CSS,JQuery,正则表达式,SQL,XPath都是DSL , 现在你知道它们为什么这么强大了吧. 反之也可做出结论: CoffeeScript也会像他们这么强大.
+CoffeeScript构建在JavaScript上层, 这让人联想起.Net和C#/F#/VB... , 以及JVM和Java/JRuby/Scala... 
+在JavaScript上层做事情的, 不只CoffeeScript, 还有很多其他的. 比如lua就有通过LLVM转换成JavaScript的实现. 前段时间的JavaScript PC模拟器[7]也证明了这种思路的威力.
+也许JavaScript就是下一个JVM, 上面会有最适用于各种场景的各种语言. 很多人盼望JavaScript成为为未来的唯一语言, 看起来这是不切实际的幻想了.
+
+h3. CoffeeScript首页的一段展示代码
 
 {% highlight coffeescript %}
 
@@ -82,6 +86,7 @@ cubes = (math.cube num for num in list)
 2: <a id="fn2" href="http://www.ruanyifeng.com/blog/2011/06/10_design_defects_in_javascript.html">Javascript的10个设计缺陷</a>
 3: <a id="fn3" href="http://javascript.crockford.com/zh/javascript.html">JavaScript: 世界上最被误解的语言</a>
 4: <a id="fn4" href="http://amix.dk/blog/post/19612">CoffeeScript: The beautiful way to write JavaScript</a>
-5: <a id="fn5" href="http://en.wikipedia.org/wiki/ECMAScript">ECMAScript - WikiPedia</a>
-6: <a id="fn6" href="http://amix.dk/blog/post/19614">Domain Specific Languages in CoffeeScript</a>
+5: <a id="fn5" href="http://typeof.net/2011/06/javascript-dead-and-alive/4/">JavaScript: 死或新生(4)</a>
+6: <a id="fn6" href="http://en.wikipedia.org/wiki/ECMAScript">ECMAScript - WikiPedia</a>
+7: <a id="fn7" href="http://bellard.org/jslinux/">JavaScript PC emulator</a>
 
