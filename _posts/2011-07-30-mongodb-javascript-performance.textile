@@ -1,0 +1,175 @@
+---
+layout: post
+title: mongodb的javascript性能
+category: javascript
+---
+
+h3. mongodb的db.eval
+
+mongodb使用javascript做shell, <a href="http://www.mongodb.org/display/DOCS/Server-side+Code+Execution#Server-sideCodeExecution-Using%7B%7Bdb.eval%28%29%7D%7D">mongodb的db.eval</a>可以提供给数据驱动与这种javascript shell类似的js接口. <i>这算是一种<a href="http://www.ics.uci.edu/~fielding/pubs/dissertation/net_arch_styles.htm#sec_3_5">移动代码风格(Mobile Code Sytles)</a>的架构设计吧</i>.  我期望可以利用这个接口, 将一些处理逻辑放在mongodb的节点上运行. 避免在PHP里面多次获取和操作mongodb的数据. (这个需求类似传统数据库的存储过程)
+
+但是测试却发现, 在mongodb里面跑javascript性能很不理想. 我写了一段测试代码, 跑10000次循环: 
+
+{% highlight php %}
+<?php
+$mongo = new Mongo("mongodb://localhost:20237/");
+$db = $mongo->selectDB("attl");
+
+$echo_func = <<<JAVASCRIPT
+function() { 
+        var str = "xxxxxxxxxxxxxxxxx0000000000";
+        var data = str + str + str + str;
+        var data = data + data + data + data;
+        var max = 10000;
+        var arr = [];
+        var total = 0;
+
+        for(var a=0; a<100; a++) {
+                for(var i=0; i<max; i++) {
+                        arr.push( data + " . " + data);
+                }
+                for(var i=0; i<arr.length; i++) {
+                        total += arr[i].length;
+                }
+                arr = [];
+        }
+        return total;
+}
+JAVASCRIPT;
+
+$bgtime = microtime(true);
+
+$echo_code = new MongoCode($echo_func);
+$obj = (object)array("name"=>"dzg", "values"=>array(1,2,3), "bool"=>true) ;
+$arr = array(1,2,3,4,5,6,7,8);
+$map = array("a"=>1, "b"=>2);
+$response = $db->execute($echo_code, array($obj, $arr, $map));
+var_dump($response);
+
+$endtime = microtime(true);
+
+echo "\n time : ".($endtime - $bgtime)."\n";
+
+{% endhighlight %}
+
+执行 : 
+
+{% highlight bash %}
+
+php ab-mongo.php
+array(2) {
+  ["retval"]=>  float(867000000)
+  ["ok"]=>  float(1)
+}
+
+time : 6.0353651046753
+
+{% endhighlight %}
+
+这段js居然执行<b>6秒</b>之久! 在其他环境下测试同样功能代码:
+ * Google Chrome : 只需<b>70毫秒</b>
+ * Firefox 5 : 只需<b>180毫秒</b>
+ * 用PHP 5执行类似代码: 只需<b>630毫秒</b>
+
+显然相比以上测试, mongodb的javascript性能差太大了.
+
+h3. 排除测试干扰
+
+根据mongodb官方文档 <a href="http://www.mongodb.org/display/DOCS/Server-side+Code+Execution#Server-sideCodeExecution-Limitationsof%7B%7Beval%7D%7D">Server-side Code Execution : Limitations of eval > Write locks</a> 一节, 我怀疑也许是Write locks导致的. 但这种怀疑和本例关系不大, locks应该只影响并发执行, 现在的问题是一次执行都这么慢.
+
+另外, 我还担心从PHP到mongodb的js代码传递环节慢.
+
+于是花了两种手段排除这两个因素:
+
+ * 使用 db.system.js.save({_id: "mytestfunc", value: function () { ... }}); 的方式, 将测试的js代码作成mongodb支持的Stored JavaScript;
+ * 使用 db.runCommand({$eval: function() {return mytestfunc();}, nolock: true}) 的方式, 进行nolock调用;
+
+结果发现问题依旧. 结论是mongodb的JavaScript执行环节有问题.
+
+h3. 测试Mongodb + V8 JavaScript引擎
+
+我知道Mongodb的JavaScript引擎是SpiderMonkey, 于是想尝试再编译一个v8版本的Mongodb, 准备用如下JavaScript文件测试一下.
+
+h4. 准备测试代码
+
+{% highlight javascript %}
+
+function dotest() { 
+        var str = "xxxxxxxxxxxxxxxxx0000000000";
+        var data = str + str + str + str;
+        var data = data + data + data + data;
+        var max = 10000;
+        var arr = [];
+        var total = 0;
+
+        for(var a=0; a<100; a++) {
+                for(var i=0; i<max; i++) {
+                        arr.push( data + " . " + data);
+                }
+                for(var i=0; i<arr.length; i++) {
+                        total += arr[i].length;
+                }
+                arr = [];
+        }
+        return total;
+}
+
+myecho = (typeof console !== 'undefined' && typeof console.log == 'function') ? console.log : print;
+
+a = new Date();
+myecho("begin:\t" + a);
+
+myecho("result:\t" + dotest());
+
+b = new Date();
+myecho("end:\t" + b);
+
+myecho("total time:\t" + (b - a));
+
+{% endhighlight %}
+
+这个JavaScript脚本能同时跑在4种环境下:
+ * Chrome / Firefox等浏览器环境
+ * node js的shell
+ * SpiderMonkey 的js shell
+ * mongo 的js shell
+
+我准备编译完Mongodb的v8版本后, 四个环境都比较测试一下.
+
+h4. 编译mongodb + v8
+
+我在OpenSuse11.4下, 用linux的包管理工具准备编译环境, 还是很容易的:
+
+{% highlight bash %}
+#已安装的包: g++ subversion git python
+sudo zypper install scons tcsh boost-devel pcre-devel readline-devel
+
+svn checkout http://v8.googlecode.com/svn/trunk/ v8
+cd v8
+scons
+cd ..
+
+git clone git://github.com/mongodb/mongo.git
+cd mongov8
+scons
+
+#run mongodb v8
+./mongod --quiet --shardsvr --dbpath /home/dzg/data/mongodb/test/mongod --port 20237 --nohttpinterface --fork --pidfilepath /home/dzg/data/mongodb/test/mongod.pid --logpath /home/dzg/log/mongodb/test/mongod.log --logappend
+{% endhighlight %}
+
+h4. 执行测试
+
+ 执行~/opt/mongov8/mongo localhost:20237 dotest.js
+
+ * mongo+v8 : 93毫秒
+ * nodejs : 68毫秒
+ * SpiderMonkey : 442毫秒
+
+初步结论:
+ * mongodb + v8性能非常好, 接近node.js里面的执行性能;
+ * SpiderMonkey 1.9 比v8慢5倍
+ * mongodb使用SpiderMonkey肯定有一些环节还存在问题, 导致mongodb+SpiderMonkey比mongodb+v8慢60多倍;
+   ** <i>也许是mongodb的SpiderMonkey版本低? 我目前还不知道mongodb的发行版内, SpiderMonkey的确切版本.</i>
+   ** 我上面测试SpiderMonkey 的js命令是来自xulrunner-192
+ * 测试代码很短, 比较片面, 上面的性能倍数只是大体估计, 不是全面精确的评估.
+
