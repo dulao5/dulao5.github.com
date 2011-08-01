@@ -171,8 +171,8 @@ js   dotest.js		#SpiderMonkey 1.9.2
 
 <blockquote>
 <table border="1">
-<tr><td>mongo + v8  </td><td>  93毫秒 </tr> 
-<tr><td>mongo 1.8.2 (SpiderMonkey)  </td><td>  6623毫秒 </tr> 
+<tr><td>mongo + v8  </td><td> <span style="color:#ff0000"><b> 93毫秒</b> </span></tr> 
+<tr><td>mongo 1.8.2 (SpiderMonkey)  </td><td><span style="color:#ff0000"> <b>6623毫秒</b> </span></tr> 
 <tr><td>nodejs  </td><td>  68毫秒 </tr> 
 <tr><td>SpiderMonkey v1.9.2 </td><td>  442毫秒 </tr> 
 <tr><td>Google Chrome  </td><td>  <b>70毫秒</b> </tr> 
@@ -182,8 +182,8 @@ js   dotest.js		#SpiderMonkey 1.9.2
 
 初步结论:
  * mongodb + v8性能非常好, 接近node.js里面的执行性能;
- * SpiderMonkey 1.9.2 比v8慢5倍
- * mongodb使用SpiderMonkey(版本号?)肯定存在问题, 导致mongodb+SpiderMonkey比mongodb+v8慢60多倍;
+ * SpiderMonkey 1.9.2 比v8慢6倍
+ * mongodb使用SpiderMonkey(版本号?)肯定存在问题, 导致mongodb+SpiderMonkey比mongodb+v8慢71倍;
    ** <i>也许是mongodb的SpiderMonkey版本低? 我目前还不知道mongodb的发行版内, SpiderMonkey的确切版本.</i>
    ** 我上面测试SpiderMonkey 的js命令是来自xulrunner-192
    ** Firefox 5的JägerMonkey比SpiderMonkey更快, 和v8很接近(不过单独在这个测试内还是慢)
