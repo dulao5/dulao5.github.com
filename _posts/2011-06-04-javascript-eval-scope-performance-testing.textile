@@ -1,8 +1,16 @@
 ---
 layout: post
-title: 由mongodb引发的Javascript Eval 性能测试
+title: <del>由mongodb引发的Javascript Eval 性能测试</del>
 category: javascript
 ---
+
+<div style="width:100%;color:#ffffff;background-color: #ff0000;font-size:1.5em">
+本文是半成品, 已经过时;
+请参考另一篇文章: <a href="/javascript/2011/07/30/mongodb-javascript-performance.html">mongodb的javascript性能</a>
+</div>
+
+
+<del>
 
 h3. Javascript Eval Scope
 
@@ -141,3 +149,4 @@ mongodb Scope Pool的细节先放在一边, 以后再研究. 现在起码知道�
 ----
 Update : 今天又仔细看mongodb的源码, 发现客户端传递来的code不是通过js的eval函数进入的js执行环境. 而是调用C++ API: Scope::createFunction( const char * code ) 产生一个ScriptingFunction对象. 所以可能这种方式的性能和js eval没直接关系.
 
+</del>
