@@ -5,6 +5,15 @@ layout: profile
 <h1>DEMO</h1>
 
 <link rel="stylesheet" href="/css/pepper-grinder/jquery-ui-1.8.16.custom.css" type="text/css" media="all" />
+<style>
+.ui-tabs , div.ui-tabs {
+ list-style: none;
+}
+
+#tabs-1 , #tabs-2 {
+	height: 300px;
+}
+</style>
 
 <script type="text/javascript" src="js/jquery-1.6.2.min.js"></script>
 <script type="text/javascript" src="js/jquery-ui-1.8.16.custom.min.js"></script>
@@ -14,7 +23,7 @@ layout: profile
 function makeQQButton(id) {
 	return '<a target="_blank" '
 		+ 'href="http://wpa.qq.com/msgrd?v=3&uin=' + id + '&site=qq&menu=yes" >'
-		+ '<img border="0" src="http://wpa.qq.com/pa?p=1:' + id + ':43" '
+		+ '<img border="0" src="http://wpa.qq.com/pa?p=1:' + id + ':41" '
 		+	'alt="点击这里给我发消息" title="点击这里给我发消息">'
 		+ '</a> ' ;
 }
@@ -28,9 +37,6 @@ $(function() {
 
 </script>
 
-
-<h2>QQ Demo</h2>
-
 <div class="demo">
 
 <div id="tabs">
@@ -39,7 +45,7 @@ $(function() {
 		<li><a href="#tabs-2">支付演示</a></li>
 	</ul>
 	<div id="tabs-1">
-		<p id="qqbutton"></p>
+		<div id="qqbutton"></div>
 	</div>
 	<div id="tabs-2">
 		<p>未完成...</p>
