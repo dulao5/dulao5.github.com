@@ -79,7 +79,7 @@ div#wrapper {
 	margin:0 auto 50px;
 	padding:20px;
 	/* text-shadow:0 1px 0 #FFFFFF; dzg*/
-	width:700px;
+	width:95%;
 }
 
 #content a {
@@ -270,7 +270,7 @@ div.notice {
 	margin:0 0 5px -40px;
 	padding:20px;
 	text-shadow:0 1px 0 #DDDAAA;
-	width:740px;
+	width:95%;
 }
 em {
 	font-style:italic;
@@ -382,7 +382,7 @@ span.balloon {
 }
 
 #logo {
-	width:740px;
+	width:95%;
 	margin:20px auto;
 }
 
