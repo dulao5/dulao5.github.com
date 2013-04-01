@@ -215,7 +215,7 @@ div#content li ul li {
 	list-style:circle inside none;
 }
 .index h2 {
-	margin-bottom:50px;
+	margin-bottom:1em 0;
 }
 .cnt h3 {
 	background:none repeat scroll 0 0 #DDDDDD;
