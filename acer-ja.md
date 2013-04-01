@@ -2,7 +2,7 @@
 layout: profile
 ---
 
-#日本Acerリーパヤセンターは、まだそれをかくれんぼ？
+#日本Acerリパヤセンターは、まだそれをかくれんぼ？
 <div style="text-align:right">
 <a href="./acer.html" title="日本Acer"><i>中文版</i></a>  
 <a href="./acer-tw.html" title="日本Acer"><i>台灣正體版</i></a>  
