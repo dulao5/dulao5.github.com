@@ -6,7 +6,7 @@ layout: profile
 <div style="text-align:right">
 <a href="./acer.html" title="日本Acer"><i>中文版</i></a>  
 <a href="./acer-tw.html" title="日本Acer"><i>台灣正體版</i></a>  
-<a href="./acer-jp.html" title="日本Acer"><i>日本語版</i></a> 
+<a href="./acer-ja.html" title="日本Acer"><i>日本語版</i></a> 
 </div>
 
 ##購入する
