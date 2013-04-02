@@ -364,3 +364,17 @@ AJC_Call_Agent_063さんですか？
 すぐ自分のWeb Siteを更新しましょう！
 http://www.dulao5.com/acer-ja.html　（少し時間がかかります、ちょうど待てしてください）
 ```
+
+
+-----
+
+				<div id="disqus_thread"></div>
+				<script type="text/javascript">
+				  var disqus_identifier = "/acer-ja.html";
+				  (function() {
+				   var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+				   dsq.src = 'http://dulao5blog.disqus.com/embed.js';
+				   (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+				  })();
+				</script>
+				<noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript=dulao5blog">comments powered by Disqus.</a></noscript>
