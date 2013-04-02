@@ -4,7 +4,7 @@ layout: nil
 <?xml version="1.0" encoding="utf-8"?>
 <feed xmlns="http://www.w3.org/2005/Atom">
  
- <title>都市乡下人</title>
+ <title>都市鄉下人</title>
  <link href="http://www.dulao5.com/atom.xml" rel="self"/>
  <link href="http://www.dulao5.com/"/>
  <updated>{{ site.time | date_to_xmlschema }}</updated>

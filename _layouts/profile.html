@@ -2,7 +2,7 @@
 <html>
 	<head>
 		<meta http-equiv="content-type" content="text/html;charset=utf-8" />
-		<title>都市乡下人</title>
+		<title>都市鄉下人</title>
 		<link rel="stylesheet" type="text/css" href="/css/style.css" />
 		<link rel="stylesheet" type="text/css" href="/css/syntax.css" />
 		<link rel="alternate" type="application/rss+xml" title="RSS" href="http://feeds.feedburner.com/dulao5">
@@ -20,7 +20,7 @@
 	</head>
 
 	<body>
-		<div id="logo"><h1><a href="/">都市乡下人</a></h1></div>
+		<div id="logo"><h1><a href="/">都市鄉下人</a></h1></div>
 		<div id="wrapper">
 			<div id="content" class="index">
 				<div id="sidebar">
@@ -41,6 +41,11 @@
 				<div id="main">
 					{{ content }}
 				</div>
+				<script type="text/javascript">
+				var h1 = document.getElementById('main').getElementsByTagName('h1')[0];
+				var title = (h1.textContent ? h1.textContent : h1.innerHTML ) + document.title;
+				document.title = title;
+				</script>
 				<div id="disqus_thread"></div>
 				<script type="text/javascript">
 				  var disqus_identifier = (location.pathname).replace(/\//g,'-').replace(/^-/g, '');
