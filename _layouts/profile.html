@@ -41,11 +41,6 @@
 				<div id="main">
 					{{ content }}
 				</div>
-				<script type="text/javascript">
-				var h1 = document.getElementById('main').getElementsByTagName('h1')[0];
-				var title = (h1.textContent ? h1.textContent : h1.innerHTML ) + document.title;
-				document.title = title;
-				</script>
 				<div id="disqus_thread"></div>
 				<script type="text/javascript">
 				  var disqus_identifier = (location.pathname).replace(/\//g,'-').replace(/^-/g, '');
@@ -56,6 +51,11 @@
 				  })();
 				</script>
 				<noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript=dulao5blog">comments powered by Disqus.</a></noscript>
+				<script type="text/javascript">
+				var h1 = document.getElementById('main').getElementsByTagName('h1')[0];
+				var title = (h1.textContent ? h1.textContent : h1.innerHTML ) + ' -- ' + document.title;
+				document.title = title;
+				</script>
 
 	</body>
 </html>
