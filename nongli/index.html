@@ -18,6 +18,17 @@
 	<script src=js/JW.js></script>   <!--全国城市经纬数据库及皇帝纪年数据库-->
 	<script src=js/lunar.js></script><!--日历物件-->
 	<script src="js/calendar.js"></script>
+	<style>
+		
+	#detail-div {
+    		border-top: 1px none;
+    		box-shadow: 0 0 1em 1em #CCCCCC;
+    		padding: 20px 0 0 20px;
+	}
+	h1, h4 {
+    		text-shadow: 1px 1px 1px #CCCCCC;
+	}
+	</style>
 <head>
 <body>
 <div data-role="page">
@@ -34,7 +45,7 @@
   <div id=CenterCal></div>
 </div><!-- /content -->
 
-<div id="detail-div">
+<div id="detail-div" style="display:none">
 </div>
 <div data-role="footer" data-position="fixed">
 <h4 id="hFooter"></h4>
@@ -85,7 +96,7 @@ function showMessD(jd){ //显时本月第n日的摘要信息。调用前应先�
   html += s;
 
   document.getElementById("detail-div").innerHTML = html;
-
+  document.getElementById("detail-div").style.display = 'block';
 }
 
 </script>
