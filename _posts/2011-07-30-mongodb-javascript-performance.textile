@@ -4,6 +4,18 @@ title: mongodb的javascript性能
 category: javascript
 ---
 
+
+<blockquote>
+2013/05/01　更新：
+-------------------------------------------
+Mongodb　2.4已经使用v8作为javascript引擎了。
+
+详细见：
+http://docs.mongodb.org/manual/core/server-side-javascript/
+　　　Server-side JavaScript
+　　　Changed in version 2.4: The V8 JavaScript engine, which became the default in 2.4 ......
+</blockquote>
+
 h3. mongodb的db.eval
 
 mongodb使用javascript做shell, <a href="http://www.mongodb.org/display/DOCS/Server-side+Code+Execution#Server-sideCodeExecution-Using%7B%7Bdb.eval%28%29%7D%7D">mongodb的db.eval</a>可以提供给数据驱动与这种javascript shell类似的js接口. <i>这算是一种<a href="http://www.ics.uci.edu/~fielding/pubs/dissertation/net_arch_styles.htm#sec_3_5">移动代码风格(Mobile Code Sytles)</a>的架构设计吧</i>.  我期望可以利用这个接口, 将一些处理逻辑放在mongodb的节点上运行. 避免在PHP里面多次获取和操作mongodb的数据. (这个需求类似传统数据库的存储过程)
