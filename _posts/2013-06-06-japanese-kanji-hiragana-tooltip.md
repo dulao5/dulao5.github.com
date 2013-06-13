@@ -10,7 +10,7 @@ category: note
 
 不过，这个网站用起来还不够方便。我做了一个书签按钮，可以将下面的按钮拖放到浏览器的收藏夹里面。这样，浏览日语网页的时候，只需要点击这个按钮，即可切换到假名标注模式。
 
->  [ふりがな付けます](javascript:window.location%20%3D%20%22http%3A%2F%2Ftrans.hiragana.jp%2Fruby%2F%22%20%2B%20window.location%3Bvoid%200%3B "ふりがな付けます")
+> Drag this bookmark [ふりがな付けます](javascript:window.location%20%3D%20%22http%3A%2F%2Ftrans.hiragana.jp%2Fruby%2F%22%20%2B%20window.location%3Bvoid%200%3B "ふりがな付けます") to your Bookmarks Bar. 
 
 ## iPhone下使用方法
 
