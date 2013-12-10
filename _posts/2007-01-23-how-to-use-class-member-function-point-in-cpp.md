@@ -4,11 +4,7 @@ title: 原来C＋＋支持 类成员函数指针
 category: cpp
 ---
 
-<span style="font-size: 13px;">
-<div class="smalltxt" style="font-weight: bold; margin-left: 2em; margin-right: 2em;">
-<div style="float: left;">CODE:</div>
-</div>
-{% highlight c++ %}
+```cpp
 #include <iostream>
 using namespace std;
 
@@ -63,6 +59,6 @@ int main(int argc, char *argv[])
 
   return 0;
 }
-{% endhighlight %}
-      刚刚写代码验证的，做个记号。</span><span style="font-size: small;"> </span>
+```
+刚刚写代码验证的，做个记号。
 
