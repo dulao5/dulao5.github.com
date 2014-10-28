@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+<script src="http://crypto-js.googlecode.com/svn/tags/3.1.2/build/rollups/aes.js"></script>
+</head>
+<body>
+
+<div id="control">
+	<div id="form-wrap">
+		<p>AES encode/decode</p>
+		<textarea id="my-txt" cols=80 rows=10></textarea>
+		<div>
+			<label>passphrase<input type="password" id="passphrase" placeholder="パスワード" value=""/></label>
+			<input type="button" value="encode ↓" onclick="encodeAes();"/>
+			<input type="button" value="decode ↑" onclick="decodeAes();"/>
+		</div>
+		<textarea id="encrypted-txt" cols=80 rows=10></textarea>
+</form>
+</div>
+</div>
+
+<script>
+
+function decodeAes() {
+	try {
+		var encryptedTxt = document.getElementById("encrypted-txt").value.replace(/\s+/g , '');
+		var passphrase = document.getElementById('passphrase').value;
+		if(!passphrase) {
+			alert("Please input the passphrase");
+			return ;
+		}
+		var decrypted = CryptoJS.AES.decrypt(encryptedTxt, passphrase);
+    		var myTxt = decrypted.toString(CryptoJS.enc.Utf8);
+		document.getElementById("my-txt").value = myTxt;
+	}
+	catch(e) {
+		alert("パスワードが正しくありません");
+	}
+}
+function encodeAes() {
+	try {
+		var myTxt = document.getElementById("my-txt").value;
+		var passphrase = document.getElementById('passphrase').value;
+		if(!passphrase) {
+			alert("Please input the passphrase");
+			return ;
+		}
+		var decrypted = CryptoJS.AES.encrypt(myTxt, passphrase);
+		document.getElementById("encrypted-txt").value = decrypted ;
+	}
+	catch(e) {
+		alert(e);
+	}
+}
+</script>
+
+
+</body>
+</html>
