@@ -11,7 +11,7 @@ blockquote {
     padding: 0;
 }
 body {
-    font-family: "Helvetica Neue", Helvetica, "Hiragino Sans GB", Arial, sans-serif;
+    font-family: "Helvetica Neue", "ＭＳ Ｐ明朝","ＭＳ 明朝",MS PMincho,"ヒラギノ明朝 ProN W3",Hiragino Mincho ProN,"メイリオ",Meiryo,serif!important;
     font-size: 13px;
     line-height: 18px;
     color: #737373;
@@ -55,6 +55,7 @@ h6 {
 h1 {
     margin-bottom: 18px;
     font-size: 30px;
+    text-align: center;
 }
 h2 {
     font-size: 24px;
