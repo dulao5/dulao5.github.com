@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+<link rel="stylesheet" href="markdown.css" type="text/css" />
+<link rel="stylesheet" href="control.css" type="text/css" />
+<script src="./js-markdown-extra.js"></script>
+</head>
+<body>
+
+<div id="control">
+	<div id="form-wrap">
+		<h2>markdown</h2>
+		<hr/>
+		<form action="javascript:submitForm();void 0" >
+		<input type="submit" value="確認"/>
+		<textarea id="markdown_txt" rows=30 cols=120 >
+		</textarea>
+</form>
+</div>
+</div>
+
+<div id="preview">
+</div>
+
+<script>
+
+function submitForm() {
+	try {
+		var markdown_txt = document.getElementById("markdown_txt").value.replace(/\s+/g , '');
+		preview.innerHTML = Markdown( markdown_txt );
+		if(String(markdown_txt).length > 100) {
+			document.getElementById("control").style.display = "none";
+		}
+	}
+	catch(e) {
+	}
+}
+</script>
+
+
+</body>
+</html>
