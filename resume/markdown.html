@@ -15,8 +15,7 @@
 		<hr/>
 		<form action="javascript:submitForm();void 0" >
 		<input type="submit" value="確認"/>
-		<textarea id="markdown_txt" rows=30 cols=120 >
-		</textarea>
+		<textarea id="markdown_txt" rows=30 cols=120 ></textarea>
 </form>
 </div>
 </div>
@@ -28,7 +27,7 @@
 
 function submitForm() {
 	try {
-		var markdown_txt = document.getElementById("markdown_txt").value.replace(/\s+/g , '');
+		var markdown_txt = document.getElementById("markdown_txt").value;
 		preview.innerHTML = Markdown( markdown_txt );
 		if(String(markdown_txt).length > 100) {
 			document.getElementById("control").style.display = "none";
