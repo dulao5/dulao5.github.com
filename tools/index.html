@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>BookMarklets</title>
+  <meta charset="UTF-8"/>
+</head>
+<body>
+
+<h3>Jira Command</h3>
+  ＊ source : <a href="https://gist.github.com/dulao5/d54c70551ee0a1b350e9#file-jiracmd-js">gist</a><br/>
+  ＊ BookMarklet : <a href='javascript:(function(){var%20csv_paths=[];var%20resource_paths=[];csv_paths.push(".issue-body-content%20#descriptionmodule%20.user-content-block%20>%20p:contains(CSV)%20+%20UL");resource_paths.push(".issue-body-content%20#descriptionmodule%20.user-content-block%20>%20p:contains(リソース)%20+%20UL");csv_paths.push(".issue-body-content%20#descriptionmodule%20.user-content-block%20>%20h3:contains(CSV)%20+%20UL");resource_paths.push(".issue-body-content%20#descriptionmodule%20.user-content-block%20>%20h3:contains(リソース)%20+%20UL");csv_paths.push(".issue-body-content%20#descriptionmodule%20.user-content-block%20>%20ul%20>%20li:contains(csv)%20+%20UL");resource_paths.push(".issue-body-content%20#descriptionmodule%20.user-content-block%20>%20ul%20>%20li:contains(リソース)%20+%20UL");csv_paths.push(".issue-body-content%20#descriptionmodule%20.user-content-block%20>%20p:contains(import)%20+%20UL");resource_paths.push(".issue-body-content%20#descriptionmodule%20.user-content-block%20>%20p:contains(リソース)%20+%20UL");csv_paths.push(".issue-body-content%20#descriptionmodule%20.user-content-block%20ul%20>%20li:contains(csv)%20>%20ul");resource_paths.push(".issue-body-content%20#descriptionmodule%20.user-content-block%20ul%20>%20li:contains(resource)%20>%20ul");function%20get_tables_by_text(text){return%20text.split(/\r\n?|\n/).map(function(txt){return%20txt.replace(/\s*/g,"")}).filter(function(i){return%20i!=""})}function%20get_tables_by_path(path){var%20arr=$(path);if(arr.length>0){return%20get_tables_by_text(arr[arr.length-1].textContent);}else{return%20[];}}function%20get_tables_by_paths(paths){for(var%20i=0;i<paths.length;i++){var%20tables=get_tables_by_path(paths[i]);if(tables.length)return%20tables;}return%20[]}function%20make_commands(){var%20cmds="";var%20csvs=get_tables_by_paths(csv_paths);if(csvs.length){cmds+="bundle%20exec%20cap%20production%20data:import_master%20tables="+csvs.join(",")+"\n\n"}var%20resources=get_tables_by_paths(resource_paths);if(resources.length){cmds+="bundle%20exec%20cap%20production%20data:update_resource%20tables="+resources.join(",")+"\n\n"}if(cmds){return%20"{code}\n"+cmds+"\n#確認\nbundle%20exec%20cap%20production%20util:clear_sendfile\n"+"{code}\n"}else{return%20""}}var%20cmd=make_commands();if(cmd){alert(cmd)}else{alert("csv/resource情報が取れません")}})()'>
+      JiraCMD</a>
+    <br/>
+  ＊ <a href="http://subsimple.com/bookmarklets/jsbuilder.htm">Bookmarklet Builder</a>
+</body>
+</html>
